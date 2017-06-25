@@ -1,0 +1,59 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.jama.selfievselfie.MainTab">
+
+    <item
+        android:id="@+id/action_notification"
+        android:orderInCategory="100"
+        android:title="Notifications"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_Logout"
+        android:orderInCategory="100"
+        android:title="Log Out"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_user"
+        android:icon="@drawable/ic_person_add_white_24dp"
+        android:orderInCategory="100"
+        android:title="Search User"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/action_pending_request"
+        android:icon="@drawable/ic_pending_black_24dp"
+        android:orderInCategory="200"
+        android:title="Pending Posts"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_Mentions"
+        android:orderInCategory="400"
+        android:title="Mentions"
+        android:icon="@drawable/ic_mentions_ind_black_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_new_message"
+        android:icon="@drawable/ic_message_black"
+        android:orderInCategory="300"
+        android:title="Pending Posts"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_post"
+        android:icon="@drawable/ic_camera_white_24dp"
+        android:orderInCategory="500"
+        android:title="Add Post"
+        app:showAsAction="always" />
+</menu>

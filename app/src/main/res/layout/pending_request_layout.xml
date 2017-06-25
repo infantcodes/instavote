@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/imageViewimage2"
+                android:layout_width="45dp"
+                android:layout_height="80dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@+id/imageViewimage1"
+                android:layout_toStartOf="@+id/imageViewimage1"
+                app:srcCompat="@color/cardview_shadow_start_color" />
+
+            <ImageView
+                android:id="@+id/imageViewimage1"
+                android:layout_width="45dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@color/cardview_shadow_start_color" />
+
+            <ImageView
+                android:id="@+id/imageViewProfile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="2dp"
+                app:srcCompat="@drawable/download" />
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewStatus"
+                android:layout_alignStart="@+id/textViewStatus"
+                android:layout_below="@+id/textViewStatus"
+                android:text="TextView"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
+            <TextView
+                android:id="@+id/textViewStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/imageViewProfile"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@+id/buttonPost"
+                android:layout_toStartOf="@+id/buttonPost"
+                android:text="TextView"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
+            <TextView
+                android:id="@+id/textViewUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/imageViewProfile"
+                android:layout_toRightOf="@+id/imageViewProfile"
+                android:text="TextView"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/buttonPost"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/relativeLayout8"
+            android:text="POST" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/buttonPost"
+            android:layout_alignBottom="@+id/buttonPost"
+            android:layout_toLeftOf="@+id/buttonPost"
+            android:layout_toStartOf="@+id/buttonPost"
+            android:text="DELETE" />
+
+        <Button
+            android:id="@+id/buttonSendReminder"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/relativeLayout8"
+            android:text="SEND REMINDER" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

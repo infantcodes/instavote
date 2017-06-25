@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.jama.selfievselfie.SignIn">
+
+    <item
+        android:id="@+id/action_profile"
+        android:orderInCategory="100"
+        android:title="Profile Info"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu"
+        android:orderInCategory="100"
+        android:title="Delete  All Messages"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_addImage"
+        android:orderInCategory="100"
+        android:title="Add Image"
+        android:icon="@drawable/ic_add_a_photo_black_24dp"
+        app:showAsAction="always" />
+</menu>

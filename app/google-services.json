@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "205867489743",
+    "firebase_url": "https://selfie-v-selfie.firebaseio.com",
+    "project_id": "selfie-v-selfie",
+    "storage_bucket": "selfie-v-selfie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205867489743:android:a78dba1a2effd469",
+        "android_client_info": {
+          "package_name": "com.example.jama.selfievselfie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205867489743-6qhsv2vq40uiou65t45b6rsl8nk996bp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jama.selfievselfie",
+            "certificate_hash": "82d0e8ca92c1d91607720ee63b8acfebb25478f0"
+          }
+        },
+        {
+          "client_id": "205867489743-07o3b05nvf6cvatf362mtjtct9jhom7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNOajNoxMA6XoRsDtHxsSmxg9hROrItME"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205867489743-07o3b05nvf6cvatf362mtjtct9jhom7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

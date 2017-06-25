@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.jama.selfievselfie">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SignIn"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".SignUp" />
+        <activity
+            android:name=".MainTab"
+            android:label="@string/title_activity_main_tab"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Followers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Following"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserFollowers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserFollowing"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FindUserMessageList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SendRequests"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PendingRequests"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Notifiations"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Comments"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Likes"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewPosts"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BlockedUsers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".View"
+            android:screenOrientation="portrait"
+            android:theme="@style/customTheme" />
+        <activity android:name=".Share" />
+
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".MessagingList"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".SignUp2" />
+        <activity
+            android:name=".Mentions"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ViewPendingPosts" />
+        <activity android:name=".Settings" />
+        <activity android:name=".EditPost" />
+        <activity
+            android:name=".MainTab2"
+            android:label="@string/title_activity_main_tab2" />
+        <activity android:name=".ChoosePost" />
+        <activity android:name=".SinglePost"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout5"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:padding="3dp">
+
+                <EditText
+                    android:id="@+id/editTextCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:ems="10"
+                    android:hint="Add a caption"
+                    android:inputType="textPersonName" />
+
+                <ImageView
+                    android:id="@+id/imageViewProfileImage3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/editTextCaption"
+                    app:srcCompat="@drawable/download" />
+
+                <ImageView
+                    android:id="@+id/imageViewProfileImage1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/editTextCaption"
+                    app:srcCompat="@drawable/download" />
+
+                <TextView
+                    android:id="@+id/textViewUsername1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageViewProfileImage1"
+                    android:layout_toEndOf="@+id/imageViewProfileImage1"
+                    android:layout_toRightOf="@+id/imageViewProfileImage1"
+                    android:text="Username"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewUsername2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageViewProfileImage3"
+                    android:layout_toLeftOf="@+id/imageViewProfileImage3"
+                    android:layout_toStartOf="@+id/imageViewProfileImage3"
+                    android:text="Username"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout6"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout5"
+                android:layout_centerHorizontal="true">
+
+                <Button
+                    android:id="@+id/buttonPost"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageViewImage2"
+                    android:layout_centerHorizontal="true"
+                    android:text="POST" />
+
+                <ImageView
+                    android:id="@+id/imageViewImage2"
+                    android:layout_width="160dp"
+                    android:layout_height="266dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    app:srcCompat="@color/cardview_shadow_start_color" />
+
+                <ImageView
+                    android:id="@+id/imageViewImage1"
+                    android:layout_width="160dp"
+                    android:layout_height="266dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    app:srcCompat="@color/cardview_shadow_start_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
