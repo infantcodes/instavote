@@ -33,7 +33,6 @@ import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,7 +72,6 @@ public class Requests extends Fragment {
     int anInt = 0, test = 0;
     private static final int CAMERA_REQUEST_CODE = 2;
     private static final int CAMERA_PERMISSION = 3;
-    private AdView mAdView;
     Fragment fragment = this;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
@@ -95,14 +93,6 @@ public class Requests extends Fragment {
 
         Date = System.currentTimeMillis() / 1000;
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        AdView adView = new AdView(getActivity());
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-
-        mAdView = (AdView) rootview.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();

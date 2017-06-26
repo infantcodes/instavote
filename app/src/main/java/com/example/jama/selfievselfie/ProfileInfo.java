@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -412,10 +411,6 @@ public class ProfileInfo extends AppCompatActivity {
 
         RelativeLayout noPosts = (RelativeLayout) findViewById(R.id.relativeLayout7);
         noPosts.setVisibility(View.GONE);
-
-        AdView adView = (AdView) findViewById(R.id.adView);
-        adView.setVisibility(View.GONE);
-
     }
 
     @Override

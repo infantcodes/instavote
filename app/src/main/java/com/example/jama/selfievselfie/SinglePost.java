@@ -58,7 +58,7 @@ public class SinglePost extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
-        DatabaseReference profileInfo = databaseReference.child("Users").child("Profile Info");
+        DatabaseReference profileInfo = databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Profile Info");
 
         image = (ImageView) findViewById(R.id.imageViewImagePost);
         image.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +120,7 @@ public class SinglePost extends AppCompatActivity {
         //dialog.cancel();
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_edit_post, menu);
@@ -133,6 +133,7 @@ public class SinglePost extends AppCompatActivity {
                     Toast.makeText(SinglePost.this, "Add an image to post", Toast.LENGTH_SHORT).show();
                 }else {
                     DatabaseReference post = databaseReference.child("Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    DatabaseReference allPosts = databaseReference.child("All Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     String pushKey = post.push().getKey();
                     String Caption = caption.getText().toString();
 
@@ -146,8 +147,9 @@ public class SinglePost extends AppCompatActivity {
                     map.put("date", Date);
                     map.put("caption", Caption);
                     map.put("image1", ImagePost);
+                    map.put("pushKey", pushKey);
                     map.put("uid2", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
+                    allPosts.child(pushKey).setValue(map);
                     post.child(pushKey).setValue(map);
                 }
 
@@ -206,5 +208,5 @@ public class SinglePost extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             camera();
         }
-    }*/
+    }
 }

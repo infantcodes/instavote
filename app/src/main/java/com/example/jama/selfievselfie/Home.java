@@ -22,8 +22,6 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,7 +48,6 @@ public class Home extends Fragment {
     ProgressDialog progressDialog;
     long Date;
     private static final int CAMERA_REQUEST_CODE = 1;
-    private AdView mAdView;
     FirebaseListAdapter<Getters> chatsFirebaseListAdapter;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
@@ -69,11 +66,6 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.activity_home, container, false);
-
-        mAdView = new AdView(getActivity());
-        mAdView = (AdView) rootview.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         listView = (ListView) rootview.findViewById(R.id.listView);
         Date  = System.currentTimeMillis()/1000;

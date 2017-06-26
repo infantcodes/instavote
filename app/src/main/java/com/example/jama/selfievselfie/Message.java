@@ -25,9 +25,6 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,7 +39,6 @@ public class Message extends Fragment {
     ListView listView;
     DatabaseReference databaseReference, usernameref;
     String Username;
-    private AdView mAdView;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -61,14 +57,6 @@ public class Message extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview =  inflater.inflate(R.layout.fragment_message, container, false);
         listView = (ListView) rootview.findViewById(R.id.listView);
-
-        AdView adView = new AdView(getActivity());
-        /*adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");*/
-
-        mAdView = (AdView) rootview.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         //RECIEVE LAST CHAT MESSAGES SENT
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Chats").child(FirebaseAuth.getInstance().getCurrentUser().getUid());

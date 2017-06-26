@@ -59,9 +59,6 @@ public class Share extends AppCompatActivity {
         postKey = bundle.getString("key");
         uid = bundle.getString("uid");
 
-        final DatabaseReference notification = FirebaseDatabase.getInstance().getReference().child("Notification")
-                .child(uid);
-
         DatabaseReference profileInfo = databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("Profile Info");
 
@@ -94,6 +91,8 @@ public class Share extends AppCompatActivity {
             @Override
             protected void populateView(android.view.View v, final Getters model, int position) {
 
+                String key = getRef(position).getKey();
+
                 TextView username = (TextView) v.findViewById(R.id.textViewUsername);
                 username.setText(model.getUsername());
                 TextView names = (TextView) v.findViewById(R.id.textViewName);
@@ -101,6 +100,8 @@ public class Share extends AppCompatActivity {
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 Picasso.with(Share.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(profileImage);
 
+                final DatabaseReference notification = FirebaseDatabase.getInstance().getReference().child("Notification")
+                        .child(key);
                 v.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
                     public void onClick(android.view.View v) {

@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -162,9 +161,6 @@ public class Notifiations extends AppCompatActivity {
 
         RelativeLayout noPosts = (RelativeLayout) findViewById(R.id.relativeLayout7);
         noPosts.setVisibility(View.GONE);
-
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        mAdView.setVisibility(View.GONE);
     }
 
     @Override

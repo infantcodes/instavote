@@ -20,8 +20,6 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -48,7 +46,6 @@ public class PendingRequests extends AppCompatActivity {
     String postKey, Username, ProfileImage;
     String mAuth, test;
     long Date;
-    private AdView mAdView;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -59,10 +56,7 @@ public class PendingRequests extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_message);
 
-        mAdView = new AdView(this);
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
         Date = System.currentTimeMillis()/1000;
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();

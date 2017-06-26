@@ -14,9 +14,6 @@ import android.widget.TextView;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +40,6 @@ public class Mentions extends AppCompatActivity {
     String Pimage;
     long Date;
     boolean like;
-    private AdView mAdView;
     long totalVotes1, totalVotes2;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
@@ -61,14 +57,6 @@ public class Mentions extends AppCompatActivity {
         getSupportActionBar().setTitle("Mentions");
 
         votereference = FirebaseDatabase.getInstance().getReference();
-
-        AdView adView = new AdView(Mentions.this);
-        adView.setAdSize(AdSize.BANNER);
-        //adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         Date  = System.currentTimeMillis()/1000;
 

@@ -3,6 +3,7 @@
     package="com.example.jama.selfievselfie">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -110,7 +111,8 @@
             android:name=".MainTab2"
             android:label="@string/title_activity_main_tab2" />
         <activity android:name=".ChoosePost" />
-        <activity android:name=".SinglePost"></activity>
+        <activity android:name=".SinglePost" />
+        <activity android:name=".EditSinglePost"></activity>
     </application>
 
 </manifest>

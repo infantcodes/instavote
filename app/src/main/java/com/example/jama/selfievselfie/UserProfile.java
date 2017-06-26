@@ -22,8 +22,6 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,7 +49,6 @@ public class UserProfile extends AppCompatActivity{
     ListView listView;
     TextView txtUsername, txtBio, txtPosts, txtFollowing, txtFollowers, txtNames;
     boolean processFollowing, processFollower, like, check_if_user_is_blocked;
-    private AdView mAdView;
     FirebaseListAdapter<Getters> chatsFirebaseListAdapter;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
@@ -63,11 +60,6 @@ public class UserProfile extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_profile);
-
-        mAdView = new AdView(this);
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         View header = View.inflate(UserProfile.this, R.layout.profile_detail_layout, null);
         final View noPostFooter = View.inflate(UserProfile.this, R.layout.no_post_layout, null);
