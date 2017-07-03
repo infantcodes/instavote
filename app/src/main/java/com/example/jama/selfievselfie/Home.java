@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class Home extends Fragment {
 
-    //Test on the google repositry
+    //Test on the github repo
 
     ListView listView;
     DatabaseReference databaseReference, checkAllPosts, votereference;
