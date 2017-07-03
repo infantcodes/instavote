@@ -73,7 +73,6 @@ public class Profile extends Fragment {
         postsFirebaseListAdapter = null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview =  inflater.inflate(R.layout.activity_profile, container, false);

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -41,6 +40,8 @@ import java.util.Map;
 
 public class Home extends Fragment {
 
+    //Test on the google repositry
+
     ListView listView;
     DatabaseReference databaseReference, checkAllPosts, votereference;
     boolean like, processVote1, processVote2;
@@ -62,7 +63,6 @@ public class Home extends Fragment {
     public Home() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.activity_home, container, false);
