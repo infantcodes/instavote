@@ -104,6 +104,7 @@ public class Settings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Settings");
 
+        //SET PRIVATE ACCOUNT
         privateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
