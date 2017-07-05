@@ -39,7 +39,6 @@ public class Comments extends AppCompatActivity {
     FirebaseListAdapter<Getters> listAdapter;
     String postKey, uid, comments;
     String Names, Username, ProfileImage, mAuth;
-    long Date;
     EditText editTextComment;
     Button buttonComment;
     boolean scroll = true;
@@ -61,8 +60,6 @@ public class Comments extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         postKey = bundle.getString("key");
         uid = bundle.getString("uid");
-
-        Date  = System.currentTimeMillis()/1000;
 
         listView = (ListView) findViewById(R.id.listViewSearch);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Comments");
@@ -172,7 +169,7 @@ public class Comments extends AppCompatActivity {
                     map.put("pushKey", postKey);
                     map.put("username", Username);
                     map.put("profileImage", ProfileImage);
-                    map.put("date", Date);
+                    map.put("date", System.currentTimeMillis()/1000);
                     map.put("message", comments);
                     postComment.push().setValue(map);
 
@@ -181,7 +178,7 @@ public class Comments extends AppCompatActivity {
                         map1.put("username", Username);
                         map1.put("message", "commented: "+comments);
                         map1.put("profileImage", ProfileImage);
-                        map1.put("date", Date);
+                        map1.put("date", System.currentTimeMillis()/1000);
                         map1.put("pushKey", postKey);
                         map1.put("uid", mAuth);
                         notification.push().setValue(map1);

@@ -36,7 +36,6 @@ public class ViewPendingPosts extends AppCompatActivity {
     DatabaseReference databaseReference;
     String postKey, image1, image2, profileImage, profileImage2, pushKey, uid, uid2, username, username2, Caption;
     Button buttonPost;
-    long date;
     EditText caption;
 
     @Override
@@ -47,8 +46,6 @@ public class ViewPendingPosts extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        date  = System.currentTimeMillis()/1000;
 
         final DatabaseReference sendPost = databaseReference.child("Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         final DatabaseReference deletePreviousPendingPost = databaseReference.child("Pending Requests").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -99,7 +96,7 @@ public class ViewPendingPosts extends AppCompatActivity {
                 map.put("uid", uid);
                 map.put("uid2", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 map.put("pushKey", postKey);
-                map.put("date", date);
+                map.put("date", System.currentTimeMillis()/1000);
                 map.put("caption", Caption);
                 sendPost.child(postKey).setValue(map);
                 //mentions.child(uid).child(postKey).setValue(map);

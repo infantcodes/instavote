@@ -38,7 +38,6 @@ public class Mentions extends AppCompatActivity {
     String Pusername;
     String Pnames;
     String Pimage;
-    long Date;
     boolean like;
     long totalVotes1, totalVotes2;
     private static final int SECOND_MILLIS = 60;
@@ -57,8 +56,6 @@ public class Mentions extends AppCompatActivity {
         getSupportActionBar().setTitle("Mentions");
 
         votereference = FirebaseDatabase.getInstance().getReference();
-
-        Date  = System.currentTimeMillis()/1000;
 
         DatabaseReference profilePosts = FirebaseDatabase.getInstance().getReference().child("Mentions").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         final DatabaseReference profileInfo = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -269,7 +266,7 @@ public class Mentions extends AppCompatActivity {
                             map.put("pushKey", model.getPushKey());
                             map.put("username", Pusername);
                             map.put("profileImage", Pimage);
-                            map.put("date", Date);
+                            map.put("date", System.currentTimeMillis()/1000);
                             map.put("name", Pnames);
                             Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(map);

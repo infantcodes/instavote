@@ -42,7 +42,6 @@ public class SinglePost extends AppCompatActivity {
     EditText caption;
     DatabaseReference databaseReference;
     String Username, ProfileImage, ImagePost;
-    long Date;
     boolean isImageNull = true;
     private static final int CAMERA_REQUEST_CODE = 1;
     private Uri downloadUri, uri;
@@ -53,8 +52,6 @@ public class SinglePost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_post);
-
-        Date = System.currentTimeMillis()/1000;
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -144,7 +141,7 @@ public class SinglePost extends AppCompatActivity {
                     Map map = new HashMap();
                     map.put("username2", Username);
                     map.put("profileImage2", ProfileImage);
-                    map.put("date", Date);
+                    map.put("date", System.currentTimeMillis()/1000);
                     map.put("caption", Caption);
                     map.put("image1", ImagePost);
                     map.put("pushKey", pushKey);

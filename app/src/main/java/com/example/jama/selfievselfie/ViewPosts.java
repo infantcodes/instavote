@@ -41,7 +41,6 @@ public class ViewPosts extends AppCompatActivity {
     String Pusername;
     String Pimage;
     String Pnames;
-    long Date;
     boolean like;
     long totalVotes1, totalVotes2;
     private static final int SECOND_MILLIS = 60;
@@ -63,7 +62,6 @@ public class ViewPosts extends AppCompatActivity {
 
         getSupportActionBar().setTitle(type);
 
-        Date  = System.currentTimeMillis()/1000;
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         votereference = FirebaseDatabase.getInstance().getReference();
@@ -262,7 +260,7 @@ public class ViewPosts extends AppCompatActivity {
                                     map.put("pushKey", pushKey);
                                     map.put("username", Pusername);
                                     map.put("profileImage", Pimage);
-                                    map.put("date", Date);
+                                    map.put("date", System.currentTimeMillis()/1000);
                                     map.put("name", Pnames);
                                     Likes.child(uid2).child(pushKey).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                             .setValue(map);

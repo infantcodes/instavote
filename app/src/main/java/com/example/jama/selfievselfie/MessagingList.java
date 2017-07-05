@@ -339,8 +339,6 @@ public class MessagingList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String message = editTextMessage.getText().toString();
-
-                long date  = System.currentTimeMillis()/1000;
                 if (message.equals("")) {
                     Toast.makeText(MessagingList.this, "Type In A Message To Send", Toast.LENGTH_SHORT).show();
                 } else {
@@ -348,7 +346,7 @@ public class MessagingList extends AppCompatActivity {
                     Map map = new HashMap();
                     map.put("username", Username);
                     map.put("profileImage", ProfileImage);
-                    map.put("date", date);
+                    map.put("date", System.currentTimeMillis()/1000);
                     map.put("message", message);
                     owner.child(postKey).push().setValue(map);
                     otherOwner.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push()
@@ -367,7 +365,7 @@ public class MessagingList extends AppCompatActivity {
                     //LAST CHATS MESSAGES SENT
                     Map map1 = new HashMap();
                     map1.put("sender", Username);
-                    map1.put("date", date);
+                    map1.put("date", System.currentTimeMillis()/1000);
                     map1.put("message", message);
                     chatsOwner.updateChildren(map1);
                     chatsOther.updateChildren(map1);

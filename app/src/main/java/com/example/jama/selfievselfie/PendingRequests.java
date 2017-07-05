@@ -45,7 +45,6 @@ public class PendingRequests extends AppCompatActivity {
     ListView listView;
     String postKey, Username, ProfileImage;
     String mAuth, test;
-    long Date;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -55,9 +54,6 @@ public class PendingRequests extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_message);
-
-
-        Date = System.currentTimeMillis()/1000;
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         test = "jama";
@@ -229,7 +225,7 @@ public class PendingRequests extends AppCompatActivity {
                                                 DatabaseReference sendReminderRef = FirebaseDatabase.getInstance().getReference().child("Notification")
                                                         .child(model.getUid());
                                                 Map map = new HashMap();
-                                                map.put("date", Date);
+                                                map.put("date", System.currentTimeMillis()/1000);
                                                 map.put("message", "sent a request reminder");
                                                 map.put("profileImage", ProfileImage);
                                                 map.put("username", Username);

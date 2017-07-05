@@ -68,7 +68,6 @@ public class Requests extends Fragment {
     StorageReference storageReference;
     ProgressDialog progressDialog;
     String PushKey, Username, Uid, ProfileImage, mAuth;
-    long Date;
     int anInt = 0, test = 0;
     private static final int CAMERA_REQUEST_CODE = 2;
     private static final int CAMERA_PERMISSION = 3;
@@ -91,7 +90,6 @@ public class Requests extends Fragment {
 
         //final View header = View.inflate(getActivity(), R.layout.no_data, null);
 
-        Date = System.currentTimeMillis() / 1000;
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -331,7 +329,7 @@ public class Requests extends Fragment {
                         map.put("image2", image);
                         map.put("profileImage2", ProfileImage);
                         map.put("username2", Username);
-                        map.put("date", Date);
+                        map.put("date", System.currentTimeMillis()/1000);
                         map.put("status", "Request has been accepted");
 
                         Map map1 = new HashMap();

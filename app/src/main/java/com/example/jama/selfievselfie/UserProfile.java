@@ -44,7 +44,6 @@ public class UserProfile extends AppCompatActivity{
     Button follow_unfollow;
     DatabaseReference databaseReference, votereference;
     String postKey, Username, ProfileImage, Bio, Names, Pusername, Pnames, Pimage;
-    long Date;
     ImageView imageViewProfile;
     ListView listView;
     TextView txtUsername, txtBio, txtPosts, txtFollowing, txtFollowers, txtNames;
@@ -67,7 +66,6 @@ public class UserProfile extends AppCompatActivity{
         final View privateAccount = View.inflate(UserProfile.this, R.layout.private_account_layout, null);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Date  = System.currentTimeMillis()/1000;
 
         //RECIEVING BUNDLEDATA FROM PREVIOUS ACTIVITY
         Bundle bundle = getIntent().getExtras();
@@ -265,9 +263,7 @@ public class UserProfile extends AppCompatActivity{
                 }
             });
         }else {
-            Intent intent = new Intent(UserProfile.this, ProfileInfo.class);
-            startActivity(intent);
-            finish();
+            //Todo fragment profile
         }
 
         //OPEN OTHER USER'S FOLLOWERS AND FOLLOWING
@@ -571,7 +567,7 @@ public class UserProfile extends AppCompatActivity{
                             map.put("pushKey", model.getPushKey());
                             map.put("username", Pusername);
                             map.put("profileImage", Pimage);
-                            map.put("date", Date);
+                            map.put("date", System.currentTimeMillis()/1000);
                             map.put("name", Pnames);
                             Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(map);
@@ -773,7 +769,6 @@ public class UserProfile extends AppCompatActivity{
                         follower.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
                         processFollower = false;
                     }else {
-                        long Date  = System.currentTimeMillis()/1000;
                         Map map = new HashMap();
                         map.put("username", Pusername);
                         map.put("name", Pnames);
@@ -785,7 +780,7 @@ public class UserProfile extends AppCompatActivity{
                         map1.put("username", Pusername);
                         map1.put("message", "started following you");
                         map1.put("profileImage", Pimage);
-                        map1.put("date", Date);
+                        map1.put("date", System.currentTimeMillis()/1000);
                         map1.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         notification.push().setValue(map1);
                         processFollower = false;

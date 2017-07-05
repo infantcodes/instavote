@@ -100,8 +100,8 @@ public class UserFollowing extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (postKey.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                            Intent intent = new Intent(UserFollowing.this, ProfileInfo.class);
-                            startActivity(intent);
+                            /*Intent intent = new Intent(UserFollowing.this, ProfileInfo.class);
+                            startActivity(intent);*/
                         }else {
                             Toast.makeText(UserFollowing.this, postKey + "", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(UserFollowing.this, UserProfile.class);

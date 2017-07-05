@@ -61,7 +61,6 @@ public class SendRequests extends AppCompatActivity {
     String uidPostKey;
     String OtherUsername, OtherProfileImage;
     String Username, ProfileImage;
-    long Date;
     ProgressDialog progressDialog;
     int REQUEST_INVITE = 2;
 
@@ -80,8 +79,6 @@ public class SendRequests extends AppCompatActivity {
                 .child("Profile Info");
 
         progressDialog = new ProgressDialog(this);
-
-        Date  = System.currentTimeMillis()/1000;
 
         listView = (ListView) findViewById(R.id.listView);
         invite = (Button) findViewById(R.id.buttonInvite);
@@ -251,7 +248,7 @@ public class SendRequests extends AppCompatActivity {
                                 map.put("requestMessage", finalRequestMessage);
                                 map.put("profileImage", OtherProfileImage);
                                 map.put("username", OtherUsername);
-                                map.put("date", Date);
+                                map.put("date", System.currentTimeMillis()/1000);
                                 map.put("uid", uidPostKey);
                                 map.put("status", "Request is still pending");
 
@@ -262,7 +259,7 @@ public class SendRequests extends AppCompatActivity {
                                 map1.put("requestMessage", finalRequestMessage);
                                 map1.put("profileImage", ProfileImage);
                                 map1.put("username", Username);
-                                map1.put("date", Date);
+                                map1.put("date", System.currentTimeMillis()/1000);
                                 map1.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
 
                                 databaseReference.child("Pending Requests").child(FirebaseAuth.getInstance().getCurrentUser().getUid())

@@ -43,7 +43,7 @@ public class SignIn extends AppCompatActivity {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
 
-            Intent signedIn = new Intent(SignIn.this, MainTab.class);
+            Intent signedIn = new Intent(SignIn.this, MainTab2.class);
             startActivity(signedIn);
             finish();
 

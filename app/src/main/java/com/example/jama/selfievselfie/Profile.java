@@ -3,6 +3,7 @@ package com.example.jama.selfievselfie;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -55,7 +56,6 @@ public class Profile extends Fragment {
     String Username;
     String Bio;
     String ProfileImage;
-    long Date;
     FirebaseListAdapter<Getters> postsFirebaseListAdapter;
     boolean like;
     long totalVotes1, totalVotes2;
@@ -73,13 +73,12 @@ public class Profile extends Fragment {
         postsFirebaseListAdapter = null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview =  inflater.inflate(R.layout.activity_profile, container, false);
 
         View header = View.inflate(getActivity(), R.layout.profile_detail_layout, null);
-
-        Date  = System.currentTimeMillis()/1000;
 
         votereference = FirebaseDatabase.getInstance().getReference();
 
@@ -418,7 +417,7 @@ public class Profile extends Fragment {
                                 map.put("pushKey", model.getPushKey());
                                 map.put("username", Username);
                                 map.put("profileImage", ProfileImage);
-                                map.put("date", Date);
+                                map.put("date", System.currentTimeMillis()/1000);
                                 map.put("name", Names);
                                 Likes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey())
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(map);
@@ -517,14 +516,15 @@ public class Profile extends Fragment {
                     final TextView totalVotes = (TextView) v.findViewById(R.id.textViewTotalVotes);
 
                     vote1Numbers.addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                vote1.setBackground(getResources().getDrawable(R.drawable.rounded_corner_white));
-                                vote1.setTextColor(getResources().getColor(R.color.colorAccent));
+                                vote1.setBackgroundResource(R.drawable.rounded_corner_white);
+                                vote1.setTextColor(Color.parseColor("#E91E63"));
                             }else {
-                                vote1.setBackground(getResources().getDrawable(R.drawable.rounded_corner_pink));
-                                vote1.setTextColor(getResources().getColor(R.color.backGround));
+                                vote1.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                vote1.setTextColor(Color.parseColor("#ffffff"));
                             }
                         }
 
@@ -535,14 +535,15 @@ public class Profile extends Fragment {
                     });
 
                     vote2Numbers.addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                vote2.setBackground(getResources().getDrawable(R.drawable.rounded_corner_white));
-                                vote2.setTextColor(getResources().getColor(R.color.colorAccent));
+                                vote2.setBackgroundResource(R.drawable.rounded_corner_white);
+                                vote2.setTextColor(Color.parseColor("#E91E63"));
                             }else {
-                                vote2.setBackground(getResources().getDrawable(R.drawable.rounded_corner_pink));
-                                vote2.setTextColor(getResources().getColor(R.color.backGround));
+                                vote2.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                vote2.setTextColor(Color.parseColor("#ffffff"));
                             }
                         }
 
@@ -732,7 +733,7 @@ public class Profile extends Fragment {
                                 map.put("pushKey", model.getPushKey());
                                 map.put("username", Username);
                                 map.put("profileImage", ProfileImage);
-                                map.put("date", Date);
+                                map.put("date", System.currentTimeMillis()/1000);
                                 map.put("name", Names);
                                 Likes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey())
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(map);
@@ -835,11 +836,11 @@ public class Profile extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                vote1.setBackground(getResources().getDrawable(R.drawable.rounded_corner_white));
-                                vote1.setTextColor(getResources().getColor(R.color.colorAccent));
+                                vote1.setBackgroundResource(R.drawable.rounded_corner_white);
+                                vote1.setTextColor(Color.parseColor("#E91E63"));
                             }else {
-                                vote1.setBackground(getResources().getDrawable(R.drawable.rounded_corner_pink));
-                                vote1.setTextColor(getResources().getColor(R.color.backGround));
+                                vote1.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                vote1.setTextColor(Color.parseColor("#ffffff"));
                             }
                         }
 
@@ -853,11 +854,11 @@ public class Profile extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                vote2.setBackground(getResources().getDrawable(R.drawable.rounded_corner_white));
-                                vote2.setTextColor(getResources().getColor(R.color.colorAccent));
+                                vote2.setBackgroundResource(R.drawable.rounded_corner_white);
+                                vote2.setTextColor(Color.parseColor("#E91E63"));
                             }else {
-                                vote2.setBackground(getResources().getDrawable(R.drawable.rounded_corner_pink));
-                                vote2.setTextColor(getResources().getColor(R.color.backGround));
+                                vote2.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                vote2.setTextColor(Color.parseColor("#ffffff"));
                             }
                         }
 

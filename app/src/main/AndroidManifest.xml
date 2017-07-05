@@ -74,9 +74,6 @@
             android:name=".ViewPosts"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ProfileInfo"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".BlockedUsers"
             android:screenOrientation="portrait" />
         <activity

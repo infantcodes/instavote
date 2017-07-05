@@ -40,7 +40,6 @@ public class Share extends AppCompatActivity {
     ListView listView;
     Button invite;
     String Names, Username, ProfileImage, mAuth, postKey, uid;
-    long Date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class Share extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        Date  = System.currentTimeMillis()/1000;
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Bundle bundle = getIntent().getExtras();
@@ -109,7 +107,7 @@ public class Share extends AppCompatActivity {
                         map1.put("username", Username);
                         map1.put("message", "shared a post");
                         map1.put("profileImage", ProfileImage);
-                        map1.put("date", Date);
+                        map1.put("date", System.currentTimeMillis()/1000);
                         map1.put("pushKey", postKey);
                         map1.put("uid", mAuth);
                         Toast.makeText(Share.this, "Post Shared", Toast.LENGTH_SHORT).show();
