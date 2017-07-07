@@ -114,7 +114,7 @@ public class SignIn extends AppCompatActivity {
 
                                         send.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .child("Notification Token").child(refreshedToken).setValue(true);
-                                        Intent signedIn = new Intent(SignIn.this, MainTab.class);
+                                        Intent signedIn = new Intent(SignIn.this, MainTab2.class);
                                         startActivity(signedIn);
                                         finish();
                                     }

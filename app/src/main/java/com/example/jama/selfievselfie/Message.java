@@ -13,6 +13,9 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,6 +31,7 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -170,6 +174,7 @@ public class Message extends Fragment {
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         listView.setEmptyView(noPosts);
         listView.setAdapter(chatsFirebaseListAdapter);
+        setHasOptionsMenu(true);
 
         return rootview;
     }
@@ -187,6 +192,53 @@ public class Message extends Fragment {
             //wifi
             Toast.makeText(getActivity(), "no wifi ", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main_tab, menu);
+        menu.findItem(R.id.action_pending_request).setVisible(false);
+        menu.findItem(R.id.add_user).setVisible(false);
+        menu.findItem(R.id.action_Mentions).setVisible(false);
+        menu.findItem(R.id.action_new_message).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getActivity(), FindUserMessageList.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        menu.findItem(R.id.action_notification).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getActivity(), Notifiations.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        menu.findItem(R.id.action_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getActivity(), Settings.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        menu.findItem(R.id.action_Logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                Intent intent = new Intent(getActivity(), SignIn.class);
+                startActivity(intent);
+                FirebaseAuth.getInstance().signOut();
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                DatabaseReference send = FirebaseDatabase.getInstance().getReference();
+                send.child("Users").child(uid).child("Notification Token").child(refreshedToken).removeValue();
+                getActivity().finish();
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 }

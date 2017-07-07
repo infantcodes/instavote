@@ -250,11 +250,6 @@ public class MainTab extends AppCompatActivity {
                 Intent pending = new Intent(MainTab.this, PendingRequests.class);
                 startActivity(pending);
                 return true;
-
-            case R.id.action_post:
-                Intent post = new Intent(MainTab.this, ChoosePost.class);
-                startActivity(post);
-                return true;
         }
         //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);

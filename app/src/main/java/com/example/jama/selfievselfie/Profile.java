@@ -10,6 +10,9 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -31,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -227,7 +231,7 @@ public class Profile extends Fragment {
                 LinearLayout linearLayoutPost = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
 
-                if (model.getUsername() != null){
+                if (model.getImage2() != null){
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
                     ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
@@ -392,9 +396,9 @@ public class Profile extends Fragment {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.child(model.getUid2()).child(model.getPushKey())
                                     .hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                imageViewLike.setImageDrawable(getResources().getDrawable(R.drawable.like_red));
+                                imageViewLike.setImageResource(R.drawable.like_red);
                             }else {
-                                imageViewLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
+                                imageViewLike.setImageResource(R.drawable.ic_favorite_black_24dp);
                             }
                         }
 
@@ -708,9 +712,9 @@ public class Profile extends Fragment {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.child(model.getUid2()).child(model.getPushKey())
                                     .hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                imageViewLikes.setImageDrawable(getResources().getDrawable(R.drawable.like_red));
+                                imageViewLikes.setImageResource(R.drawable.like_red);
                             }else {
-                                imageViewLikes.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
+                                imageViewLikes.setImageResource(R.drawable.ic_favorite_black_24dp);
                             }
                         }
 
@@ -973,6 +977,55 @@ public class Profile extends Fragment {
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         //listView.setEmptyView(noPosts);
         noPosts.setVisibility(View.GONE);
+        setHasOptionsMenu(true);
         return rootview;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main_tab, menu);
+        menu.findItem(R.id.action_pending_request).setVisible(false);
+        menu.findItem(R.id.add_user).setVisible(false);
+        menu.findItem(R.id.action_new_message).setVisible(false);
+        menu.findItem(R.id.action_Mentions).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getActivity(), Mentions.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        menu.findItem(R.id.action_notification).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getActivity(), Notifiations.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        menu.findItem(R.id.action_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getActivity(), Settings.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        menu.findItem(R.id.action_Logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                Intent intent = new Intent(getActivity(), SignIn.class);
+                startActivity(intent);
+                FirebaseAuth.getInstance().signOut();
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                DatabaseReference send = FirebaseDatabase.getInstance().getReference();
+                send.child("Users").child(uid).child("Notification Token").child(refreshedToken).removeValue();
+                getActivity().finish();
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 }

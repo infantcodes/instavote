@@ -249,12 +249,12 @@
                 android:id="@+id/textViewUsernameSinglePost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/imageViewProfileImageSinglePost"
-                android:layout_toRightOf="@+id/imageViewProfileImageSinglePost"
                 android:text="Username"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/imageViewProfileImageSinglePost"
+                android:layout_toEndOf="@+id/imageViewProfileImageSinglePost" />
 
         </RelativeLayout>
 
@@ -266,41 +266,41 @@
                 android:id="@+id/imageViewSinglePostImage"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                app:srcCompat="@android:color/darker_gray"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@android:color/darker_gray" />
 
             <Button
                 android:id="@+id/buttonSinglePost2"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:background="@drawable/rounded_corner_pink"
-                android:text="Button"
-                android:layout_above="@+id/textViewSinglePostLikes"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/imageViewSinglePostImage"
+                android:background="@drawable/rounded_corner_pink"
+                android:text="Button" />
 
             <Button
                 android:id="@+id/buttonSinglePost1"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:background="@drawable/rounded_corner_pink"
-                android:text="Button"
-                android:layout_above="@+id/textViewSinglePostTotalVotes"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_below="@+id/imageViewSinglePostImage"
+                android:background="@drawable/rounded_corner_pink"
+                android:text="Button" />
 
             <TextView
                 android:id="@+id/textViewSinglePostLikes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Likes"
-                android:layout_below="@+id/imageViewSinglePostImage"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/buttonSinglePost2"
+                android:text="Likes" />
 
             <TextView
                 android:id="@+id/textViewSinglePostCaption"
@@ -309,7 +309,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textViewSinglePostLikes"
-                android:text="Data" />
+                android:text="Caption" />
 
             <TextView
                 android:id="@+id/textViewSimglePostComments"
@@ -335,7 +335,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/imageViewSinglePostImage"
+                android:layout_below="@+id/buttonSinglePost1"
                 android:text="Total Votes" />
         </RelativeLayout>
 
