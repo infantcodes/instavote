@@ -43,6 +43,9 @@ public class ChoosePost extends Fragment {
             }
         });
 
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+
         return rootview;
     }
 }

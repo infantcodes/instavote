@@ -17,12 +17,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,6 +50,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -146,7 +150,7 @@ public class Requests extends Fragment {
                 });
                 TextView requestMessage = (TextView) v.findViewById(R.id.textViewRequestMessage);
                 requestMessage.setText(model.getRequestMessage());
-                ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
+                final ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 profileImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -157,9 +161,31 @@ public class Requests extends Fragment {
                         startActivity(intent);
                     }
                 });
-                Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
-                ImageView image = (ImageView) v.findViewById(R.id.imageViewImage);
-                Picasso.with(getContext()).load(model.getImage1()).fit().centerCrop().into(image);
+                Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4))
+                        .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                    }
+                });
+                final ImageView image = (ImageView) v.findViewById(R.id.imageViewImage);
+                Picasso.with(getContext()).load(model.getImage1()).fit().centerCrop()
+                        .networkPolicy(NetworkPolicy.OFFLINE).into(image, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        Picasso.with(getContext()).load(model.getImage1()).fit().centerCrop().into(image);
+                    }
+                });
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -256,6 +282,32 @@ public class Requests extends Fragment {
         RelativeLayout txtBio = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         listView.setEmptyView(txtBio);
         setHasOptionsMenu(true);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int lastVisibleItem = 0;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (view.getId() == listView.getId()){
+                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+                    if (currentFirstVisibleItem > lastVisibleItem){
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    }else if (currentFirstVisibleItem < lastVisibleItem) {
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+                    }
+
+                    lastVisibleItem = currentFirstVisibleItem;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+
         return rootview;
     }
 

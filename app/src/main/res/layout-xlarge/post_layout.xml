@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
-    android:orientation="vertical"
-    android:padding="7dp">
+    android:orientation="vertical">
 
     <!--<android.support.v7.widget.CardView
         android:layout_width="400dp"
@@ -227,10 +226,10 @@
         android:id="@+id/linearLayoutSinglePost"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayoutPost"
-        android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_below="@+id/linearLayoutPost"
+        android:layout_centerHorizontal="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -269,10 +268,11 @@
 
             <ImageView
                 android:id="@+id/imageViewSinglePostImage"
-                android:layout_width="400dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 app:srcCompat="@android:color/darker_gray" />
 
             <Button
@@ -283,7 +283,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/imageViewSinglePostImage"
-                android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_corner_pink"
                 android:text="Button" />
 
@@ -295,7 +294,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/imageViewSinglePostImage"
-                android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_corner_pink"
                 android:text="Button" />
 
@@ -324,10 +322,10 @@
                 android:id="@+id/textViewSimglePostComments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
+                android:text="View All Comments"
                 android:layout_below="@+id/textViewSinglePostCaption"
-                android:text="View All Comments" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/textViewSinglePostDate"
@@ -384,7 +382,6 @@
                 app:srcCompat="@drawable/ic_more_vert_black_24dp" />
         </LinearLayout>
     </LinearLayout>
-
     <!--</android.support.v7.widget.CardView>-->
 
 </RelativeLayout>

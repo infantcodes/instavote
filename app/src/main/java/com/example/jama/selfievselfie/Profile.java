@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +39,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -55,7 +59,6 @@ public class Profile extends Fragment {
     ImageView imageViewProfile;
     TextView txtUsername, txtBio, txtPosts, txtFollowing, txtFollowers, txtNames;
     DatabaseReference databaseReference, votereference;
-    ProgressDialog progressDialog;
     String Names;
     String Username;
     String Bio;
@@ -67,6 +70,7 @@ public class Profile extends Fragment {
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    int top1, index1;
 
     public static Profile newInstance() {
         Profile fragment = new Profile();
@@ -115,13 +119,6 @@ public class Profile extends Fragment {
                 startActivity(intent);
             }
         });
-
-        //PROGRESS DIALOG
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Loading ...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
 
         listView.addHeaderView(header, null, false);
 
@@ -189,14 +186,24 @@ public class Profile extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map <String, String> map = (Map)dataSnapshot.getValue();
                 ProfileImage = map.get("profileImage");
-                Picasso.with(getContext()).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4)).into(imageViewProfile);
+                Picasso.with(getContext()).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4))
+                        .networkPolicy(NetworkPolicy.OFFLINE).into(imageViewProfile, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        Picasso.with(getContext()).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4)).into(imageViewProfile);
+                    }
+                });
                 Username = map.get("username");
                 txtUsername.setText(Username.toString());
                 Bio = map.get("bio");
                 txtBio.setText(Bio.toString());
                 Names = map.get("name");
                 txtNames.setText(Names.toString());
-                progressDialog.dismiss();
             }
 
             @Override
@@ -234,9 +241,20 @@ public class Profile extends Fragment {
                 if (model.getImage2() != null){
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
-                    ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                    ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
+                    final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
+                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                        }
+                    });
+                    final ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
                     profileImage3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -247,11 +265,44 @@ public class Profile extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
-                    ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
-                    ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
-                    Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
+                    Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage3, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
+                        }
+                    });
+                    final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
+                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                        }
+                    });
+                    final ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
+                    Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView2, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
+                        }
+                    });
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsername1);
                     username1.setText(model.getUsername2());
                     TextView username2 = (TextView) v.findViewById(R.id.textViewUsername2);
@@ -636,8 +687,8 @@ public class Profile extends Fragment {
                 }else {
                     linearLayoutPost.setVisibility(View.GONE);
                     linearLayoutSinglePost.setVisibility(View.VISIBLE);
-                    ImageView imageViewUsername = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
-                    ImageView imageViewImage = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
+                    final ImageView imageViewUsername = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
+                    final ImageView imageViewImage = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
                     ImageView imageViewOptionMenu = (ImageView) v.findViewById(R.id.imageViewOptionsSinglePost);
                     final ImageView imageViewLikes = (ImageView) v.findViewById(R.id.imageViewLikeSinglePost);
                     ImageView imageViewComments = (ImageView) v.findViewById(R.id.imageViewCommentSinglePost);
@@ -649,8 +700,30 @@ public class Profile extends Fragment {
                     TextView textViewDate = (TextView) v.findViewById(R.id.textViewSinglePostDate);
                     TextView textViewTotalVotes = (TextView) v.findViewById(R.id.textViewSinglePostTotalVotes);
 
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageViewUsername);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageViewImage);
+                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageViewUsername, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageViewUsername);
+                        }
+                    });
+                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageViewImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageViewImage);
+                        }
+                    });
                     textViewUsername.setText(model.getUsername2());
                     textViewDate.setText(model.getDate()+"");
 
@@ -772,17 +845,11 @@ public class Profile extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (which == 0){
                                         Intent intent = new Intent(getActivity(), EditSinglePost.class);
-                                        /*Bundle bundle = new Bundle();
-                                        bundle.putString("username1", model.getUsername());
-                                        bundle.putString("username2", model.getUsername2());
+                                        Bundle bundle = new Bundle();
                                         bundle.putString("image1", model.getImage1());
-                                        bundle.putString("image2", model.getImage2());
-                                        bundle.putString("profileImage1", model.getProfileImage());
-                                        bundle.putString("profileImage2", model.getProfileImage2());
-                                        bundle.putLong("date", model.getDate());
                                         bundle.putString("caption", model.getCaption());
                                         bundle.putString("pushKey", model.getPushKey());
-                                        intent.putExtras(bundle);*/
+                                        intent.putExtras(bundle);
                                         startActivity(intent);
                                     }else {
                                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -978,7 +1045,54 @@ public class Profile extends Fragment {
         //listView.setEmptyView(noPosts);
         noPosts.setVisibility(View.GONE);
         setHasOptionsMenu(true);
+
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            index1 = savedInstanceState.getInt("index", -1);
+            top1 = savedInstanceState.getInt("top", 0);
+        }
+        if(index1 != -1){
+            listView.setSelectionFromTop(index1, top1);
+        }
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int lastVisibleItem = 0;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (view.getId() == listView.getId()){
+                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+                    if (currentFirstVisibleItem > lastVisibleItem){
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    }else if (currentFirstVisibleItem < lastVisibleItem) {
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+                    }
+
+                    lastVisibleItem = currentFirstVisibleItem;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+
         return rootview;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        int index = listView.getFirstVisiblePosition();
+        View view = listView.getChildAt(0);
+        int top = (view == null) ? 0 : view.getTop();
+
+        outState.putInt("index", index);
+        outState.putInt("top", top);
     }
 
     @Override

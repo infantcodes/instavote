@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -100,8 +101,9 @@ public class UserFollowing extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (postKey.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                            /*Intent intent = new Intent(UserFollowing.this, ProfileInfo.class);
-                            startActivity(intent);*/
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.content, Profile.newInstance());
+                            transaction.commit();
                         }else {
                             Toast.makeText(UserFollowing.this, postKey + "", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(UserFollowing.this, UserProfile.class);

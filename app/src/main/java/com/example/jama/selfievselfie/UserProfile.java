@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -265,7 +266,10 @@ public class UserProfile extends AppCompatActivity{
                 }
             });
         }else {
-            //Todo fragment profile
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content, Profile.newInstance());
+            transaction.commit();
         }
 
         //OPEN OTHER USER'S FOLLOWERS AND FOLLOWING

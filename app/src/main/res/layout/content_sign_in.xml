@@ -73,7 +73,6 @@
                             android:id="@+id/editTextEmail"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/email"
                             android:drawableTint="@color/colorPrimary"
                             android:hint="Email Address"
                             android:inputType="textEmailAddress" />
@@ -88,7 +87,6 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:drawableLeft="@drawable/lock"
                             android:drawableTint="@color/colorPrimary"
                             android:hint="Password"
                             android:inputType="textPassword" />

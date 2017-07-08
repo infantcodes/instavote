@@ -1,6 +1,7 @@
 package com.example.jama.selfievselfie;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -87,7 +88,9 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (postKey.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                            finish();
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.content, Profile.newInstance());
+                            transaction.commit();
                         }else {
                             Toast.makeText(SearchActivity.this, postKey + "", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SearchActivity.this, UserProfile.class);

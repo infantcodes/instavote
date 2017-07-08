@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,6 +30,10 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +41,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -52,13 +62,14 @@ public class Home extends Fragment {
     DatabaseReference databaseReference, checkAllPosts, votereference;
     boolean like, processVote1, processVote2;
     String Names, Username, ProfileImage, mAuth;
-    ProgressDialog progressDialog;
     private static final int CAMERA_REQUEST_CODE = 1;
     FirebaseListAdapter<Getters> chatsFirebaseListAdapter;
     private static final int SECOND_MILLIS = 60;
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    private AdView mAdView;
+    int top1, index1;
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -68,43 +79,61 @@ public class Home extends Fragment {
     public Home() {
     }
 
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.activity_home, container, false);
+
+        AdView adView = new AdView(getActivity());
+        adView.setAdSize(AdSize.SMART_BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
+        mAdView = (AdView) rootview.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Toast.makeText(getActivity(), "Can't load feeds", Toast.LENGTH_SHORT).show();
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+        });
 
         listView = (ListView) rootview.findViewById(R.id.listView);
 
         votereference = FirebaseDatabase.getInstance().getReference();
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Loading ...");
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        checkAllPosts = FirebaseDatabase.getInstance().getReference();
-        checkAllPosts.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.child("All Posts").hasChild(uid)){
-                    progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("All Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         DatabaseReference profileInfo = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("Profile Info");
+        databaseReference.keepSynced(true);
 
         profileInfo.addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,7 +166,7 @@ public class Home extends Fragment {
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
                     final String postKey = getRef(position).getKey();
-                    ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
+                    final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
                     profileImage1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -148,8 +177,19 @@ public class Home extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                    ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
+                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                        }
+                    });
+                    final ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
                     profileImage3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -160,11 +200,44 @@ public class Home extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
-                    ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
-                    ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
-                    Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
+                    Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage3, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
+                        }
+                    });
+                    final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
+                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                        }
+                    });
+                    final ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
+                    Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView2, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
+                        }
+                    });
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsername1);
                     username1.setText(model.getUsername2());
                     TextView username2 = (TextView) v.findViewById(R.id.textViewUsername2);
@@ -176,7 +249,6 @@ public class Home extends Fragment {
                     final DatabaseReference Likes = FirebaseDatabase.getInstance().getReference().child("Likes");
                     final DatabaseReference Comments = FirebaseDatabase.getInstance().getReference().child("Comments");
                     final DatabaseReference Notification = FirebaseDatabase.getInstance().getReference().child("Notification");
-                    progressDialog.dismiss();
 
                     //TIME*********************************
                     TextView date = (TextView) v.findViewById(R.id.textViewDate);
@@ -524,7 +596,7 @@ public class Home extends Fragment {
                     linearLayoutPost.setVisibility(View.GONE);
                     linearLayoutSinglePost.setVisibility(View.VISIBLE);
                     final String postKey = getRef(position).getKey();
-                    ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
+                    final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
                     profileImage1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -535,9 +607,31 @@ public class Home extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                    ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                        }
+                    });
+                    final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
+                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                        }
+                    });
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameSinglePost);
                     username1.setText(model.getUsername2());
                     final ImageView imageViewLike = (ImageView) v.findViewById(R.id.imageViewLikeSinglePost);
@@ -547,7 +641,6 @@ public class Home extends Fragment {
                     final DatabaseReference Likes = FirebaseDatabase.getInstance().getReference().child("Likes");
                     final DatabaseReference Comments = FirebaseDatabase.getInstance().getReference().child("Comments");
                     final DatabaseReference Notification = FirebaseDatabase.getInstance().getReference().child("Notification");
-                    progressDialog.dismiss();
 
                     //TIME*********************************
                     TextView date = (TextView) v.findViewById(R.id.textViewSinglePostDate);
@@ -862,11 +955,45 @@ public class Home extends Fragment {
         };
 
         listView.setAdapter(chatsFirebaseListAdapter);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int lastVisibleItem = 0;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (view.getId() == listView.getId()){
+                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+                    if (currentFirstVisibleItem > lastVisibleItem){
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    }else if (currentFirstVisibleItem < lastVisibleItem) {
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+                    }
+
+                    lastVisibleItem = currentFirstVisibleItem;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
         //listView.setNestedScrollingEnabled(true);
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         listView.setEmptyView(noPosts);
         setHasOptionsMenu(true);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
         return rootview;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String jama = "jama";
+
+        outState.putString("index", jama);
     }
 
     private void menuOptions(){

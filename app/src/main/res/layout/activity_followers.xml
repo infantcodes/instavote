@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.jama.selfievselfie.Followers">
@@ -26,6 +27,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/buttonInvite"
             android:layout_toStartOf="@+id/buttonInvite"
             android:text="Invite Friends"
             android:textAlignment="center"
@@ -34,8 +36,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/buttonDecline"
-            tools:layout_editor_absoluteY="7dp"
-            android:layout_toLeftOf="@+id/buttonInvite" />
+            tools:layout_editor_absoluteY="7dp" />
 
         <Button
             android:id="@+id/buttonInvite"

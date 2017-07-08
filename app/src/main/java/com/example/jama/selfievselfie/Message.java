@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,6 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -84,12 +88,34 @@ public class Message extends Fragment {
                 username.setText(model.getUsername());
                 TextView name = (TextView) v.findViewById(R.id.textViewName);
                 name.setText(model.getMessage());
-                ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
+                final ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 if (model.getProfileImage() == null){
                     username.setText("Unknown User");
-                    Picasso.with(getContext()).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit().into(profileImage);
+                    Picasso.with(getContext()).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit()
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit().into(profileImage);
+                        }
+                    });
                 }else {
-                    Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                    Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4))
+                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                        }
+                    });
                 }
 
                 //TIME*********************************
@@ -175,6 +201,31 @@ public class Message extends Fragment {
         listView.setEmptyView(noPosts);
         listView.setAdapter(chatsFirebaseListAdapter);
         setHasOptionsMenu(true);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int lastVisibleItem = 0;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (view.getId() == listView.getId()){
+                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+                    if (currentFirstVisibleItem > lastVisibleItem){
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    }else if (currentFirstVisibleItem < lastVisibleItem) {
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+                    }
+
+                    lastVisibleItem = currentFirstVisibleItem;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
 
         return rootview;
     }

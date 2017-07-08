@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -89,6 +90,9 @@ public class Mentions extends AppCompatActivity {
         ) {
             @Override
             protected void populateView(final android.view.View v, final Getters model, int position) {
+
+                LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
+                linearLayoutSinglePost.setVisibility(android.view.View.GONE);
 
                 ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
                 profileImage1.setOnClickListener(new android.view.View.OnClickListener() {
