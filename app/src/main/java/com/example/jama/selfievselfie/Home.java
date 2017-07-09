@@ -130,7 +130,6 @@ public class Home extends Fragment {
                 if (position % 3 == 0){
                     linearLayoutAds.setVisibility(View.VISIBLE);
 
-
                     NativeExpressAdView mAdView = (NativeExpressAdView) v.findViewById(R.id.adView);
                     AdRequest adRequest = new AdRequest.Builder()
                             .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
