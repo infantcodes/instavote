@@ -1,6 +1,7 @@
 package com.example.jama.selfievselfie;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,8 +70,8 @@ public class Home extends Fragment {
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-    private AdView mAdView;
     int top1, index1;
+    int listP = 10;
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -83,44 +85,6 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.activity_home, container, false);
-
-        AdView adView = new AdView(getActivity());
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-
-        mAdView = (AdView) rootview.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                Toast.makeText(getActivity(), "Can't load feeds", Toast.LENGTH_SHORT).show();
-                mAdView.setVisibility(View.GONE);
-                super.onAdFailedToLoad(i);
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                mAdView.setVisibility(View.VISIBLE);
-                super.onAdLoaded();
-            }
-        });
 
         listView = (ListView) rootview.findViewById(R.id.listView);
 
@@ -161,6 +125,47 @@ public class Home extends Fragment {
 
                 LinearLayout linearLayoutPost = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
+                LinearLayout linearLayoutAds = (LinearLayout) v.findViewById(R.id.adLayout);
+
+                if (position % 3 == 0){
+                    linearLayoutAds.setVisibility(View.VISIBLE);
+
+                    NativeExpressAdView mAdView = (NativeExpressAdView) v.findViewById(R.id.adView);
+                    AdRequest adRequest = new AdRequest.Builder()
+                            .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
+                    mAdView.loadAd(adRequest);
+
+                    /*mAdView.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdClosed() {
+                            super.onAdClosed();
+                        }
+
+                        @Override
+                        public void onAdFailedToLoad(int i) {
+                            Toast.makeText(getActivity(), "Ad Failed To Load", Toast.LENGTH_SHORT).show();
+                            super.onAdFailedToLoad(i);
+                        }
+
+                        @Override
+                        public void onAdLeftApplication() {
+                            super.onAdLeftApplication();
+                        }
+
+                        @Override
+                        public void onAdOpened() {
+                            super.onAdOpened();
+                        }
+
+                        @Override
+                        public void onAdLoaded() {
+                            Toast.makeText(getActivity(), "Ad Loaded", Toast.LENGTH_SHORT).show();
+                            super.onAdLoaded();
+                        }
+                    });*/
+                }else {
+                    linearLayoutAds.setVisibility(View.GONE);
+                }
 
                 if (model.getImage2() != null){
                     linearLayoutPost.setVisibility(View.VISIBLE);
@@ -955,45 +960,22 @@ public class Home extends Fragment {
         };
 
         listView.setAdapter(chatsFirebaseListAdapter);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            int lastVisibleItem = 0;
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (view.getId() == listView.getId()){
-                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-                    if (currentFirstVisibleItem > lastVisibleItem){
-                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-                    }else if (currentFirstVisibleItem < lastVisibleItem) {
-                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-                    }
-
-                    lastVisibleItem = currentFirstVisibleItem;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
 
         //listView.setNestedScrollingEnabled(true);
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         listView.setEmptyView(noPosts);
         setHasOptionsMenu(true);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+
+        //Toast.makeText(getActivity(), ""+savedInstanceState.getString("name"), Toast.LENGTH_SHORT).show();
+
         return rootview;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        String jama = "jama";
-
-        outState.putString("index", jama);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     private void menuOptions(){
@@ -1028,8 +1010,7 @@ public class Home extends Fragment {
         menu.findItem(R.id.action_notification).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getActivity(), Notifiations.class);
-                startActivity(intent);
+                Toast.makeText(getActivity(), ""+top1, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -1057,5 +1038,4 @@ public class Home extends Fragment {
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 }

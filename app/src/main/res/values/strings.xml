@@ -2,7 +2,7 @@
     <string name="app_name">InstaVote</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_main_tab">InstaVote</string>
-    <string name="aduid">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="adUnitId">ca-app-pub-5398188186238374/4625256444</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

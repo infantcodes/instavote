@@ -283,29 +283,6 @@ public class Requests extends Fragment {
         listView.setEmptyView(txtBio);
         setHasOptionsMenu(true);
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            int lastVisibleItem = 0;
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (view.getId() == listView.getId()){
-                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-                    if (currentFirstVisibleItem > lastVisibleItem){
-                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-                    }else if (currentFirstVisibleItem < lastVisibleItem) {
-                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-                    }
-
-                    lastVisibleItem = currentFirstVisibleItem;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
 
         return rootview;

@@ -860,22 +860,38 @@ public class Profile extends Fragment {
                                                         final DatabaseReference deletePost = FirebaseDatabase.getInstance().getReference().child("Posts");
                                                         final DatabaseReference deleteLikes = FirebaseDatabase.getInstance().getReference().child("Likes");
                                                         final DatabaseReference deleteComments = FirebaseDatabase.getInstance().getReference().child("Comments");
+                                                        final DatabaseReference deleteVotes = FirebaseDatabase.getInstance().getReference().child("Votes");
                                                         final StorageReference deleteImage1 = FirebaseStorage.getInstance().getReferenceFromUrl(model.getImage1());
-                                                        deleteImage1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                StorageReference deleteImage2 = FirebaseStorage.getInstance().getReferenceFromUrl(model.getImage2());
-                                                                deleteImage2.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                    @Override
-                                                                    public void onSuccess(Void aVoid) {
-                                                                        deletePost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
-                                                                        deleteLikes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
-                                                                        deleteComments.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
-                                                                        Toast.makeText(getActivity(), "Post Deleted", Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
+                                                        // Todo delete you own side
+                                                        if (model.getImage2() == null){
+                                                            deleteImage1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    deletePost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                    deleteLikes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                    deleteComments.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                    deleteVotes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                    Toast.makeText(getActivity(), "Post Deleted", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                        }else {
+                                                            deleteImage1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    StorageReference deleteImage2 = FirebaseStorage.getInstance().getReferenceFromUrl(model.getImage2());
+                                                                    deleteImage2.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            deletePost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                            deleteLikes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                            deleteComments.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                            deleteVotes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                            Toast.makeText(getActivity(), "Post Deleted", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
                                                         dialog.dismiss();
                                                     }
                                                 });
@@ -1046,53 +1062,9 @@ public class Profile extends Fragment {
         noPosts.setVisibility(View.GONE);
         setHasOptionsMenu(true);
 
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
-            index1 = savedInstanceState.getInt("index", -1);
-            top1 = savedInstanceState.getInt("top", 0);
-        }
-        if(index1 != -1){
-            listView.setSelectionFromTop(index1, top1);
-        }
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            int lastVisibleItem = 0;
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (view.getId() == listView.getId()){
-                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-                    if (currentFirstVisibleItem > lastVisibleItem){
-                        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-                    }else if (currentFirstVisibleItem < lastVisibleItem) {
-                        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-                    }
-
-                    lastVisibleItem = currentFirstVisibleItem;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
 
         return rootview;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        int index = listView.getFirstVisiblePosition();
-        View view = listView.getChildAt(0);
-        int top = (view == null) ? 0 : view.getTop();
-
-        outState.putInt("index", index);
-        outState.putInt("top", top);
     }
 
     @Override

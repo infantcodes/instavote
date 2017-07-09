@@ -26,7 +26,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout5"
@@ -274,10 +275,10 @@
                         android:id="@+id/imageViewSinglePostImage"
                         android:layout_width="400dp"
                         android:layout_height="200dp"
-                        app:srcCompat="@android:color/darker_gray"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:srcCompat="@android:color/darker_gray" />
 
                     <Button
                         android:id="@+id/buttonSinglePost2"
@@ -389,6 +390,41 @@
                         android:padding="10dp"
                         app:srcCompat="@drawable/ic_more_vert_black_24dp" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/noPostLayout"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutSinglePost"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Post Deleted"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="40sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/textView10"
+                        android:layout_centerHorizontal="true"
+                        app:srcCompat="@drawable/ic_image_black_24dp" />
+                </RelativeLayout>
             </LinearLayout>
 
         </RelativeLayout>

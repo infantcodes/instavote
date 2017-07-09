@@ -48,6 +48,7 @@ public class ViewPendingPosts extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         final DatabaseReference sendPost = databaseReference.child("Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        final DatabaseReference sendAllPost = databaseReference.child("All Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         final DatabaseReference deletePreviousPendingPost = databaseReference.child("Pending Requests").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         //final DatabaseReference mentions = databaseReference.child("Mentions");
 
@@ -99,6 +100,7 @@ public class ViewPendingPosts extends AppCompatActivity {
                 map.put("date", System.currentTimeMillis()/1000);
                 map.put("caption", Caption);
                 sendPost.child(postKey).setValue(map);
+                sendAllPost.child(postKey).setValue(map);
                 //mentions.child(uid).child(postKey).setValue(map);
                 deletePreviousPendingPost.child(postKey).removeValue();
                 finish();
