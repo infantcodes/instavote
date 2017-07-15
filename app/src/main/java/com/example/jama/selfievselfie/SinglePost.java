@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,6 +42,7 @@ import java.util.UUID;
 public class SinglePost extends AppCompatActivity {
 
     ImageView image;
+    TextView textView;
     EditText caption;
     DatabaseReference databaseReference;
     String Username, ProfileImage, ImagePost;
@@ -46,6 +50,7 @@ public class SinglePost extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 1;
     private Uri downloadUri, uri;
     StorageReference storageReference;
+    ProgressBar progressBar;
     private static final int CAMERA_PERMISSION = 3;
 
     @Override
@@ -58,6 +63,10 @@ public class SinglePost extends AppCompatActivity {
         DatabaseReference profileInfo = databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Profile Info");
 
         image = (ImageView) findViewById(R.id.imageViewImagePost);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        textView = (TextView) findViewById(R.id.textView13);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.GONE);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +123,6 @@ public class SinglePost extends AppCompatActivity {
     private void camera() {
         Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(camera, CAMERA_REQUEST_CODE);
-        //dialog.cancel();
     }
 
     @Override
@@ -148,8 +156,8 @@ public class SinglePost extends AppCompatActivity {
                     map.put("uid2", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     allPosts.child(pushKey).setValue(map);
                     post.child(pushKey).setValue(map);
+                    finish();
                 }
-
                 return false;
             }
         });
@@ -165,32 +173,67 @@ public class SinglePost extends AppCompatActivity {
             uri = data.getData();
             CropImage.activity(uri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(16, 9)
                     .start(this);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
 
-                Uri resultUri = result.getUri();
+                final Uri resultUri = result.getUri();
 
-                StorageReference filepath = storageReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child("Photos").child("Posts").child(UUID.randomUUID() + uri.getLastPathSegment());
-                filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        downloadUri = taskSnapshot.getDownloadUrl();
-                        Picasso.with(SinglePost.this).load(downloadUri.toString()).fit().into(image);
-                        ImagePost = downloadUri.toString();
-                        isImageNull = false;
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
+                if (isImageNull == false){
+                    final StorageReference filepath = storageReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Photos").child("Posts").child(UUID.randomUUID() + uri.getLastPathSegment());
+                    StorageReference deletePreviousImage = FirebaseStorage.getInstance().getReferenceFromUrl(downloadUri.toString());
+                    deletePreviousImage.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    downloadUri = taskSnapshot.getDownloadUrl();
+                                    Picasso.with(SinglePost.this).load(downloadUri.toString()).fit().into(image);
+                                    ImagePost = downloadUri.toString();
+                                    isImageNull = false;
+                                    textView.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(SinglePost.this, "Image changed", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SinglePost.this, "Something went wrong, check connection", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SinglePost.this, "Something went wrong, check connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    StorageReference filepath = storageReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Photos").child("Posts").child(UUID.randomUUID() + uri.getLastPathSegment());
+                    filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            downloadUri = taskSnapshot.getDownloadUrl();
+                            Picasso.with(SinglePost.this).load(downloadUri.toString()).fit().into(image);
+                            ImagePost = downloadUri.toString();
+                            isImageNull = false;
+                            textView.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SinglePost.this, "Something went wrong, check connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
             }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
@@ -205,5 +248,46 @@ public class SinglePost extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             camera();
         }
+    }
+
+    private void deleteImage(){
+        if (isImageNull == false){
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setMessage("Discard Post?");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DISCARD",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, int which) {
+                            StorageReference deleteImage = FirebaseStorage.getInstance().getReferenceFromUrl(downloadUri.toString());
+                            deleteImage.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(SinglePost.this, "Post Discarded", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SinglePost.this, "Post could not be discarded," +
+                                            "check connection", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        deleteImage();
     }
 }

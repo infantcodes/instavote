@@ -20,6 +20,7 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1"
+        android:id="@+id/linearLayout3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
@@ -30,7 +31,7 @@
             <ImageView
                 android:id="@+id/imageViewImagePost"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 app:srcCompat="@color/colorPrimary" />
 
             <EditText
@@ -45,4 +46,30 @@
                 android:inputType="textPersonName" />
         </RelativeLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="114dp"
+        android:text="Click To Add Image"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView13"
+        android:layout_alignEnd="@+id/linearLayout3"
+        android:layout_alignLeft="@+id/linearLayout3"
+        android:layout_alignRight="@+id/linearLayout3"
+        android:layout_alignStart="@+id/linearLayout3"
+        android:layout_marginBottom="41dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:indeterminateTint="@android:color/background_light" />
 </RelativeLayout>

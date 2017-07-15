@@ -125,9 +125,10 @@ public class Home extends Fragment {
 
                 LinearLayout linearLayoutPost = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
-                LinearLayout linearLayoutAds = (LinearLayout) v.findViewById(R.id.adLayout);
+                final RelativeLayout linearLayoutAds = (RelativeLayout) v.findViewById(R.id.adLayout);
+                linearLayoutAds.setVisibility(View.GONE);
 
-                if (position % 3 == 0){
+                if (position % 3 == 1){
                     linearLayoutAds.setVisibility(View.VISIBLE);
 
                     NativeExpressAdView mAdView = (NativeExpressAdView) v.findViewById(R.id.adView);
@@ -135,7 +136,7 @@ public class Home extends Fragment {
                             .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
                     mAdView.loadAd(adRequest);
 
-                    /*mAdView.setAdListener(new AdListener() {
+                    mAdView.setAdListener(new AdListener() {
                         @Override
                         public void onAdClosed() {
                             super.onAdClosed();
@@ -143,7 +144,7 @@ public class Home extends Fragment {
 
                         @Override
                         public void onAdFailedToLoad(int i) {
-                            Toast.makeText(getActivity(), "Ad Failed To Load", Toast.LENGTH_SHORT).show();
+                            linearLayoutAds.setVisibility(View.GONE);
                             super.onAdFailedToLoad(i);
                         }
 
@@ -159,12 +160,10 @@ public class Home extends Fragment {
 
                         @Override
                         public void onAdLoaded() {
-                            Toast.makeText(getActivity(), "Ad Loaded", Toast.LENGTH_SHORT).show();
+                            linearLayoutAds.setVisibility(View.VISIBLE);
                             super.onAdLoaded();
                         }
-                    });*/
-                }else {
-                    linearLayoutAds.setVisibility(View.GONE);
+                    });
                 }
 
                 if (model.getImage2() != null){
@@ -625,7 +624,7 @@ public class Home extends Fragment {
                         }
                     });
                     final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
+                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().centerCrop()
                             .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
                         @Override
                         public void onSuccess() {

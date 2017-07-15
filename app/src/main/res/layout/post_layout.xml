@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:paddingBottom="5dp"
         android:paddingTop="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -258,12 +258,12 @@
 
             <ImageView
                 android:id="@+id/imageViewSinglePostImage"
-                srcCompat="@android:color/black"
-                android:layout_width="400dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                app:srcCompat="@android:color/darker_gray" />
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside" />
 
             <Button
                 android:id="@+id/buttonSinglePost2"
@@ -375,7 +375,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/adLayout"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
@@ -385,16 +385,25 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.google.android.gms.ads.NativeExpressAdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView"
-            android:layout_width="match_parent"
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            ads:adSize="280x250"
-            ads:adUnitId="@string/adUnitId"></com.google.android.gms.ads.NativeExpressAdView>
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="7dp">
 
-
-    </LinearLayout>
+            <com.google.android.gms.ads.NativeExpressAdView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="280x250"
+                app:adUnitId="@string/adUnitId"></com.google.android.gms.ads.NativeExpressAdView>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
 
 </RelativeLayout>

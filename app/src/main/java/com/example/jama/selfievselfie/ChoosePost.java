@@ -43,6 +43,14 @@ public class ChoosePost extends Fragment {
             }
         });
 
+        twoPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TwoPosts.class);
+                startActivity(intent);
+            }
+        });
+
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
 
         return rootview;

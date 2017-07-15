@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.example.jama.selfievselfie.model.Getters;
 import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -530,6 +532,11 @@ public class Profile extends Fragment {
                                                                     }
                                                                 });
                                                             }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(getActivity(), "Discard not successfull, check connection", Toast.LENGTH_SHORT).show();
+                                                            }
                                                         });
                                                         dialog.dismiss();
                                                     }
@@ -858,16 +865,18 @@ public class Profile extends Fragment {
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         final DatabaseReference deletePost = FirebaseDatabase.getInstance().getReference().child("Posts");
+                                                        final DatabaseReference deleteAllPost = FirebaseDatabase.getInstance().getReference().child("All Posts");
                                                         final DatabaseReference deleteLikes = FirebaseDatabase.getInstance().getReference().child("Likes");
                                                         final DatabaseReference deleteComments = FirebaseDatabase.getInstance().getReference().child("Comments");
                                                         final DatabaseReference deleteVotes = FirebaseDatabase.getInstance().getReference().child("Votes");
                                                         final StorageReference deleteImage1 = FirebaseStorage.getInstance().getReferenceFromUrl(model.getImage1());
-                                                        // Todo delete you own side
+
                                                         if (model.getImage2() == null){
                                                             deleteImage1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                 @Override
                                                                 public void onSuccess(Void aVoid) {
                                                                     deletePost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                    deleteAllPost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                     deleteLikes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                     deleteComments.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                     deleteVotes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
@@ -883,6 +892,7 @@ public class Profile extends Fragment {
                                                                         @Override
                                                                         public void onSuccess(Void aVoid) {
                                                                             deletePost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                            deleteAllPost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                             deleteLikes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                             deleteComments.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                             deleteVotes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
