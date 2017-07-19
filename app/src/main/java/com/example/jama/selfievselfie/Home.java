@@ -124,6 +124,7 @@ public class Home extends Fragment {
             protected void populateView(final View v, final Getters model, int position) {
 
                 LinearLayout linearLayoutPost = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
+                LinearLayout linearLayoutTextOnly = (LinearLayout) v.findViewById(R.id.linearLayoutTextOnly);
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
                 final RelativeLayout linearLayoutAds = (RelativeLayout) v.findViewById(R.id.adLayout);
                 linearLayoutAds.setVisibility(View.GONE);
@@ -136,7 +137,7 @@ public class Home extends Fragment {
                             .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
                     mAdView.loadAd(adRequest);
 
-                    mAdView.setAdListener(new AdListener() {
+                    /*mAdView.setAdListener(new AdListener() {
                         @Override
                         public void onAdClosed() {
                             super.onAdClosed();
@@ -163,12 +164,13 @@ public class Home extends Fragment {
                             linearLayoutAds.setVisibility(View.VISIBLE);
                             super.onAdLoaded();
                         }
-                    });
+                    });*/
                 }
 
                 if (model.getImage2() != null){
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
+                    linearLayoutTextOnly.setVisibility(View.GONE);
                     final String postKey = getRef(position).getKey();
                     final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
                     profileImage1.setOnClickListener(new View.OnClickListener() {
@@ -597,363 +599,1100 @@ public class Home extends Fragment {
 
                     // }
                 }else {
-                    linearLayoutPost.setVisibility(View.GONE);
-                    linearLayoutSinglePost.setVisibility(View.VISIBLE);
-                    final String postKey = getRef(position).getKey();
-                    final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
-                    profileImage1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), UserProfile.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("key", model.getUid2());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    if (model.getImage1() != null){
+                        linearLayoutPost.setVisibility(View.GONE);
+                        linearLayoutSinglePost.setVisibility(View.VISIBLE);
+                        linearLayoutTextOnly.setVisibility(View.GONE);
+                        final String postKey = getRef(position).getKey();
+                        final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
+                        profileImage1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), UserProfile.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getUid2());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                        Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                                .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
+                            @Override
+                            public void onSuccess() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                        }
-                    });
-                    final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().centerCrop()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                            @Override
+                            public void onError() {
+                                Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                            }
+                        });
+                        final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
+                        Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().centerCrop()
+                                .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
+                            @Override
+                            public void onSuccess() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
-                        }
-                    });
-                    TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameSinglePost);
-                    username1.setText(model.getUsername2());
-                    final ImageView imageViewLike = (ImageView) v.findViewById(R.id.imageViewLikeSinglePost);
-                    final ImageView imageViewShare = (ImageView) v.findViewById(R.id.imageViewShareSinglePost);
-                    final ImageView imageViewOptions = (ImageView) v.findViewById(R.id.imageViewOptionsSinglePost);
-                    final ImageView imageViewComment = (ImageView) v.findViewById(R.id.imageViewCommentSinglePost);
-                    final DatabaseReference Likes = FirebaseDatabase.getInstance().getReference().child("Likes");
-                    final DatabaseReference Comments = FirebaseDatabase.getInstance().getReference().child("Comments");
-                    final DatabaseReference Notification = FirebaseDatabase.getInstance().getReference().child("Notification");
+                            @Override
+                            public void onError() {
+                                Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                            }
+                        });
+                        TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameSinglePost);
+                        username1.setText(model.getUsername2());
+                        final ImageView imageViewLike = (ImageView) v.findViewById(R.id.imageViewLikeSinglePost);
+                        final ImageView imageViewShare = (ImageView) v.findViewById(R.id.imageViewShareSinglePost);
+                        final ImageView imageViewOptions = (ImageView) v.findViewById(R.id.imageViewOptionsSinglePost);
+                        final ImageView imageViewComment = (ImageView) v.findViewById(R.id.imageViewCommentSinglePost);
+                        final DatabaseReference Likes = FirebaseDatabase.getInstance().getReference().child("Likes");
+                        final DatabaseReference Comments = FirebaseDatabase.getInstance().getReference().child("Comments");
+                        final DatabaseReference Notification = FirebaseDatabase.getInstance().getReference().child("Notification");
 
-                    //TIME*********************************
-                    TextView date = (TextView) v.findViewById(R.id.textViewSinglePostDate);
-                    long time = model.getDate();
-                    long now  = System.currentTimeMillis()/1000;
-                    long diff = now-time;
-                    if (diff < MINUTE_MILLIS) {
-                        date.setText("just now");
-                    } else if (diff < 2 * MINUTE_MILLIS) {
-                        date.setText("a minute ago");
-                    } else if (diff < 50 * MINUTE_MILLIS) {
-                        date.setText(diff / MINUTE_MILLIS + " minutes ago");
-                    } else if (diff < 90 * MINUTE_MILLIS) {
-                        date.setText("an hour ago");
-                    } else if (diff < 24 * HOUR_MILLIS) {
-                        date.setText(diff / HOUR_MILLIS + " hours ago");
-                    } else if (diff < 48 * HOUR_MILLIS) {
-                        date.setText("yesterday");
-                    } else {
-                        date.setText(diff / DAY_MILLIS + " days ago");
-                    }
-                    //**************************************
-
-                    TextView caption = (TextView) v.findViewById(R.id.textViewSinglePostCaption);
-
-                    for (; position < getCount(); position++) {
-                        if (model.getCaption() == null || model.getCaption().equals("")) {
-                            caption.setVisibility(View.GONE);
+                        //TIME*********************************
+                        TextView date = (TextView) v.findViewById(R.id.textViewSinglePostDate);
+                        long time = model.getDate();
+                        long now  = System.currentTimeMillis()/1000;
+                        long diff = now-time;
+                        if (diff < MINUTE_MILLIS) {
+                            date.setText("just now");
+                        } else if (diff < 2 * MINUTE_MILLIS) {
+                            date.setText("a minute ago");
+                        } else if (diff < 50 * MINUTE_MILLIS) {
+                            date.setText(diff / MINUTE_MILLIS + " minutes ago");
+                        } else if (diff < 90 * MINUTE_MILLIS) {
+                            date.setText("an hour ago");
+                        } else if (diff < 24 * HOUR_MILLIS) {
+                            date.setText(diff / HOUR_MILLIS + " hours ago");
+                        } else if (diff < 48 * HOUR_MILLIS) {
+                            date.setText("yesterday");
                         } else {
-                            caption.setText(model.getUsername2() + ": " + model.getCaption());
+                            date.setText(diff / DAY_MILLIS + " days ago");
                         }
+                        //**************************************
+
+                        TextView caption = (TextView) v.findViewById(R.id.textViewSinglePostCaption);
+
+                        for (; position < getCount(); position++) {
+                            if (model.getCaption() == null || model.getCaption().equals("")) {
+                                caption.setVisibility(View.GONE);
+                            } else {
+                                caption.setText(model.getUsername2() + ": " + model.getCaption());
+                            }
+                        }
+
+                        imageViewComment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent comment = new Intent(getActivity(), Comments.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", postKey);
+                                bundle.putString("uid", model.getUid2());
+                                comment.putExtras(bundle);
+                                startActivity(comment);
+                            }
+                        });
+
+                        //GET THE NUMBER OF VOTES
+                        Comments.child(model.getUid2()).child(model.getPushKey()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String commentCount = String.valueOf(dataSnapshot.getChildrenCount());
+                                TextView comments = (TextView) v.findViewById(R.id.textViewSimglePostComments);
+                                comments.setText("View All " + commentCount + " Comments");
+                                comments.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent comments = new Intent(getActivity(), com.example.jama.selfievselfie.Comments.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("key", model.getPushKey());
+                                        bundle.putString("uid", model.getUid2());
+                                        comments.putExtras(bundle);
+                                        startActivity(comments);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //GET THE NUMBER OF LIKES
+                        Likes.child(model.getUid2()).child(model.getPushKey()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String likeCount = String.valueOf(dataSnapshot.getChildrenCount());
+                                TextView likes = (TextView) v.findViewById(R.id.textViewSinglePostLikes);
+                                likes.setText(likeCount + " Likes");
+                                likes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent likes = new Intent(getActivity(), com.example.jama.selfievselfie.Likes.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("key", model.getPushKey());
+                                        bundle.putString("uid", model.getUid2());
+                                        likes.putExtras(bundle);
+                                        startActivity(likes);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //LIKES TRIGGERS
+                        Likes.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.child(model.getUid2()).child(postKey)
+                                        .hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    imageViewLike.setImageResource(R.drawable.like_red);
+                                } else {
+                                    imageViewLike.setImageResource(R.drawable.ic_favorite_black_24dp);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //REMOVE OR DELETE LIKES
+                        imageViewLike.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (like == true) {
+                                    Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .removeValue();
+                                    like = false;
+                                } else {
+                                    Map map = new HashMap();
+                                    map.put("uid", mAuth);
+                                    map.put("pushKey", model.getPushKey());
+                                    map.put("username", Username);
+                                    map.put("profileImage", ProfileImage);
+                                    map.put("date", System.currentTimeMillis()/1000);
+                                    map.put("name", Names);
+
+                                    Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(map);
+                                    like = true;
+
+                                    if (!model.getUid2().equals(mAuth)) {
+                                        Map map1 = new HashMap();
+                                        map1.put("username", Username);
+                                        map1.put("message", "liked your post");
+                                        map1.put("profileImage", ProfileImage);
+                                        map1.put("date", System.currentTimeMillis()/1000);
+                                        map1.put("pushKey", model.getPushKey());
+                                        map1.put("uid", mAuth);
+                                        Notification.child(model.getUid2()).push().setValue(map1);
+                                    }
+                                }
+                            }
+                        });
+
+                        username1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), UserProfile.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getUid2());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+
+                        imageViewOptions.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                menuOptions();
+                            }
+                        });
+
+                        imageViewShare.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), Share.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getPushKey());
+                                bundle.putString("uid", model.getUid2());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+
+                        //VOTING ACTIVITY STARTS FROM HERE
+
+                        final DatabaseReference vote1Numbers = votereference.child("Votes").child(model.getUid2()).child(model.getPushKey()).child("Votes 1");
+                        final DatabaseReference vote2Numbers = votereference.child("Votes").child(model.getUid2()).child(model.getPushKey()).child("Votes 2");
+
+                        final Button vote1 = (Button) v.findViewById(R.id.buttonSinglePost1);
+                        final Button vote2 = (Button) v.findViewById(R.id.buttonSinglePost2);
+                        final TextView totalVotes = (TextView) v.findViewById(R.id.textViewSinglePostTotalVotes);
+
+                        vote1Numbers.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                final long vote1no = (dataSnapshot.getChildrenCount());
+                                vote1.setText(vote1no+"");
+
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    vote1.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    vote1.setTextColor(Color.parseColor("#E91E63"));
+
+                                }else {
+                                    vote1.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    vote1.setTextColor(Color.parseColor("#ffffff"));
+                                }
+
+                                vote2Numbers.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        long vote2no = (dataSnapshot.getChildrenCount());
+                                        vote2.setText(vote2no+"");
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        vote2Numbers.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                final long vote2no = (dataSnapshot.getChildrenCount());
+                                vote2.setText(vote2no+"");
+
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    vote2.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    vote2.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    vote2.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    vote2.setTextColor(Color.parseColor("#ffffff"));
+                                }
+
+                                vote1Numbers.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        long vote1no = (dataSnapshot.getChildrenCount());
+                                        vote1.setText(vote1no+"");
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        vote2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference vote2 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("Votes 2");
+                                vote2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                final DatabaseReference vote1 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("Votes 1");
+                                vote1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            vote1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        });
+
+                        vote1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference vote1 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("Votes 1");
+                                vote1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                final DatabaseReference vote2 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("Votes 2");
+                                vote1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            vote2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }else {
+                        linearLayoutPost.setVisibility(View.GONE);
+                        linearLayoutSinglePost.setVisibility(View.GONE);
+                        linearLayoutTextOnly.setVisibility(View.VISIBLE);
+
+                        final String postKey = getRef(position).getKey();
+                        final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImageTextOnly);
+                        profileImage1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), UserProfile.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getUid2());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                        Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
+                                .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+                                Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                            }
+                        });
+
+                        TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameTextOnly);
+                        username1.setText(model.getUsername2());
+                        final ImageView imageViewLike = (ImageView) v.findViewById(R.id.imageViewLikeTextOnly);
+                        final ImageView imageViewShare = (ImageView) v.findViewById(R.id.imageViewShareTextOnly);
+                        final ImageView imageViewOptions = (ImageView) v.findViewById(R.id.imageViewOptionsTextOnly);
+                        final ImageView imageViewComment = (ImageView) v.findViewById(R.id.imageViewCommentTextOnly);
+                        final DatabaseReference Likes = FirebaseDatabase.getInstance().getReference().child("Likes");
+                        final DatabaseReference Comments = FirebaseDatabase.getInstance().getReference().child("Comments");
+                        final DatabaseReference Notification = FirebaseDatabase.getInstance().getReference().child("Notification");
+
+                        //TIME*********************************
+                        TextView date = (TextView) v.findViewById(R.id.textViewTextOnlyDate);
+                        long time = model.getDate();
+                        long now  = System.currentTimeMillis()/1000;
+                        long diff = now-time;
+                        if (diff < MINUTE_MILLIS) {
+                            date.setText("just now");
+                        } else if (diff < 2 * MINUTE_MILLIS) {
+                            date.setText("a minute ago");
+                        } else if (diff < 50 * MINUTE_MILLIS) {
+                            date.setText(diff / MINUTE_MILLIS + " minutes ago");
+                        } else if (diff < 90 * MINUTE_MILLIS) {
+                            date.setText("an hour ago");
+                        } else if (diff < 24 * HOUR_MILLIS) {
+                            date.setText(diff / HOUR_MILLIS + " hours ago");
+                        } else if (diff < 48 * HOUR_MILLIS) {
+                            date.setText("yesterday");
+                        } else {
+                            date.setText(diff / DAY_MILLIS + " days ago");
+                        }
+                        //**************************************
+
+                        TextView caption = (TextView) v.findViewById(R.id.textViewTextOnlyCaption);
+                        caption.setText(model.getCaption());
+
+                        imageViewComment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent comment = new Intent(getActivity(), Comments.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", postKey);
+                                bundle.putString("uid", model.getUid2());
+                                comment.putExtras(bundle);
+                                startActivity(comment);
+                            }
+                        });
+
+                        //GET THE NUMBER OF COMMENTS
+                        Comments.child(model.getUid2()).child(model.getPushKey()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String commentCount = String.valueOf(dataSnapshot.getChildrenCount());
+                                TextView comments = (TextView) v.findViewById(R.id.textViewTextOnlyComments);
+                                comments.setText("View All " + commentCount + " Comments");
+                                comments.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent comments = new Intent(getActivity(), com.example.jama.selfievselfie.Comments.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("key", model.getPushKey());
+                                        bundle.putString("uid", model.getUid2());
+                                        comments.putExtras(bundle);
+                                        startActivity(comments);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //GET THE NUMBER OF LIKES
+                        Likes.child(model.getUid2()).child(model.getPushKey()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String likeCount = String.valueOf(dataSnapshot.getChildrenCount());
+                                TextView likes = (TextView) v.findViewById(R.id.textViewTextOnlyLikes);
+                                likes.setText(likeCount + " Likes");
+                                likes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent likes = new Intent(getActivity(), com.example.jama.selfievselfie.Likes.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("key", model.getPushKey());
+                                        bundle.putString("uid", model.getUid2());
+                                        likes.putExtras(bundle);
+                                        startActivity(likes);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //LIKES TRIGGERS
+                        Likes.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.child(model.getUid2()).child(postKey)
+                                        .hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    imageViewLike.setImageResource(R.drawable.like_red);
+                                } else {
+                                    imageViewLike.setImageResource(R.drawable.ic_favorite_black_24dp);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //REMOVE OR DELETE LIKES
+                        imageViewLike.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (like == true) {
+                                    Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .removeValue();
+                                    like = false;
+                                } else {
+                                    Map map = new HashMap();
+                                    map.put("uid", mAuth);
+                                    map.put("pushKey", model.getPushKey());
+                                    map.put("username", Username);
+                                    map.put("profileImage", ProfileImage);
+                                    map.put("date", System.currentTimeMillis()/1000);
+                                    map.put("name", Names);
+
+                                    Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(map);
+                                    like = true;
+
+                                    if (!model.getUid2().equals(mAuth)) {
+                                        Map map1 = new HashMap();
+                                        map1.put("username", Username);
+                                        map1.put("message", "liked your post");
+                                        map1.put("profileImage", ProfileImage);
+                                        map1.put("date", System.currentTimeMillis()/1000);
+                                        map1.put("pushKey", model.getPushKey());
+                                        map1.put("uid", mAuth);
+                                        Notification.child(model.getUid2()).push().setValue(map1);
+                                    }
+                                }
+                            }
+                        });
+
+                        username1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), UserProfile.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getUid2());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+
+                        imageViewOptions.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                menuOptions();
+                            }
+                        });
+
+                        imageViewShare.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), Share.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getPushKey());
+                                bundle.putString("uid", model.getUid2());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+
+                        //VOTING ACTIVITY STARTS HERE
+
+                        final Button choice1 = (Button) v.findViewById(R.id.buttonTextOnly1);
+                        final Button choice2 = (Button) v.findViewById(R.id.buttonTextOnly2);
+                        final Button choice3 = (Button) v.findViewById(R.id.buttonTextOnly3);
+                        final Button choice4 = (Button) v.findViewById(R.id.buttonTextOnly4);
+                        final Button choice5 = (Button) v.findViewById(R.id.buttonTextOnly5);
+
+                        if (model.getChoice1() == null){
+                            choice1.setVisibility(View.GONE);
+                        }
+                        if (model.getChoice2() == null){
+                            choice2.setVisibility(View.GONE);
+                        }
+                        if (model.getChoice3() == null){
+                            choice3.setVisibility(View.GONE);
+                        }
+                        if (model.getChoice4() == null){
+                            choice4.setVisibility(View.GONE);
+                        }
+                        if (model.getChoice5() == null){
+                            choice5.setVisibility(View.GONE);
+                        }
+
+                        DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(model.getPushKey()).child("option1");
+                        DatabaseReference choiceRef2 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(model.getPushKey()).child("option2");
+                        DatabaseReference choiceRef3 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(model.getPushKey()).child("option3");
+                        DatabaseReference choiceRef4 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(model.getPushKey()).child("option4");
+                        DatabaseReference choiceRef5 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(model.getPushKey()).child("option5");
+
+                        //GET NUMBER OF VOTES
+                        choiceRef1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice1.setText(" "+s+" "+ model.getChoice1());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice2.setText(" "+s+" "+ model.getChoice2());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice3.setText(" "+s+" "+ model.getChoice3());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef4.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice4.setText(" "+s+" "+ model.getChoice4());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef5.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice5.setText(" "+s+" "+ model.getChoice5());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice1.setBackgroundResource(R.color.backGround);
+                                    choice1.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice1.setBackgroundResource(R.color.colorAccent);
+                                    choice1.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice2.setBackgroundResource(R.color.backGround);
+                                    choice2.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice2.setBackgroundResource(R.color.colorAccent);
+                                    choice2.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice3.setBackgroundResource(R.color.backGround);
+                                    choice3.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice3.setBackgroundResource(R.color.colorAccent);
+                                    choice3.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef4.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice4.setBackgroundResource(R.color.backGround);
+                                    choice4.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice4.setBackgroundResource(R.color.colorAccent);
+                                    choice4.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef5.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice5.setBackgroundResource(R.color.backGround);
+                                    choice5.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice5.setBackgroundResource(R.color.colorAccent);
+                                    choice5.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //SET CLICK VOTES
+                        choice1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference refchoice1 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("option1");
+                                refchoice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey());
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference refchoice2 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("option2");
+                                refchoice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey());
+
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference refchoice3 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("option3");
+                                refchoice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey());
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice4.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference refchoice4 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("option4");
+                                refchoice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey());
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice5.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DatabaseReference refchoice5 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey()).child("option5");
+                                refchoice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(model.getUid2()).child(model.getPushKey());
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
                     }
-
-                    imageViewComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent comment = new Intent(getActivity(), Comments.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("key", postKey);
-                            bundle.putString("uid", model.getUid2());
-                            comment.putExtras(bundle);
-                            startActivity(comment);
-                        }
-                    });
-
-                    //GET THE NUMBER OF VOTES
-                    Comments.child(model.getUid2()).child(model.getPushKey()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String commentCount = String.valueOf(dataSnapshot.getChildrenCount());
-                            TextView comments = (TextView) v.findViewById(R.id.textViewSimglePostComments);
-                            comments.setText("View All " + commentCount + " Comments");
-                            comments.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent comments = new Intent(getActivity(), com.example.jama.selfievselfie.Comments.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("key", model.getPushKey());
-                                    bundle.putString("uid", model.getUid2());
-                                    comments.putExtras(bundle);
-                                    startActivity(comments);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    //GET THE NUMBER OF LIKES
-                    Likes.child(model.getUid2()).child(model.getPushKey()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String likeCount = String.valueOf(dataSnapshot.getChildrenCount());
-                            TextView likes = (TextView) v.findViewById(R.id.textViewSinglePostLikes);
-                            likes.setText(likeCount + " Likes");
-                            likes.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent likes = new Intent(getActivity(), com.example.jama.selfievselfie.Likes.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("key", model.getPushKey());
-                                    bundle.putString("uid", model.getUid2());
-                                    likes.putExtras(bundle);
-                                    startActivity(likes);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    //LIKES TRIGGERS
-                    Likes.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.child(model.getUid2()).child(postKey)
-                                    .hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                imageViewLike.setImageResource(R.drawable.like_red);
-                            } else {
-                                imageViewLike.setImageResource(R.drawable.ic_favorite_black_24dp);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    //REMOVE OR DELETE LIKES
-                    imageViewLike.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (like == true) {
-                                Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .removeValue();
-                                like = false;
-                            } else {
-                                Map map = new HashMap();
-                                map.put("uid", mAuth);
-                                map.put("pushKey", model.getPushKey());
-                                map.put("username", Username);
-                                map.put("profileImage", ProfileImage);
-                                map.put("date", System.currentTimeMillis()/1000);
-                                map.put("name", Names);
-
-                                Likes.child(model.getUid2()).child(model.getPushKey()).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(map);
-                                like = true;
-
-                                if (!model.getUid2().equals(mAuth)) {
-                                    Map map1 = new HashMap();
-                                    map1.put("username", Username);
-                                    map1.put("message", "liked your post");
-                                    map1.put("profileImage", ProfileImage);
-                                    map1.put("date", System.currentTimeMillis()/1000);
-                                    map1.put("pushKey", model.getPushKey());
-                                    map1.put("uid", mAuth);
-                                    Notification.child(model.getUid2()).push().setValue(map1);
-                                }
-                            }
-                        }
-                    });
-
-                    username1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), UserProfile.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("key", model.getUid2());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
-
-                    imageViewOptions.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            menuOptions();
-                        }
-                    });
-
-                    imageViewShare.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), Share.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("key", model.getPushKey());
-                            bundle.putString("uid", model.getUid2());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
-
-                    //VOTING ACTIVITY STARTS FROM HERE
-
-                    final DatabaseReference vote1Numbers = votereference.child("Votes").child(model.getUid2()).child(model.getPushKey()).child("Votes 1");
-                    final DatabaseReference vote2Numbers = votereference.child("Votes").child(model.getUid2()).child(model.getPushKey()).child("Votes 2");
-
-                    final Button vote1 = (Button) v.findViewById(R.id.buttonSinglePost1);
-                    final Button vote2 = (Button) v.findViewById(R.id.buttonSinglePost2);
-                    final TextView totalVotes = (TextView) v.findViewById(R.id.textViewSinglePostTotalVotes);
-
-                    vote1Numbers.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            final long vote1no = (dataSnapshot.getChildrenCount());
-                            vote1.setText(vote1no+"");
-
-                            if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                vote1.setBackgroundResource(R.drawable.rounded_corner_white);
-                                vote1.setTextColor(Color.parseColor("#E91E63"));
-
-                            }else {
-                                vote1.setBackgroundResource(R.drawable.rounded_corner_pink);
-                                vote1.setTextColor(Color.parseColor("#ffffff"));
-                            }
-
-                            vote2Numbers.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    long vote2no = (dataSnapshot.getChildrenCount());
-                                    vote2.setText(vote2no+"");
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    vote2Numbers.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            final long vote2no = (dataSnapshot.getChildrenCount());
-                            vote2.setText(vote2no+"");
-
-                            if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                vote2.setBackgroundResource(R.drawable.rounded_corner_white);
-                                vote2.setTextColor(Color.parseColor("#E91E63"));
-                            }else {
-                                vote2.setBackgroundResource(R.drawable.rounded_corner_pink);
-                                vote2.setTextColor(Color.parseColor("#ffffff"));
-                            }
-
-                            vote1Numbers.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    long vote1no = (dataSnapshot.getChildrenCount());
-                                    vote1.setText(vote1no+"");
-
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    vote2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DatabaseReference vote2 = FirebaseDatabase.getInstance().getReference().child("Votes")
-                                    .child(model.getUid2()).child(model.getPushKey()).child("Votes 2");
-                            vote2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
-
-                            final DatabaseReference vote1 = FirebaseDatabase.getInstance().getReference().child("Votes")
-                                    .child(model.getUid2()).child(model.getPushKey()).child("Votes 1");
-                            vote1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                        vote1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                    });
-
-                    vote1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DatabaseReference vote1 = FirebaseDatabase.getInstance().getReference().child("Votes")
-                                    .child(model.getUid2()).child(model.getPushKey()).child("Votes 1");
-                            vote1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
-
-                            final DatabaseReference vote2 = FirebaseDatabase.getInstance().getReference().child("Votes")
-                                    .child(model.getUid2()).child(model.getPushKey()).child("Votes 2");
-                            vote1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                        vote2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                    });
                 }
             }
         };

@@ -7,13 +7,14 @@ package com.example.jama.selfievselfie.model;
 public class Getters {
 
     String message, sender, email, bio, image1, requestMessage, caption,
-            status, pushKey, image2, profileImage2, uid2, username2,username, name, profileImage, uid;
+            status, pushKey, image2, profileImage2, uid2, username2,username, name, profileImage, uid, choice1
+            , choice2, choice3, choice4,choice5;
     long date;
 
     public Getters() {
     }
 
-    public Getters(String message, String sender, String email, String bio, String image1, String requestMessage, String caption, String status, String pushKey, String image2, String profileImage2, String uid2, String username2, String username, String name, String profileImage, String uid, long date) {
+    public Getters(String message, String sender, String email, String bio, String image1, String requestMessage, String caption, String status, String pushKey, String image2, String profileImage2, String uid2, String username2, String username, String name, String profileImage, String uid, String choice1, String choice2, String choice3, String choice4, String choice5, long date) {
         this.message = message;
         this.sender = sender;
         this.email = email;
@@ -31,6 +32,11 @@ public class Getters {
         this.name = name;
         this.profileImage = profileImage;
         this.uid = uid;
+        this.choice1 = choice1;
+        this.choice2 = choice2;
+        this.choice3 = choice3;
+        this.choice4 = choice4;
+        this.choice5 = choice5;
         this.date = date;
     }
 
@@ -104,5 +110,25 @@ public class Getters {
 
     public long getDate() {
         return date;
+    }
+
+    public String getChoice1() {
+        return choice1;
+    }
+
+    public String getChoice2() {
+        return choice2;
+    }
+
+    public String getChoice3() {
+        return choice3;
+    }
+
+    public String getChoice4() {
+        return choice4;
+    }
+
+    public String getChoice5() {
+        return choice5;
     }
 }

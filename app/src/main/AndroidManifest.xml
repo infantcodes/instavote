@@ -110,7 +110,8 @@
             android:label="@string/title_activity_main_tab2" />
         <activity android:name=".SinglePost" />
         <activity android:name=".EditSinglePost" />
-        <activity android:name=".TwoPosts"></activity>
+        <activity android:name=".TwoPosts" />
+        <activity android:name=".TextOnly"></activity>
     </application>
 
 </manifest>
