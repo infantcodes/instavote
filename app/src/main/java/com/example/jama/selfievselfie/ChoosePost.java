@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 public class ChoosePost extends Fragment {
 
-    LinearLayout singlePost, twoPosts, withAFriend, textOnly;
+    LinearLayout singlePost, withAFriend, textOnly;
 
     public static ChoosePost newInstance() {
         ChoosePost fragment = new ChoosePost();
@@ -25,7 +25,6 @@ public class ChoosePost extends Fragment {
 
         singlePost = (LinearLayout) rootview.findViewById(R.id.linearLayoutSinglePost);
         textOnly= (LinearLayout) rootview.findViewById(R.id.linearLayoutTextOnly);
-        twoPosts = (LinearLayout) rootview.findViewById(R.id.linearLayoutTwoPosts);
         withAFriend = (LinearLayout) rootview.findViewById(R.id.linearLayoutWithAFriend);
 
         withAFriend.setOnClickListener(new View.OnClickListener() {
@@ -40,14 +39,6 @@ public class ChoosePost extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SinglePost.class);
-                startActivity(intent);
-            }
-        });
-
-        twoPosts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TwoPosts.class);
                 startActivity(intent);
             }
         });

@@ -1,15 +1,12 @@
 package com.example.jama.selfievselfie;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,10 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,7 +118,7 @@ public class UserProfile extends AppCompatActivity{
                 Bio = map.get("bio");
                 txtBio.setText(Bio);
                 ProfileImage = map.get("profileImage");
-                Picasso.with(UserProfile.this).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4)).centerCrop().into(imageViewProfile);
+                Glide.with(UserProfile.this).load(ProfileImage).bitmapTransform(new CircleTransform(UserProfile.this)).centerCrop().into(imageViewProfile);
                 getSupportActionBar().setTitle(Username);
             }
 
@@ -382,13 +377,13 @@ public class UserProfile extends AppCompatActivity{
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
                     ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
-                    Picasso.with(UserProfile.this).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                    Glide.with(UserProfile.this).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(UserProfile.this)).into(profileImage1);
                     ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
-                    Picasso.with(UserProfile.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
+                    Glide.with(UserProfile.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(UserProfile.this)).into(profileImage3);
                     ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
-                    Picasso.with(UserProfile.this).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                    Glide.with(UserProfile.this).load(model.getImage1()).bitmapTransform(new CircleTransform(UserProfile.this)).into(imageView1);
                     ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
-                    Picasso.with(UserProfile.this).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
+                    Glide.with(UserProfile.this).load(model.getImage2()).bitmapTransform(new CircleTransform(UserProfile.this)).into(imageView2);
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsername1);
                     username1.setText(model.getUsername2());
                     TextView username2 = (TextView) v.findViewById(R.id.textViewUsername2);
@@ -714,9 +709,9 @@ public class UserProfile extends AppCompatActivity{
                     linearLayoutPost.setVisibility(View.GONE);
                     linearLayoutSinglePost.setVisibility(View.VISIBLE);
                     ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImageSinglePost);
-                    Picasso.with(UserProfile.this).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                    Glide.with(UserProfile.this).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(UserProfile.this)).into(profileImage1);
                     ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
-                    Picasso.with(UserProfile.this).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                    Glide.with(UserProfile.this).load(model.getImage1()).bitmapTransform(new CircleTransform(UserProfile.this)).into(imageView1);
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameSinglePost);
                     username1.setText(model.getUsername2());
                     final ImageView imageViewLike = (ImageView) v.findViewById(R.id.imageViewLikeSinglePost);

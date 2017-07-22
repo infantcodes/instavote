@@ -1,7 +1,5 @@
 package com.example.jama.selfievselfie;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,16 +24,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by JAMA on 3/13/2017.
@@ -91,31 +86,10 @@ public class Message extends Fragment {
                 final ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 if (model.getProfileImage() == null){
                     username.setText("Unknown User");
-                    Picasso.with(getContext()).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(R.drawable.download).bitmapTransform(new CircleTransform(getActivity())).into(profileImage);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit().into(profileImage);
-                        }
-                    });
                 }else {
-                    Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4))
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
-                        }
-                    });
+                    Glide.with(getContext()).load(model.getProfileImage()).bitmapTransform(new CircleTransform(getActivity())).into(profileImage);
                 }
 
                 //TIME*********************************

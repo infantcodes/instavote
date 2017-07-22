@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -194,7 +194,7 @@ public class SinglePost extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     downloadUri = taskSnapshot.getDownloadUrl();
-                                    Picasso.with(SinglePost.this).load(downloadUri.toString()).fit().into(image);
+                                    Glide.with(SinglePost.this).load(downloadUri.toString()).into(image);
                                     ImagePost = downloadUri.toString();
                                     isImageNull = false;
                                     textView.setVisibility(View.GONE);
@@ -221,7 +221,7 @@ public class SinglePost extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             downloadUri = taskSnapshot.getDownloadUrl();
-                            Picasso.with(SinglePost.this).load(downloadUri.toString()).fit().into(image);
+                            Glide.with(SinglePost.this).load(downloadUri.toString()).into(image);
                             ImagePost = downloadUri.toString();
                             isImageNull = false;
                             textView.setVisibility(View.GONE);

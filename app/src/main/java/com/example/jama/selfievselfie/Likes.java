@@ -4,20 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.*;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by JAMA on 5/4/2017.
@@ -65,9 +63,9 @@ public class Likes extends AppCompatActivity {
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 if (model.getProfileImage() == null){
                     username.setText("Unknown User");
-                    Picasso.with(Likes.this).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit().into(profileImage);
+                    Glide.with(Likes.this).load(R.drawable.download).transform(new CircleTransform(Likes.this)).into(profileImage);
                 }else {
-                    Picasso.with(Likes.this).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                    Glide.with(Likes.this).load(model.getProfileImage()).transform(new CircleTransform(Likes.this)).into(profileImage);
                 }
 
                 //TIME*********************************

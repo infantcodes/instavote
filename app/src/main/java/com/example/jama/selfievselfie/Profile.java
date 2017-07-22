@@ -1,6 +1,5 @@
 package com.example.jama.selfievselfie;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,8 +25,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,12 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -188,18 +183,9 @@ public class Profile extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map <String, String> map = (Map)dataSnapshot.getValue();
                 ProfileImage = map.get("profileImage");
-                Picasso.with(getContext()).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4))
-                        .networkPolicy(NetworkPolicy.OFFLINE).into(imageViewProfile, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                Glide.with(getContext()).load(ProfileImage).bitmapTransform(new CircleTransform(getActivity()))
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageViewProfile);
 
-                    }
-
-                    @Override
-                    public void onError() {
-                        Picasso.with(getContext()).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4)).into(imageViewProfile);
-                    }
-                });
                 Username = map.get("username");
                 txtUsername.setText(Username.toString());
                 Bio = map.get("bio");
@@ -241,23 +227,14 @@ public class Profile extends Fragment {
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
                 LinearLayout linearLayoutTextOnly = (LinearLayout) v.findViewById(R.id.linearLayoutTextOnly);
 
-                if (model.getImage2() != null){
+                if (model.getUid() != null){
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
                     linearLayoutTextOnly.setVisibility(View.GONE);
                     final ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage1);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                        }
-                    });
                     final ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
                     profileImage3.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -269,44 +246,15 @@ public class Profile extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage3, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getProfileImage()).bitmapTransform(new CircleTransform(getActivity()))
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage3);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
-                        }
-                    });
                     final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getImage1()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView1);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
-                        }
-                    });
                     final ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
-                    Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView2, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getImage2()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView2);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
-                        }
-                    });
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsername1);
                     username1.setText(model.getUsername2());
                     TextView username2 = (TextView) v.findViewById(R.id.textViewUsername2);
@@ -694,7 +642,7 @@ public class Profile extends Fragment {
                         }
                     });
                 }else {
-                    if (model.getImage1() != null){
+                    if (model.getChoice1() == null){
                         linearLayoutPost.setVisibility(View.GONE);
                         linearLayoutSinglePost.setVisibility(View.VISIBLE);
                         linearLayoutTextOnly.setVisibility(View.GONE);
@@ -711,30 +659,11 @@ public class Profile extends Fragment {
                         TextView textViewDate = (TextView) v.findViewById(R.id.textViewSinglePostDate);
                         TextView textViewTotalVotes = (TextView) v.findViewById(R.id.textViewSinglePostTotalVotes);
 
-                        Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                                .networkPolicy(NetworkPolicy.OFFLINE).into(imageViewUsername, new Callback() {
-                            @Override
-                            public void onSuccess() {
+                        Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageViewUsername);
 
-                            }
+                        Glide.with(getContext()).load(model.getImage1()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageViewImage);
 
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageViewUsername);
-                            }
-                        });
-                        Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
-                                .networkPolicy(NetworkPolicy.OFFLINE).into(imageViewImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-
-                            }
-
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageViewImage);
-                            }
-                        });
                         textViewUsername.setText(model.getUsername2());
                         textViewDate.setText(model.getDate()+"");
 
@@ -1062,18 +991,9 @@ public class Profile extends Fragment {
                                 startActivity(intent);
                             }
                         });
-                        Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                                .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
-                            @Override
-                            public void onSuccess() {
+                        Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage1);
 
-                            }
-
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                            }
-                        });
 
                         TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameTextOnly);
                         username1.setText(model.getUsername2());
@@ -1393,6 +1313,96 @@ public class Profile extends Fragment {
                                 long s = (dataSnapshot.getChildrenCount());
                                 //totalVotes1 = s;
                                 choice5.setText(model.getChoice5()+" "+s);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice1.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice1.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice1.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice1.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice2.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice2.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice2.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice2.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice3.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice3.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice3.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice3.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef4.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice4.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice4.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice4.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice4.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef5.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice5.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice5.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice5.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice5.setTextColor(Color.parseColor("#ffffff"));
+                                }
                             }
 
                             @Override

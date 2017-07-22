@@ -22,32 +22,6 @@
         tools:layout_constraintTop_creator="1">
 
         <LinearLayout
-            android:id="@+id/linearLayoutTextOnly"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="@drawable/border_bottom"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="Text Only"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="69dp"
-                android:layout_height="70dp"
-                app:srcCompat="@drawable/text_only" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/linearLayoutSinglePost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,34 +50,29 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayoutTwoPosts"
+            android:id="@+id/linearLayoutTextOnly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayoutSinglePost"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
             android:background="@drawable/border_bottom"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Post two photos to get votes"
+                android:text="Text Only"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="70dp"
+                android:id="@+id/imageView10"
+                android:layout_width="69dp"
                 android:layout_height="70dp"
-                app:srcCompat="@drawable/two_posts" />
+                app:srcCompat="@drawable/text_only" />
         </LinearLayout>
 
         <LinearLayout

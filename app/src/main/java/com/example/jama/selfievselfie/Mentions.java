@@ -12,8 +12,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +91,8 @@ public class Mentions extends AppCompatActivity {
 
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
                 linearLayoutSinglePost.setVisibility(android.view.View.GONE);
+                LinearLayout lineartwo = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
+                lineartwo.setVisibility(android.view.View.VISIBLE);
 
                 ImageView profileImage1 = (ImageView) v.findViewById(R.id.imageViewProfileImage1);
                 profileImage1.setOnClickListener(new android.view.View.OnClickListener() {
@@ -105,13 +105,13 @@ public class Mentions extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-                Picasso.with(Mentions.this).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
+                Glide.with(Mentions.this).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(Mentions.this)).into(profileImage1);
                 ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
-                Picasso.with(Mentions.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
+                Glide.with(Mentions.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(Mentions.this)).into(profileImage3);
                 ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
-                Picasso.with(Mentions.this).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
+                Glide.with(Mentions.this).load(model.getImage1()).into(imageView1);
                 ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
-                Picasso.with(Mentions.this).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
+                Glide.with(Mentions.this).load(model.getImage2()).into(imageView2);
                 TextView username1 = (TextView) v.findViewById(R.id.textViewUsername1);
                 username1.setText(model.getUsername2());
                 TextView username2 = (TextView) v.findViewById(R.id.textViewUsername2);

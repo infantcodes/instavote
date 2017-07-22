@@ -20,8 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,12 +36,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -124,7 +122,7 @@ public class SendRequests extends AppCompatActivity {
                 TextView names = (TextView) v.findViewById(R.id.textViewName);
                 names.setText(model.getName());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
-                Picasso.with(SendRequests.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(profileImage);
+                Glide.with(SendRequests.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(SendRequests.this)).centerCrop().into(profileImage);
 
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -200,7 +198,6 @@ public class SendRequests extends AppCompatActivity {
             uri = data.getData();
             CropImage.activity(uri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(9, 16)
                     .start(this);
         }
 

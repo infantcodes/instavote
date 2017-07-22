@@ -4,11 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
-import android.view.*;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,8 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +95,7 @@ public class PendingRequests extends AppCompatActivity {
                 status.setText(model.getStatus());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 ImageView image1 = (ImageView) v.findViewById(R.id.imageViewimage1);
-                Picasso.with(PendingRequests.this).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(image1);
+                Glide.with(PendingRequests.this).load(model.getImage1()).bitmapTransform(new CircleTransform(PendingRequests.this)).centerCrop().into(image1);
                 image1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -110,7 +107,7 @@ public class PendingRequests extends AppCompatActivity {
                     }
                 });
                 ImageView image2 = (ImageView) v.findViewById(R.id.imageViewimage2);
-                Picasso.with(PendingRequests.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(profileImage);
+                Glide.with(PendingRequests.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(PendingRequests.this)).centerCrop().into(profileImage);
                 Button post = (Button) v.findViewById(R.id.buttonPost);
                 final Button sendReminder = (Button) v.findViewById(R.id.buttonSendReminder);
 
@@ -181,7 +178,7 @@ public class PendingRequests extends AppCompatActivity {
                     if (model.getStatus().equals("Request has been accepted")){
                         //post.setText("POST");
                         sendReminder.setEnabled(false);
-                        Picasso.with(PendingRequests.this).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(image2);
+                        Glide.with(PendingRequests.this).load(model.getImage2()).bitmapTransform(new CircleTransform(PendingRequests.this)).centerCrop().into(image2);
                         image2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

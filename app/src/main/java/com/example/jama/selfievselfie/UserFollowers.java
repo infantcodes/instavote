@@ -13,14 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by JAMA on 3/24/2017.
@@ -95,7 +95,7 @@ public class UserFollowers extends AppCompatActivity {
                 TextView names = (TextView) v.findViewById(R.id.textViewName);
                 names.setText(model.getName());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
-                Picasso.with(getApplicationContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(profileImage);
+                Glide.with(getApplicationContext()).load(model.getProfileImage()).bitmapTransform(new CircleTransform(UserFollowers.this)).centerCrop().into(profileImage);
 
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -1,11 +1,8 @@
 package com.example.jama.selfievselfie;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,8 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +91,7 @@ public class Share extends AppCompatActivity {
                 TextView names = (TextView) v.findViewById(R.id.textViewName);
                 names.setText(model.getName());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
-                Picasso.with(Share.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(profileImage);
+                Glide.with(Share.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(Share.this)).centerCrop().into(profileImage);
 
                 final DatabaseReference notification = FirebaseDatabase.getInstance().getReference().child("Notification")
                         .child(key);

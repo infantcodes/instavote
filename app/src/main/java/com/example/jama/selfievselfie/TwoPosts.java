@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -201,7 +201,7 @@ public class TwoPosts extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         downloadUri1 = taskSnapshot.getDownloadUrl();
-                                        Picasso.with(TwoPosts.this).load(downloadUri1.toString()).fit().into(image1);
+                                        Glide.with(TwoPosts.this).load(downloadUri1.toString()).into(image1);
                                         isImage1Null = false;
                                         progressBar1.setVisibility(View.INVISIBLE);
                                         Toast.makeText(TwoPosts.this, "Image changed", Toast.LENGTH_SHORT).show();
@@ -226,7 +226,7 @@ public class TwoPosts extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 downloadUri1 = taskSnapshot.getDownloadUrl();
-                                Picasso.with(TwoPosts.this).load(downloadUri1.toString()).fit().into(image1);
+                                Glide.with(TwoPosts.this).load(downloadUri1.toString()).into(image1);
                                 isImage1Null = false;
                                 progressBar1.setVisibility(View.INVISIBLE);
                             }
@@ -263,7 +263,7 @@ public class TwoPosts extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         downloadUri2 = taskSnapshot.getDownloadUrl();
-                                        Picasso.with(TwoPosts.this).load(downloadUri2.toString()).fit().into(image2);
+                                        Glide.with(TwoPosts.this).load(downloadUri2.toString()).into(image2);
                                         isImage2Null = false;
                                         progressBar2.setVisibility(View.INVISIBLE);
                                         Toast.makeText(TwoPosts.this, "Image changed", Toast.LENGTH_SHORT).show();
@@ -288,7 +288,7 @@ public class TwoPosts extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 downloadUri2 = taskSnapshot.getDownloadUrl();
-                                Picasso.with(TwoPosts.this).load(downloadUri2.toString()).fit().into(image2);
+                                Glide.with(TwoPosts.this).load(downloadUri2.toString()).into(image2);
                                 isImage2Null = false;
                                 progressBar2.setVisibility(View.INVISIBLE);
                             }

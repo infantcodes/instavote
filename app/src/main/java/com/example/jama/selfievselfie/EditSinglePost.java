@@ -9,10 +9,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 public class EditSinglePost extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class EditSinglePost extends AppCompatActivity {
         Image = bundle.getString("image1");
 
         image = (ImageView) findViewById(R.id.imageViewImagePost);
-        Picasso.with(this).load(Image).fit().into(image);
+        Glide.with(this).load(Image).into(image);
         caption = (EditText) findViewById(R.id.editTextCaption);
         caption.setText(Caption);
 

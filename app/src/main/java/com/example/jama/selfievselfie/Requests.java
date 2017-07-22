@@ -1,6 +1,5 @@
 package com.example.jama.selfievselfie;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,9 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -24,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,31 +29,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -161,31 +148,11 @@ public class Requests extends Fragment {
                         startActivity(intent);
                     }
                 });
-                Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4))
-                        .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                Glide.with(getContext()).load(model.getProfileImage()).bitmapTransform(new CircleTransform(getActivity())).into(profileImage);
 
-                    }
-
-                    @Override
-                    public void onError() {
-                        Picasso.with(getContext()).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
-                    }
-                });
                 final ImageView image = (ImageView) v.findViewById(R.id.imageViewImage);
-                Picasso.with(getContext()).load(model.getImage1()).fit().centerCrop()
-                        .networkPolicy(NetworkPolicy.OFFLINE).into(image, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                Glide.with(getContext()).load(model.getImage1()).centerCrop().into(image);
 
-                    }
-
-                    @Override
-                    public void onError() {
-                        Picasso.with(getContext()).load(model.getImage1()).fit().centerCrop().into(image);
-                    }
-                });
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -335,7 +302,6 @@ public class Requests extends Fragment {
 
             CropImage.activity(uri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(9, 16)
                     .start(getActivity());
         }
 

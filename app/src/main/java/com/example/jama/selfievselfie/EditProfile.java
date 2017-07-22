@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,29 +12,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.Toast;
 
-import com.example.jama.selfievselfie.model.RoundedTransformation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -94,7 +85,7 @@ public class EditProfile extends AppCompatActivity {
                 editTextBio.setText(Bio);
                 editTextUsername.setText(Username);
                 editTextNames.setText(Names);
-                Picasso.with(EditProfile.this).load(ProfileImage).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                Glide.with(EditProfile.this).load(ProfileImage).bitmapTransform(new CircleTransform(EditProfile.this)).into(profileImage);
                 progressDialog.dismiss();
             }
 
@@ -151,7 +142,7 @@ public class EditProfile extends AppCompatActivity {
                         databaseReference.child("Search Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .child("profileImage").setValue(downloadUri.toString());
                         Toast.makeText(EditProfile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                        Picasso.with(EditProfile.this).load(downloadUri.toString()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                        Glide.with(EditProfile.this).load(downloadUri.toString()).bitmapTransform(new CircleTransform(EditProfile.this)).into(profileImage);
                         progressDialog.dismiss();
                     }
                 });

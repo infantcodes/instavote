@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.*;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,13 +12,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by JAMA on 5/30/2017.
@@ -54,7 +53,7 @@ public class BlockedUsers extends AppCompatActivity {
                 TextView name = (TextView) v.findViewById(R.id.textViewName);
                 name.setText(model.getName());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
-                Picasso.with(BlockedUsers.this).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).centerCrop().fit().into(profileImage);
+                Glide.with(BlockedUsers.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(BlockedUsers.this)).centerCrop().into(profileImage);
 
                 Button unblock = (Button) v.findViewById(R.id.buttonUnblock);
                 unblock.setVisibility(View.VISIBLE);

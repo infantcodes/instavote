@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -19,7 +18,6 @@ import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,31 +26,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class MessagingList extends AppCompatActivity {
 
@@ -190,7 +179,7 @@ public class MessagingList extends AppCompatActivity {
                     ImageView image = (ImageView) v.findViewById(R.id.imageViewImage1);
                     if (!(model.getImage1() == null)){
                         image.setVisibility(View.VISIBLE);
-                        Picasso.with(MessagingList.this).load(model.getImage1()).fit().centerCrop().into(image);
+                        Glide.with(MessagingList.this).load(model.getImage1()).centerCrop().into(image);
                     }
                     username.setText("You");
 
@@ -229,14 +218,14 @@ public class MessagingList extends AppCompatActivity {
                     message.setText(model.getMessage());
                     ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                     if (model.getProfileImage() == null) {
-                        Picasso.with(MessagingList.this).load(R.drawable.download).transform(new RoundedTransformation(50, 4)).fit().into(profileImage);
+                        Glide.with(MessagingList.this).load(R.drawable.download).bitmapTransform(new CircleTransform(MessagingList.this)).into(profileImage);
                     } else {
-                        Picasso.with(MessagingList.this).load(model.getProfileImage()).fit().transform(new RoundedTransformation(50, 4)).into(profileImage);
+                        Glide.with(MessagingList.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(MessagingList.this)).into(profileImage);
                     }
                     ImageView image = (ImageView) v.findViewById(R.id.imageViewImage);
                     if (!(model.getImage1() == null)){
                         image.setVisibility(View.VISIBLE);
-                        Picasso.with(MessagingList.this).load(model.getImage1()).fit().centerCrop().into(image);
+                        Glide.with(MessagingList.this).load(model.getImage1()).centerCrop().into(image);
                     }
 
                     //TIME*********************************

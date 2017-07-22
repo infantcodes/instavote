@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jama.selfievselfie.model.RoundedTransformation;
+import com.bumptech.glide.Glide;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,10 +60,10 @@ public class EditPost extends AppCompatActivity {
         Caption.setText(caption);
         Date.setText(date);
 
-        Picasso.with(EditPost.this).load(profileImage1).transform(new RoundedTransformation(50, 4)).fit().into(ProfileImage2);
-        Picasso.with(EditPost.this).load(profileImage2).transform(new RoundedTransformation(50, 4)).fit().into(ProfileImage1);
-        Picasso.with(EditPost.this).load(image1).transform(new RoundedTransformation(50, 4)).fit().into(Image1);
-        Picasso.with(EditPost.this).load(image2).transform(new RoundedTransformation(50, 4)).fit().into(Image2);
+        Glide.with(EditPost.this).load(profileImage1).bitmapTransform(new CircleTransform(EditPost.this)).into(ProfileImage2);
+        Glide.with(EditPost.this).load(profileImage2).bitmapTransform(new CircleTransform(EditPost.this)).into(ProfileImage1);
+        Glide.with(EditPost.this).load(image1).bitmapTransform(new CircleTransform(EditPost.this)).into(Image1);
+        Glide.with(EditPost.this).load(image2).bitmapTransform(new CircleTransform(EditPost.this)).into(Image2);
 
         Image1.setOnClickListener(new android.view.View.OnClickListener() {
             @Override

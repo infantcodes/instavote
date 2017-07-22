@@ -1,24 +1,18 @@
 package com.example.jama.selfievselfie;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,13 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
-import com.example.jama.selfievselfie.model.RoundedTransformation;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -43,12 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,7 +117,7 @@ public class Home extends Fragment {
                 final RelativeLayout linearLayoutAds = (RelativeLayout) v.findViewById(R.id.adLayout);
                 linearLayoutAds.setVisibility(View.GONE);
 
-                if (position % 3 == 1){
+                if (position % 8 == 1){
                     linearLayoutAds.setVisibility(View.VISIBLE);
 
                     NativeExpressAdView mAdView = (NativeExpressAdView) v.findViewById(R.id.adView);
@@ -167,7 +155,7 @@ public class Home extends Fragment {
                     });*/
                 }
 
-                if (model.getImage2() != null){
+                if (model.getUid() != null){
                     linearLayoutPost.setVisibility(View.VISIBLE);
                     linearLayoutSinglePost.setVisibility(View.GONE);
                     linearLayoutTextOnly.setVisibility(View.GONE);
@@ -183,18 +171,9 @@ public class Home extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage1);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                        }
-                    });
                     final ImageView profileImage3 = (ImageView) v.findViewById(R.id.imageViewProfileImage3);
                     profileImage3.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -206,44 +185,15 @@ public class Home extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage3, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getProfileImage()).bitmapTransform(new CircleTransform(getActivity()))
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage3);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getProfileImage()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage3);
-                        }
-                    });
                     final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewImage1);
-                    Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getImage1()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView1);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
-                        }
-                    });
                     final ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewImage2);
-                    Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                            .networkPolicy(NetworkPolicy.OFFLINE).into(imageView2, new Callback() {
-                        @Override
-                        public void onSuccess() {
+                    Glide.with(getContext()).load(model.getImage2()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView2);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(model.getImage2()).transform(new RoundedTransformation(50, 4)).fit().into(imageView2);
-                        }
-                    });
                     TextView username1 = (TextView) v.findViewById(R.id.textViewUsername1);
                     username1.setText(model.getUsername2());
                     TextView username2 = (TextView) v.findViewById(R.id.textViewUsername2);
@@ -599,7 +549,7 @@ public class Home extends Fragment {
 
                     // }
                 }else {
-                    if (model.getImage1() != null){
+                    if (model.getChoice1() == null){
                         linearLayoutPost.setVisibility(View.GONE);
                         linearLayoutSinglePost.setVisibility(View.VISIBLE);
                         linearLayoutTextOnly.setVisibility(View.GONE);
@@ -615,31 +565,13 @@ public class Home extends Fragment {
                                 startActivity(intent);
                             }
                         });
-                        Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                                .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
-                            @Override
-                            public void onSuccess() {
+                        Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage1);
 
-                            }
-
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                            }
-                        });
                         final ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewSinglePostImage);
-                        Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().centerCrop()
-                                .networkPolicy(NetworkPolicy.OFFLINE).into(imageView1, new Callback() {
-                            @Override
-                            public void onSuccess() {
 
-                            }
+                        Glide.with(getContext()).load(model.getImage1()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView1);
 
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(model.getImage1()).transform(new RoundedTransformation(50, 4)).fit().into(imageView1);
-                            }
-                        });
                         TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameSinglePost);
                         username1.setText(model.getUsername2());
                         final ImageView imageViewLike = (ImageView) v.findViewById(R.id.imageViewLikeSinglePost);
@@ -975,18 +907,10 @@ public class Home extends Fragment {
                                 startActivity(intent);
                             }
                         });
-                        Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit()
-                                .networkPolicy(NetworkPolicy.OFFLINE).into(profileImage1, new Callback() {
-                            @Override
-                            public void onSuccess() {
 
-                            }
+                        Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT).into(profileImage1);
 
-                            @Override
-                            public void onError() {
-                                Picasso.with(getContext()).load(model.getProfileImage2()).transform(new RoundedTransformation(50, 4)).fit().into(profileImage1);
-                            }
-                        });
 
                         TextView username1 = (TextView) v.findViewById(R.id.textViewUsernameTextOnly);
                         username1.setText(model.getUsername2());
@@ -1194,15 +1118,15 @@ public class Home extends Fragment {
                             choice5.setVisibility(View.GONE);
                         }
 
-                        DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())
                                 .child(model.getPushKey()).child("option1");
-                        DatabaseReference choiceRef2 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        DatabaseReference choiceRef2 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())
                                 .child(model.getPushKey()).child("option2");
-                        DatabaseReference choiceRef3 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        DatabaseReference choiceRef3 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())
                                 .child(model.getPushKey()).child("option3");
-                        DatabaseReference choiceRef4 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        DatabaseReference choiceRef4 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())
                                 .child(model.getPushKey()).child("option4");
-                        DatabaseReference choiceRef5 = FirebaseDatabase.getInstance().getReference().child("Votes").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        DatabaseReference choiceRef5 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())
                                 .child(model.getPushKey()).child("option5");
 
                         //GET NUMBER OF VOTES
@@ -1280,10 +1204,10 @@ public class Home extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    choice1.setBackgroundResource(R.color.backGround);
+                                    choice1.setBackgroundResource(R.drawable.rounded_corner_white);
                                     choice1.setTextColor(Color.parseColor("#E91E63"));
                                 }else {
-                                    choice1.setBackgroundResource(R.color.colorAccent);
+                                    choice1.setBackgroundResource(R.drawable.rounded_corner_pink);
                                     choice1.setTextColor(Color.parseColor("#ffffff"));
                                 }
                             }
@@ -1298,10 +1222,10 @@ public class Home extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    choice2.setBackgroundResource(R.color.backGround);
+                                    choice2.setBackgroundResource(R.drawable.rounded_corner_white);
                                     choice2.setTextColor(Color.parseColor("#E91E63"));
                                 }else {
-                                    choice2.setBackgroundResource(R.color.colorAccent);
+                                    choice2.setBackgroundResource(R.drawable.rounded_corner_pink);
                                     choice2.setTextColor(Color.parseColor("#ffffff"));
                                 }
                             }
@@ -1316,10 +1240,10 @@ public class Home extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    choice3.setBackgroundResource(R.color.backGround);
+                                    choice3.setBackgroundResource(R.drawable.rounded_corner_white);
                                     choice3.setTextColor(Color.parseColor("#E91E63"));
                                 }else {
-                                    choice3.setBackgroundResource(R.color.colorAccent);
+                                    choice3.setBackgroundResource(R.drawable.rounded_corner_pink);
                                     choice3.setTextColor(Color.parseColor("#ffffff"));
                                 }
                             }
@@ -1334,10 +1258,10 @@ public class Home extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    choice4.setBackgroundResource(R.color.backGround);
+                                    choice4.setBackgroundResource(R.drawable.rounded_corner_white);
                                     choice4.setTextColor(Color.parseColor("#E91E63"));
                                 }else {
-                                    choice4.setBackgroundResource(R.color.colorAccent);
+                                    choice4.setBackgroundResource(R.drawable.rounded_corner_pink);
                                     choice4.setTextColor(Color.parseColor("#ffffff"));
                                 }
                             }
@@ -1352,10 +1276,10 @@ public class Home extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    choice5.setBackgroundResource(R.color.backGround);
+                                    choice5.setBackgroundResource(R.drawable.rounded_corner_white);
                                     choice5.setTextColor(Color.parseColor("#E91E63"));
                                 }else {
-                                    choice5.setBackgroundResource(R.color.colorAccent);
+                                    choice5.setBackgroundResource(R.drawable.rounded_corner_pink);
                                     choice5.setTextColor(Color.parseColor("#ffffff"));
                                 }
                             }

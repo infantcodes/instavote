@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 /**
  * Created by JAMA on 4/16/2017.
@@ -36,7 +36,7 @@ public class View extends Activity {
         getWindow().setLayout((int) (width*.8), (int) (height*.9));
 
         ImageView imageView = (ImageView) findViewById(R.id.imageViewView);
-        Picasso.with(View.this).load(Image).fit().into(imageView);
+        Glide.with(View.this).load(Image).into(imageView);
         imageView.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
