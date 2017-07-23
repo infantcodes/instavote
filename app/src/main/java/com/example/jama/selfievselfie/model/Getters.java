@@ -8,13 +8,13 @@ public class Getters {
 
     String message, sender, email, bio, image1, requestMessage, caption,
             status, pushKey, image2, profileImage2, uid2, username2,username, name, profileImage, uid, choice1
-            , choice2, choice3, choice4,choice5;
+            , choice2, choice3, choice4,choice5, sharedUid;
     long date;
 
     public Getters() {
     }
 
-    public Getters(String message, String sender, String email, String bio, String image1, String requestMessage, String caption, String status, String pushKey, String image2, String profileImage2, String uid2, String username2, String username, String name, String profileImage, String uid, String choice1, String choice2, String choice3, String choice4, String choice5, long date) {
+    public Getters(String message, String sender, String email, String bio, String image1, String requestMessage, String caption, String status, String pushKey, String image2, String profileImage2, String uid2, String username2, String username, String name, String profileImage, String uid, String choice1, String choice2, String choice3, String choice4, String choice5, String sharedUid, long date) {
         this.message = message;
         this.sender = sender;
         this.email = email;
@@ -37,6 +37,7 @@ public class Getters {
         this.choice3 = choice3;
         this.choice4 = choice4;
         this.choice5 = choice5;
+        this.sharedUid = sharedUid;
         this.date = date;
     }
 
@@ -130,5 +131,9 @@ public class Getters {
 
     public String getChoice5() {
         return choice5;
+    }
+
+    public String getSharedUid() {
+        return sharedUid;
     }
 }

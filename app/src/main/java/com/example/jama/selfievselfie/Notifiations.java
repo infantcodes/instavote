@@ -45,10 +45,6 @@ public class Notifiations extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Notifications");
 
-        /*Bundle bundle = getIntent().getExtras();
-        postKey = bundle.getString("key");
-        uid = bundle.getString("uid");*/
-
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Notification")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         listView = (ListView) findViewById(R.id.listView);
@@ -126,6 +122,7 @@ public class Notifiations extends AppCompatActivity {
                             bundle.putString("pushKey", model.getPushKey());
                             bundle.putString("uid", model.getUid());
                             bundle.putString("type", "Commented");
+                            bundle.putString("sharedUid", model.getSharedUid());
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }else if (model.getMessage().substring(0, 5).equals("liked")){
@@ -134,6 +131,7 @@ public class Notifiations extends AppCompatActivity {
                             bundle.putString("pushKey", model.getPushKey());
                             bundle.putString("uid", model.getUid());
                             bundle.putString("type", "Liked");
+                            bundle.putString("sharedUid", model.getSharedUid());
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }else if (model.getMessage().substring(0, 6).equals("shared")){
@@ -142,6 +140,7 @@ public class Notifiations extends AppCompatActivity {
                             bundle.putString("pushKey", model.getPushKey());
                             bundle.putString("uid", model.getUid());
                             bundle.putString("type", "Shared");
+                            bundle.putString("sharedUid", model.getSharedUid());
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }else {

@@ -453,7 +453,6 @@ public class Profile extends Fragment {
                                         bundle.putString("image2", model.getImage2());
                                         bundle.putString("profileImage1", model.getProfileImage());
                                         bundle.putString("profileImage2", model.getProfileImage2());
-                                        bundle.putLong("date", model.getDate());
                                         bundle.putString("caption", model.getCaption());
                                         bundle.putString("pushKey", model.getPushKey());
                                         intent.putExtras(bundle);
@@ -466,7 +465,9 @@ public class Profile extends Fragment {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         final DatabaseReference deletePost = FirebaseDatabase.getInstance().getReference().child("Posts");
                                                         final DatabaseReference deleteLikes = FirebaseDatabase.getInstance().getReference().child("Likes");
+                                                        final DatabaseReference deleteAllPost = FirebaseDatabase.getInstance().getReference().child("All Posts");
                                                         final DatabaseReference deleteComments = FirebaseDatabase.getInstance().getReference().child("Comments");
+                                                        final DatabaseReference deleteVotes = FirebaseDatabase.getInstance().getReference().child("Votes");
                                                         final StorageReference deleteImage1 = FirebaseStorage.getInstance().getReferenceFromUrl(model.getImage1());
                                                         deleteImage1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
@@ -478,6 +479,8 @@ public class Profile extends Fragment {
                                                                         deletePost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                         deleteLikes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                         deleteComments.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                        deleteVotes.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
+                                                                        deleteAllPost.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getPushKey()).removeValue();
                                                                         Toast.makeText(getActivity(), "Post Deleted", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 });
@@ -658,6 +661,13 @@ public class Profile extends Fragment {
                         TextView textViewCaption = (TextView) v.findViewById(R.id.textViewSinglePostCaption);
                         TextView textViewDate = (TextView) v.findViewById(R.id.textViewSinglePostDate);
                         TextView textViewTotalVotes = (TextView) v.findViewById(R.id.textViewSinglePostTotalVotes);
+
+                        if (model.getCaption().equals("")){
+                            textViewCaption.setVisibility(View.GONE);
+                        }else {
+                            textViewCaption.setVisibility(View.VISIBLE);
+                            textViewCaption.setText(model.getUsername2()+": "+model.getCaption());
+                        }
 
                         Glide.with(getContext()).load(model.getProfileImage2()).bitmapTransform(new CircleTransform(getActivity()))
                                 .diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageViewUsername);
@@ -1256,7 +1266,7 @@ public class Profile extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 long s = (dataSnapshot.getChildrenCount());
                                 //totalVotes1 = s;
-                                choice1.setText(model.getChoice1()+" "+s);
+                                choice1.setText(" "+s+" "+ model.getChoice1());
                             }
 
                             @Override
@@ -1270,7 +1280,7 @@ public class Profile extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 long s = (dataSnapshot.getChildrenCount());
                                 //totalVotes1 = s;
-                                choice2.setText(model.getChoice2()+" "+s);
+                                choice2.setText(" "+s+" "+ model.getChoice2());
                             }
 
                             @Override
@@ -1284,7 +1294,7 @@ public class Profile extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 long s = (dataSnapshot.getChildrenCount());
                                 //totalVotes1 = s;
-                                choice3.setText(model.getChoice3()+" "+s);
+                                choice3.setText(" "+s+" "+ model.getChoice3());
                             }
 
                             @Override
@@ -1298,7 +1308,7 @@ public class Profile extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 long s = (dataSnapshot.getChildrenCount());
                                 //totalVotes1 = s;
-                                choice4.setText(model.getChoice4()+" "+s);
+                                choice4.setText(" "+s+" "+ model.getChoice4());
                             }
 
                             @Override
@@ -1312,7 +1322,7 @@ public class Profile extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 long s = (dataSnapshot.getChildrenCount());
                                 //totalVotes1 = s;
-                                choice5.setText(model.getChoice5()+" "+s);
+                                choice5.setText(" "+s+" "+ model.getChoice5());
                             }
 
                             @Override

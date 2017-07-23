@@ -125,34 +125,6 @@ public class Home extends Fragment {
                             .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
                     mAdView.loadAd(adRequest);
 
-                    /*mAdView.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdClosed() {
-                            super.onAdClosed();
-                        }
-
-                        @Override
-                        public void onAdFailedToLoad(int i) {
-                            linearLayoutAds.setVisibility(View.GONE);
-                            super.onAdFailedToLoad(i);
-                        }
-
-                        @Override
-                        public void onAdLeftApplication() {
-                            super.onAdLeftApplication();
-                        }
-
-                        @Override
-                        public void onAdOpened() {
-                            super.onAdOpened();
-                        }
-
-                        @Override
-                        public void onAdLoaded() {
-                            linearLayoutAds.setVisibility(View.VISIBLE);
-                            super.onAdLoaded();
-                        }
-                    });*/
                 }
 
                 if (model.getUid() != null){

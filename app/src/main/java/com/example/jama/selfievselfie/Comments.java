@@ -100,7 +100,7 @@ public class Comments extends AppCompatActivity {
                 TextView comment = (TextView) v.findViewById(R.id.textViewName);
                 comment.setText(model.getMessage());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
-                Glide.with(Comments.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(Comments.this)).centerCrop().into(profileImage);
+                Glide.with(Comments.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(Comments.this)).into(profileImage);
 
                 //TIME*********************************
                 //iuugjbjm

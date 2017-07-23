@@ -31,7 +31,7 @@ import java.util.Map;
 public class ViewPosts extends AppCompatActivity {
 
     DatabaseReference databaseReference, votereference;
-    String postKey, type, date, image1, image2, profileImage, profileImage2, pushKey, uid, uid2, username, username2, caption, mAuth;
+    String postKey, type, date, image1, image2, profileImage, sharedUid, profileImage2, pushKey, uid, uid2, username, username2, caption, mAuth;
     String Pusername;
     String Pimage;
     String Pnames;
@@ -55,6 +55,7 @@ public class ViewPosts extends AppCompatActivity {
         postKey = bundle.getString("pushKey");
         uid = bundle.getString("uid");
         type = bundle.getString("type");
+        sharedUid = bundle.getString("sharedUid");
 
         getSupportActionBar().setTitle(type);
 
@@ -65,7 +66,7 @@ public class ViewPosts extends AppCompatActivity {
         /*DatabaseReference posts = FirebaseDatabase.getInstance().getReference().child("Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(postKey);*/
 
-        final DatabaseReference post = FirebaseDatabase.getInstance().getReference().child("All Posts").child(uid).child(postKey);
+        final DatabaseReference post = FirebaseDatabase.getInstance().getReference().child("All Posts").child(sharedUid).child(postKey);
 
         final DatabaseReference profileInfo = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("Profile Info");
@@ -763,21 +764,35 @@ public class ViewPosts extends AppCompatActivity {
                         linearLayoutPost.setVisibility(android.view.View.GONE);
                         linearLayoutSinglePost.setVisibility(android.view.View.GONE);
                         linearLayoutTextOnly.setVisibility(android.view.View.VISIBLE);
-                        TextView txtcaption = (TextView) findViewById(R.id.textViewSinglePostCaption);
+
+                        TextView txtcaption = (TextView) findViewById(R.id.textViewTextOnlyCaption);
                         if (map.get("caption") == null || map.get("caption").equals("")){
                             txtcaption.setVisibility(android.view.View.GONE);
                         }else {
                             caption = map.get("caption");
                             txtcaption.setText(caption);
                         }
-                        image1 = map.get("image1");
-                        final ImageView imgImage1 = (ImageView) findViewById(R.id.imageViewSinglePostImage);
-                        Glide.with(ViewPosts.this).load(image1).bitmapTransform(new CircleTransform(ViewPosts.this)).into(imgImage1);
+                        final String Choice1, Choice2, Choice3, Choice4, Choice5;
+                        Choice1 = map.get("choice1");
+                        Choice2 = map.get("choice2");
+                        Choice3 = map.get("choice3");
+                        Choice4 = map.get("choice4");
+                        Choice5 = map.get("choice5");
+
+                        /*if (map.get("choice3") == null){
+                            Choice3 = null;
+                        }
+                        if (map.get("choice4") == null){
+                            Choice4 = null;
+                        }
+                        if (map.get("choice5") == null){
+                            Choice5 = null;
+                        }*/
                         username = map.get("username2");
-                        TextView txtusername = (TextView) findViewById(R.id.textViewUsernameSinglePost);
+                        TextView txtusername = (TextView) findViewById(R.id.textViewTextOnlyUsername);
                         txtusername.setText(username);
                         profileImage = map.get("profileImage2");
-                        ImageView imgProfileImage = (ImageView) findViewById(R.id.imageViewProfileImageSinglePost);
+                        ImageView imgProfileImage = (ImageView) findViewById(R.id.imageViewProfileImageTextOnly);
                         Glide.with(ViewPosts.this).load(profileImage).bitmapTransform(new CircleTransform(ViewPosts.this)).into(imgProfileImage);
                         uid2 = map.get("uid2");
                         pushKey = map.get("pushKey");
@@ -793,7 +808,7 @@ public class ViewPosts extends AppCompatActivity {
                         });
 
                         //TIME*********************************
-                        TextView date = (TextView) findViewById(R.id.textViewSinglePostDate);
+                        TextView date = (TextView) findViewById(R.id.textViewTextOnlyDate);
                         //long time = Long.parseLong(map.get("date"));
                         long time = 1497369290;
                         //TODO change time format
@@ -816,11 +831,11 @@ public class ViewPosts extends AppCompatActivity {
                         }
                         //**************************************
 
-                        final ImageView imageViewComment = (ImageView) findViewById(R.id.imageViewCommentSinglePost);
+                        final ImageView imageViewComment = (ImageView) findViewById(R.id.imageViewCommentTextOnly);
                         final DatabaseReference Comments = FirebaseDatabase.getInstance().getReference().child("Comments");
                         final DatabaseReference Likes = FirebaseDatabase.getInstance().getReference().child("Likes");
-                        final ImageView imageViewLike = (ImageView) findViewById(R.id.imageViewLikeSinglePost);
-                        final ImageView imageViewShare = (ImageView) findViewById(R.id.imageViewShareSinglePost);
+                        final ImageView imageViewLike = (ImageView) findViewById(R.id.imageViewLikeTextOnly);
+                        final ImageView imageViewShare = (ImageView) findViewById(R.id.imageViewShareTextOnly);
 
                         imageViewShare.setOnClickListener(new android.view.View.OnClickListener() {
                             @Override
@@ -838,7 +853,7 @@ public class ViewPosts extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 String commentCount = String.valueOf(dataSnapshot.getChildrenCount());
-                                TextView comments = (TextView) findViewById(R.id.textViewSimglePostComments);
+                                TextView comments = (TextView) findViewById(R.id.textViewTextOnlyComments);
                                 comments.setText("View All "+commentCount+" Comments");
                                 comments.setOnClickListener(new android.view.View.OnClickListener() {
                                     @Override
@@ -868,7 +883,7 @@ public class ViewPosts extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         String likeCount = String.valueOf(dataSnapshot.getChildrenCount());
-                                        TextView likes = (TextView) findViewById(R.id.textViewSinglePostLikes);
+                                        TextView likes = (TextView) findViewById(R.id.textViewTextOnlyLikes);
                                         likes.setText(likeCount+" Likes");
                                         likes.setOnClickListener(new android.view.View.OnClickListener() {
                                             @Override
@@ -943,6 +958,528 @@ public class ViewPosts extends AppCompatActivity {
                                 bundle.putString("key", uid2);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
+                            }
+                        });
+
+                        //VOTING ACTIVITY STARTS HERE
+
+                        final Button choice1 = (Button) findViewById(R.id.buttonTextOnly1);
+                        final Button choice2 = (Button) findViewById(R.id.buttonTextOnly2);
+                        final Button choice3 = (Button) findViewById(R.id.buttonTextOnly3);
+                        final Button choice4 = (Button) findViewById(R.id.buttonTextOnly4);
+                        final Button choice5 = (Button) findViewById(R.id.buttonTextOnly5);
+
+                        if (Choice1== null){
+                            choice1.setVisibility(android.view.View.GONE);
+                        }
+                        if (Choice2 == null){
+                            choice2.setVisibility(android.view.View.GONE);
+                        }
+                        if (Choice3 == null){
+                            choice3.setVisibility(android.view.View.GONE);
+                        }
+                        if (Choice4 == null){
+                            choice4.setVisibility(android.view.View.GONE);
+                        }
+                        if (Choice5 == null){
+                            choice5.setVisibility(android.view.View.GONE);
+                        }
+
+                        DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(uid2)
+                                .child(pushKey).child("option1");
+                        DatabaseReference choiceRef2 = FirebaseDatabase.getInstance().getReference().child("Votes").child(uid2)
+                                .child(pushKey).child("option2");
+                        DatabaseReference choiceRef3 = FirebaseDatabase.getInstance().getReference().child("Votes").child(uid2)
+                                .child(pushKey).child("option3");
+                        DatabaseReference choiceRef4 = FirebaseDatabase.getInstance().getReference().child("Votes").child(uid2)
+                                .child(pushKey).child("option4");
+                        DatabaseReference choiceRef5 = FirebaseDatabase.getInstance().getReference().child("Votes").child(uid2)
+                                .child(pushKey).child("option5");
+
+                        //GET NUMBER OF VOTES
+                        choiceRef1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice1.setText(" "+s+" "+ Choice1);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice2.setText(" "+s+" "+ Choice2);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice3.setText(" "+s+" "+ Choice3);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef4.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice4.setText(" "+s+" "+ Choice4);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef5.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long s = (dataSnapshot.getChildrenCount());
+                                //totalVotes1 = s;
+                                choice5.setText(" "+s+" "+ Choice5);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice1.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice1.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice1.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice1.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice2.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice2.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice2.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice2.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice3.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice3.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice3.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice3.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef4.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice4.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice4.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice4.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice4.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        choiceRef5.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    choice5.setBackgroundResource(R.drawable.rounded_corner_white);
+                                    choice5.setTextColor(Color.parseColor("#E91E63"));
+                                }else {
+                                    choice5.setBackgroundResource(R.drawable.rounded_corner_pink);
+                                    choice5.setTextColor(Color.parseColor("#ffffff"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //SET CLICK VOTES
+                        choice1.setOnClickListener(new android.view.View.OnClickListener() {
+                            @Override
+                            public void onClick(android.view.View v) {
+                                DatabaseReference refchoice1 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey).child("option1");
+                                refchoice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey);
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice2.setOnClickListener(new android.view.View.OnClickListener() {
+                            @Override
+                            public void onClick(android.view.View v) {
+                                DatabaseReference refchoice2 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey).child("option2");
+                                refchoice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey);
+
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice3.setOnClickListener(new android.view.View.OnClickListener() {
+                            @Override
+                            public void onClick(android.view.View v) {
+                                DatabaseReference refchoice3 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey).child("option3");
+                                refchoice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey);
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice4.setOnClickListener(new android.view.View.OnClickListener() {
+                            @Override
+                            public void onClick(android.view.View v) {
+                                DatabaseReference refchoice4 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey).child("option4");
+                                refchoice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey);
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+                                final DatabaseReference choice5 = choiceVotes.child("option5");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice5.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        });
+
+                        choice5.setOnClickListener(new android.view.View.OnClickListener() {
+                            @Override
+                            public void onClick(android.view.View v) {
+                                DatabaseReference refchoice5 = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey).child("option5");
+                                refchoice5.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("voted");
+
+                                DatabaseReference choiceVotes = FirebaseDatabase.getInstance().getReference().child("Votes")
+                                        .child(uid2).child(pushKey);
+
+                                final DatabaseReference choice2 = choiceVotes.child("option2");
+                                final DatabaseReference choice3 = choiceVotes.child("option3");
+                                final DatabaseReference choice4 = choiceVotes.child("option4");
+                                final DatabaseReference choice1 = choiceVotes.child("option1");
+
+                                choice2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice3.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice4.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice4.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                choice1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                            choice1.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
                             }
                         });
                     }

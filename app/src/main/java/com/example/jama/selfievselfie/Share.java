@@ -105,6 +105,7 @@ public class Share extends AppCompatActivity {
                         map1.put("date", System.currentTimeMillis()/1000);
                         map1.put("pushKey", postKey);
                         map1.put("uid", mAuth);
+                        map1.put("sharedUid", uid);
                         Toast.makeText(Share.this, "Post Shared", Toast.LENGTH_SHORT).show();
                         notification.push().setValue(map1);
                         finish();

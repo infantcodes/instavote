@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class EditPost extends AppCompatActivity {
 
-    String caption, profileImage1, profileImage2, image1, image2, username1, username2, date, pushKey;
-    TextView Username1, Username2, Date;
+    String caption, profileImage1, profileImage2, image1, image2, username1, username2, pushKey;
+    TextView Username1, Username2;
     ImageView ProfileImage1, ProfileImage2, Image1, Image2;
     EditText Caption;
     DatabaseReference databaseReference;
@@ -43,12 +43,10 @@ public class EditPost extends AppCompatActivity {
         username2 = bundle.getString("username2");
         image1 = bundle.getString("image1");
         image2 = bundle.getString("image2");
-        date = bundle.getString("date");
         pushKey = bundle.getString("pushKey");
 
         Username1 = (TextView) findViewById(R.id.textViewUsername1);
         Username2 = (TextView) findViewById(R.id.textViewUsername2);
-        Date = (TextView) findViewById(R.id.textViewDate);
         Image1 = (ImageView) findViewById(R.id.imageViewImage1);
         Image2 = (ImageView) findViewById(R.id.imageViewImage2);
         ProfileImage1 = (ImageView) findViewById(R.id.imageViewProfileImage1);
@@ -58,12 +56,11 @@ public class EditPost extends AppCompatActivity {
         Username2.setText(username1);
         Username1.setText(username2);
         Caption.setText(caption);
-        Date.setText(date);
 
         Glide.with(EditPost.this).load(profileImage1).bitmapTransform(new CircleTransform(EditPost.this)).into(ProfileImage2);
         Glide.with(EditPost.this).load(profileImage2).bitmapTransform(new CircleTransform(EditPost.this)).into(ProfileImage1);
-        Glide.with(EditPost.this).load(image1).bitmapTransform(new CircleTransform(EditPost.this)).into(Image1);
-        Glide.with(EditPost.this).load(image2).bitmapTransform(new CircleTransform(EditPost.this)).into(Image2);
+        Glide.with(EditPost.this).load(image1).into(Image1);
+        Glide.with(EditPost.this).load(image2).into(Image2);
 
         Image1.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -95,13 +92,15 @@ public class EditPost extends AppCompatActivity {
         menu.findItem(R.id.action_edit_post).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts")
+                DatabaseReference allPosts = FirebaseDatabase.getInstance().getReference().child("All Posts")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                DatabaseReference posts = FirebaseDatabase.getInstance().getReference().child("Posts")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 Caption = (EditText) findViewById(R.id.editTextCaption);
                 String updateCaption = Caption.getText().toString();
-                Map map = new HashMap();
-                map.put("caption", updateCaption);
-                databaseReference.child(pushKey).updateChildren(map);
+
+                allPosts.child(pushKey).child("caption").setValue(updateCaption);
+                posts.child(pushKey).child("caption").setValue(updateCaption);
                 Toast.makeText(EditPost.this, "Post Updated", Toast.LENGTH_SHORT).show();
                 finish();
                 return false;
