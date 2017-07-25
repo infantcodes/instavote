@@ -8,13 +8,13 @@ public class Getters {
 
     String message, sender, email, bio, image1, requestMessage, caption,
             status, pushKey, image2, profileImage2, uid2, username2,username, name, profileImage, uid, choice1
-            , choice2, choice3, choice4,choice5, sharedUid;
+            , choice2, choice3, choice4,choice5, sharedUid, choice1Image, choice2Image, choice3Image, choice4Image, choice5Image;
     long date;
 
     public Getters() {
     }
 
-    public Getters(String message, String sender, String email, String bio, String image1, String requestMessage, String caption, String status, String pushKey, String image2, String profileImage2, String uid2, String username2, String username, String name, String profileImage, String uid, String choice1, String choice2, String choice3, String choice4, String choice5, String sharedUid, long date) {
+    public Getters(String message, String sender, String email, String bio, String image1, String requestMessage, String caption, String status, String pushKey, String image2, String profileImage2, String uid2, String username2, String username, String name, String profileImage, String uid, String choice1, String choice2, String choice3, String choice4, String choice5, String sharedUid, String choice1Image, String choice2Image, String choice3Image, String choice4Image, String choice5Image, long date) {
         this.message = message;
         this.sender = sender;
         this.email = email;
@@ -38,6 +38,11 @@ public class Getters {
         this.choice4 = choice4;
         this.choice5 = choice5;
         this.sharedUid = sharedUid;
+        this.choice1Image = choice1Image;
+        this.choice2Image = choice2Image;
+        this.choice3Image = choice3Image;
+        this.choice4Image = choice4Image;
+        this.choice5Image = choice5Image;
         this.date = date;
     }
 
@@ -135,5 +140,25 @@ public class Getters {
 
     public String getSharedUid() {
         return sharedUid;
+    }
+
+    public String getChoice1Image() {
+        return choice1Image;
+    }
+
+    public String getChoice2Image() {
+        return choice2Image;
+    }
+
+    public String getChoice3Image() {
+        return choice3Image;
+    }
+
+    public String getChoice4Image() {
+        return choice4Image;
+    }
+
+    public String getChoice5Image() {
+        return choice5Image;
     }
 }

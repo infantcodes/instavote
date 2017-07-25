@@ -95,7 +95,7 @@ public class PendingRequests extends AppCompatActivity {
                 status.setText(model.getStatus());
                 ImageView profileImage = (ImageView) v.findViewById(R.id.imageViewProfile);
                 ImageView image1 = (ImageView) v.findViewById(R.id.imageViewimage1);
-                Glide.with(PendingRequests.this).load(model.getImage1()).bitmapTransform(new CircleTransform(PendingRequests.this)).centerCrop().into(image1);
+                Glide.with(PendingRequests.this).load(model.getImage1()).bitmapTransform(new CircleTransform(PendingRequests.this)).into(image1);
                 image1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

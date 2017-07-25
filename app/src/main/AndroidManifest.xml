@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SignIn"
+            android:name=".SplashScreen"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -112,6 +112,7 @@
         <activity android:name=".SinglePost" />
         <activity android:name=".EditSinglePost" />
         <activity android:name=".TwoPosts" />
+        <activity android:name=".SignIn" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".TextOnly"></activity>
     </application>
 

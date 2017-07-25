@@ -117,14 +117,13 @@ public class Home extends Fragment {
                 final RelativeLayout linearLayoutAds = (RelativeLayout) v.findViewById(R.id.adLayout);
                 linearLayoutAds.setVisibility(View.GONE);
 
-                if (position % 8 == 1){
+                if (position % 8 == 7){
                     linearLayoutAds.setVisibility(View.VISIBLE);
 
                     NativeExpressAdView mAdView = (NativeExpressAdView) v.findViewById(R.id.adView);
                     AdRequest adRequest = new AdRequest.Builder()
                             .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
                     mAdView.loadAd(adRequest);
-
                 }
 
                 if (model.getUid() != null){
@@ -403,7 +402,7 @@ public class Home extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             final long vote1no = (dataSnapshot.getChildrenCount());
-                            vote1.setText(vote1no+"");
+                            vote1.setText("  "+vote1no);
 
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                                 vote1.setBackgroundResource(R.drawable.rounded_corner_white);
@@ -417,7 +416,7 @@ public class Home extends Fragment {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     long vote2no = (dataSnapshot.getChildrenCount());
-                                    vote2.setText(vote2no+"");
+                                    vote2.setText("  "+vote2no);
                                 }
 
                                 @Override
@@ -437,7 +436,7 @@ public class Home extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             final long vote2no = (dataSnapshot.getChildrenCount());
-                            vote2.setText(vote2no+"");
+                            vote2.setText("  "+vote2no);
 
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                                 vote2.setBackgroundResource(R.drawable.rounded_corner_white);
@@ -451,7 +450,7 @@ public class Home extends Fragment {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     long vote1no = (dataSnapshot.getChildrenCount());
-                                    vote1.setText(vote1no+"");
+                                    vote1.setText("  "+vote1no);
 
 
                                 }
@@ -917,7 +916,12 @@ public class Home extends Fragment {
                         //**************************************
 
                         TextView caption = (TextView) v.findViewById(R.id.textViewTextOnlyCaption);
-                        caption.setText(model.getCaption());
+                        if (model.getCaption() == ""){
+                            caption.setVisibility(View.GONE);
+                        }else {
+                            caption.setVisibility(View.VISIBLE);
+                            caption.setText(model.getCaption());
+                        }
 
                         imageViewComment.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1074,20 +1078,53 @@ public class Home extends Fragment {
                         final Button choice4 = (Button) v.findViewById(R.id.buttonTextOnly4);
                         final Button choice5 = (Button) v.findViewById(R.id.buttonTextOnly5);
 
+                        ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewChoice1);
+                        ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewChoice2);
+                        ImageView imageView3 = (ImageView) v.findViewById(R.id.imageViewChoice3);
+                        ImageView imageView4 = (ImageView) v.findViewById(R.id.imageViewChoice4);
+                        ImageView imageView5 = (ImageView) v.findViewById(R.id.imageViewChoice5);
+
+                        RelativeLayout relativeLayout1 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice1);
+                        RelativeLayout relativeLayout2 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice2);
+                        RelativeLayout relativeLayout3 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice3);
+                        RelativeLayout relativeLayout4 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice4);
+                        RelativeLayout relativeLayout5 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice5);
+
+                        if (model.getChoice1Image() != null){
+                            imageView1.setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(model.getChoice1Image()).into(imageView1);
+                        }
+                        if (model.getChoice2Image() != null){
+                            imageView2.setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(model.getChoice2Image()).into(imageView2);
+                        }
+                        if (model.getChoice3Image() != null){
+                            imageView3.setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(model.getChoice3Image()).into(imageView3);
+                        }
+                        if (model.getChoice4Image() != null){
+                            imageView4.setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(model.getChoice4Image()).into(imageView4);
+                        }
+                        if (model.getChoice5Image() != null){
+                            imageView5.setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(model.getChoice5Image()).into(imageView5);
+                        }
+
                         if (model.getChoice1() == null){
-                            choice1.setVisibility(View.GONE);
+                            relativeLayout1.setVisibility(View.GONE);
                         }
                         if (model.getChoice2() == null){
-                            choice2.setVisibility(View.GONE);
+                            relativeLayout2.setVisibility(View.GONE);
                         }
                         if (model.getChoice3() == null){
-                            choice3.setVisibility(View.GONE);
+                            relativeLayout3.setVisibility(View.GONE);
                         }
                         if (model.getChoice4() == null){
-                            choice4.setVisibility(View.GONE);
+                            relativeLayout4.setVisibility(View.GONE);
                         }
                         if (model.getChoice5() == null){
-                            choice5.setVisibility(View.GONE);
+                            relativeLayout5.setVisibility(View.GONE);
                         }
 
                         DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())

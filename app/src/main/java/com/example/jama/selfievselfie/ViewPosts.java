@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -766,12 +767,20 @@ public class ViewPosts extends AppCompatActivity {
                         linearLayoutTextOnly.setVisibility(android.view.View.VISIBLE);
 
                         TextView txtcaption = (TextView) findViewById(R.id.textViewTextOnlyCaption);
-                        if (map.get("caption") == null || map.get("caption").equals("")){
+                        if (map.get("caption").equals("")){
                             txtcaption.setVisibility(android.view.View.GONE);
                         }else {
                             caption = map.get("caption");
                             txtcaption.setText(caption);
                         }
+
+                        final String ChoiceImage1, ChoiceImage2, ChoiceImage3, ChoiceImage4, ChoiceImage5;
+                        ChoiceImage1 = map.get("choice1Image");
+                        ChoiceImage2 = map.get("choice2Image");
+                        ChoiceImage3 = map.get("choice3Image");
+                        ChoiceImage4 = map.get("choice4Image");
+                        ChoiceImage5 = map.get("choice5Image");
+
                         final String Choice1, Choice2, Choice3, Choice4, Choice5;
                         Choice1 = map.get("choice1");
                         Choice2 = map.get("choice2");
@@ -969,20 +978,53 @@ public class ViewPosts extends AppCompatActivity {
                         final Button choice4 = (Button) findViewById(R.id.buttonTextOnly4);
                         final Button choice5 = (Button) findViewById(R.id.buttonTextOnly5);
 
+                        ImageView imageView1 = (ImageView) findViewById(R.id.imageViewChoice1);
+                        ImageView imageView2 = (ImageView) findViewById(R.id.imageViewChoice2);
+                        ImageView imageView3 = (ImageView) findViewById(R.id.imageViewChoice3);
+                        ImageView imageView4 = (ImageView) findViewById(R.id.imageViewChoice4);
+                        ImageView imageView5 = (ImageView) findViewById(R.id.imageViewChoice5);
+
+                        RelativeLayout relativeLayout1 = (RelativeLayout) findViewById(R.id.relativeLayoutChoice1);
+                        RelativeLayout relativeLayout2 = (RelativeLayout) findViewById(R.id.relativeLayoutChoice2);
+                        RelativeLayout relativeLayout3 = (RelativeLayout) findViewById(R.id.relativeLayoutChoice3);
+                        RelativeLayout relativeLayout4 = (RelativeLayout) findViewById(R.id.relativeLayoutChoice4);
+                        RelativeLayout relativeLayout5 = (RelativeLayout) findViewById(R.id.relativeLayoutChoice5);
+
+                        if (ChoiceImage1 != null){
+                            imageView1.setVisibility(android.view.View.VISIBLE);
+                            Glide.with(ViewPosts.this).load(ChoiceImage1).into(imageView1);
+                        }
+                        if (ChoiceImage2 != null){
+                            imageView2.setVisibility(android.view.View.VISIBLE);
+                            Glide.with(ViewPosts.this).load(ChoiceImage2).into(imageView2);
+                        }
+                        if (ChoiceImage3 != null){
+                            imageView3.setVisibility(android.view.View.VISIBLE);
+                            Glide.with(ViewPosts.this).load(ChoiceImage3).into(imageView3);
+                        }
+                        if (ChoiceImage4 != null){
+                            imageView4.setVisibility(android.view.View.VISIBLE);
+                            Glide.with(ViewPosts.this).load(ChoiceImage4).into(imageView4);
+                        }
+                        if (ChoiceImage5 != null){
+                            imageView5.setVisibility(android.view.View.VISIBLE);
+                            Glide.with(ViewPosts.this).load(ChoiceImage5).into(imageView5);
+                        }
+
                         if (Choice1== null){
-                            choice1.setVisibility(android.view.View.GONE);
+                            relativeLayout1.setVisibility(android.view.View.GONE);
                         }
                         if (Choice2 == null){
-                            choice2.setVisibility(android.view.View.GONE);
+                            relativeLayout2.setVisibility(android.view.View.GONE);
                         }
                         if (Choice3 == null){
-                            choice3.setVisibility(android.view.View.GONE);
+                            relativeLayout3.setVisibility(android.view.View.GONE);
                         }
                         if (Choice4 == null){
-                            choice4.setVisibility(android.view.View.GONE);
+                            relativeLayout4.setVisibility(android.view.View.GONE);
                         }
                         if (Choice5 == null){
-                            choice5.setVisibility(android.view.View.GONE);
+                            relativeLayout5.setVisibility(android.view.View.GONE);
                         }
 
                         DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(uid2)

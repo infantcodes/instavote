@@ -58,7 +58,16 @@
                     android:id="@+id/layoutChoice1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice1"
+                        android:layout_width="50dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption1"
@@ -76,7 +85,15 @@
                     android:id="@+id/layoutChoice2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice2"
+                        android:layout_width="50dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption2"
@@ -94,8 +111,17 @@
                     android:id="@+id/layoutChoice3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal"
                     android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice3"
+                        android:layout_width="50dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption3"
@@ -109,10 +135,9 @@
 
                     <ImageView
                         android:id="@+id/imageViewAddOption3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="0.23"
                         app:srcCompat="@drawable/ic_cancel_black_24dp" />
                 </LinearLayout>
 
@@ -120,8 +145,16 @@
                     android:id="@+id/layoutChoice4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal"
                     android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice4"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption4"
@@ -135,10 +168,9 @@
 
                     <ImageView
                         android:id="@+id/imageViewAddOption4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="0.23"
                         app:srcCompat="@drawable/ic_cancel_black_24dp" />
                 </LinearLayout>
 
@@ -148,6 +180,13 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice5"
+                        android:layout_width="50dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption5"
@@ -161,10 +200,9 @@
 
                     <ImageView
                         android:id="@+id/imageViewAddOption5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="0.23"
                         app:srcCompat="@drawable/ic_cancel_black_24dp" />
                 </LinearLayout>
             </LinearLayout>

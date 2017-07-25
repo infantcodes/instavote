@@ -69,50 +69,149 @@
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/buttonTextOnly1"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutChoice2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Choice 1"
-                    android:textAlignment="viewStart" />
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="3dp">
 
-                <Button
-                    android:id="@+id/buttonTextOnly2"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Choice 2"
-                    android:textAlignment="viewStart" />
+                    <ImageView
+                        android:id="@+id/imageViewChoice2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@color/colorAccent" />
 
-                <Button
-                    android:id="@+id/buttonTextOnly3"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Choice 3"
-                    android:textAlignment="viewStart" />
+                    <Button
+                        android:id="@+id/buttonTextOnly2"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/imageViewChoice2"
+                        android:layout_toRightOf="@+id/imageViewChoice2"
+                        android:text="Choice 2"
+                        android:textAlignment="viewStart" />
+                </RelativeLayout>
 
-                <Button
-                    android:id="@+id/buttonTextOnly4"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutChoice5"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Choice 4"
-                    android:textAlignment="viewStart" />
+                    android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/buttonTextOnly5"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    <ImageView
+                        android:id="@+id/imageViewChoice5"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@color/colorAccent" />
+
+                    <Button
+                        android:id="@+id/buttonTextOnly5"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/imageViewChoice5"
+                        android:layout_toRightOf="@+id/imageViewChoice5"
+                        android:text="Choice 5"
+                        android:textAlignment="viewStart" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutChoice4"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Choice 5"
-                    android:textAlignment="viewStart" />
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="3dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice4"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@color/colorAccent" />
+
+                    <Button
+                        android:id="@+id/buttonTextOnly4"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/imageViewChoice4"
+                        android:layout_toRightOf="@+id/imageViewChoice4"
+                        android:text="Choice 4"
+                        android:textAlignment="viewStart" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutChoice1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="3dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@color/colorAccent" />
+
+                    <Button
+                        android:id="@+id/buttonTextOnly1"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/imageViewChoice1"
+                        android:layout_toRightOf="@+id/imageViewChoice1"
+                        android:text="Choice 1"
+                        android:textAlignment="viewStart" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutChoice3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="3dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewChoice3"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@color/colorAccent" />
+
+                    <Button
+                        android:id="@+id/buttonTextOnly3"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/imageViewChoice3"
+                        android:layout_toRightOf="@+id/imageViewChoice3"
+                        android:text="Choice 3"
+                        android:textAlignment="viewStart" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

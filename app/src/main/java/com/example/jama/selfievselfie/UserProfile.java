@@ -1192,20 +1192,53 @@ public class UserProfile extends AppCompatActivity{
                         final Button choice4 = (Button) v.findViewById(R.id.buttonTextOnly4);
                         final Button choice5 = (Button) v.findViewById(R.id.buttonTextOnly5);
 
+                        ImageView imageView1 = (ImageView) v.findViewById(R.id.imageViewChoice1);
+                        ImageView imageView2 = (ImageView) v.findViewById(R.id.imageViewChoice2);
+                        ImageView imageView3 = (ImageView) v.findViewById(R.id.imageViewChoice3);
+                        ImageView imageView4 = (ImageView) v.findViewById(R.id.imageViewChoice4);
+                        ImageView imageView5 = (ImageView) v.findViewById(R.id.imageViewChoice5);
+
+                        RelativeLayout relativeLayout1 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice1);
+                        RelativeLayout relativeLayout2 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice2);
+                        RelativeLayout relativeLayout3 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice3);
+                        RelativeLayout relativeLayout4 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice4);
+                        RelativeLayout relativeLayout5 = (RelativeLayout) v.findViewById(R.id.relativeLayoutChoice5);
+
+                        if (model.getChoice1Image() != null){
+                            imageView1.setVisibility(View.VISIBLE);
+                            Glide.with(UserProfile.this).load(model.getChoice1Image()).into(imageView1);
+                        }
+                        if (model.getChoice2Image() != null){
+                            imageView2.setVisibility(View.VISIBLE);
+                            Glide.with(UserProfile.this).load(model.getChoice2Image()).into(imageView2);
+                        }
+                        if (model.getChoice3Image() != null){
+                            imageView3.setVisibility(View.VISIBLE);
+                            Glide.with(UserProfile.this).load(model.getChoice3Image()).into(imageView3);
+                        }
+                        if (model.getChoice4Image() != null){
+                            imageView4.setVisibility(View.VISIBLE);
+                            Glide.with(UserProfile.this).load(model.getChoice4Image()).into(imageView4);
+                        }
+                        if (model.getChoice5Image() != null){
+                            imageView5.setVisibility(View.VISIBLE);
+                            Glide.with(UserProfile.this).load(model.getChoice5Image()).into(imageView5);
+                        }
+
                         if (model.getChoice1() == null){
-                            choice1.setVisibility(View.GONE);
+                            relativeLayout1.setVisibility(View.GONE);
                         }
                         if (model.getChoice2() == null){
-                            choice2.setVisibility(View.GONE);
+                            relativeLayout2.setVisibility(View.GONE);
                         }
                         if (model.getChoice3() == null){
-                            choice3.setVisibility(View.GONE);
+                            relativeLayout3.setVisibility(View.GONE);
                         }
                         if (model.getChoice4() == null){
-                            choice4.setVisibility(View.GONE);
+                            relativeLayout4.setVisibility(View.GONE);
                         }
                         if (model.getChoice5() == null){
-                            choice5.setVisibility(View.GONE);
+                            relativeLayout5.setVisibility(View.GONE);
                         }
 
                         DatabaseReference choiceRef1 = FirebaseDatabase.getInstance().getReference().child("Votes").child(model.getUid2())
