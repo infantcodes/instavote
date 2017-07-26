@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main_tab">InstaVote</string>
     <string name="adUnitId">ca-app-pub-5398188186238374/4625256444</string>
+    <string name="adUnitIdBanner">ca-app-pub-5398188186238374/6726559023</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

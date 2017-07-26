@@ -117,7 +117,7 @@ public class Home extends Fragment {
                 final RelativeLayout linearLayoutAds = (RelativeLayout) v.findViewById(R.id.adLayout);
                 linearLayoutAds.setVisibility(View.GONE);
 
-                if (position % 8 == 7){
+                if (position % 8 == 2){
                     linearLayoutAds.setVisibility(View.VISIBLE);
 
                     NativeExpressAdView mAdView = (NativeExpressAdView) v.findViewById(R.id.adView);

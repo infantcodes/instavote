@@ -24,6 +24,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.jama.selfievselfie.model.CircleTransform;
 import com.example.jama.selfievselfie.model.Getters;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,12 +54,18 @@ public class UserProfile extends AppCompatActivity{
     private static final int MINUTE_MILLIS = 1 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    private AdView mAdView;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_profile);
+        setContentView(R.layout.activity_user_profile);
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("0EDB54D55A01A36E44405E501E1E77EA").build();
+        mAdView.loadAd(adRequest);
 
         View header = View.inflate(UserProfile.this, R.layout.profile_detail_layout, null);
         final View noPostFooter = View.inflate(UserProfile.this, R.layout.no_post_layout, null);
@@ -1745,10 +1753,6 @@ public class UserProfile extends AppCompatActivity{
         listView.addHeaderView(header, null, false);
         listView.setAdapter(chatsFirebaseListAdapter);
         listView.setNestedScrollingEnabled(true);
-
-        RelativeLayout noPosts = (RelativeLayout) findViewById(R.id.relativeLayout7);
-        noPosts.setVisibility(View.GONE);
-
     }
 
     @Override
