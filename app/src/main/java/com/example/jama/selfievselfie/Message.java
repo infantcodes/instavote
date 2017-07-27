@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +54,6 @@ public class Message extends Fragment {
     public Message() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview =  inflater.inflate(R.layout.fragment_message, container, false);
@@ -170,7 +168,6 @@ public class Message extends Fragment {
             }
         };
 
-        listView.setNestedScrollingEnabled(true);
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         listView.setEmptyView(noPosts);
         listView.setAdapter(chatsFirebaseListAdapter);

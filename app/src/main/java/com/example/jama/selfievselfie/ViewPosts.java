@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -336,7 +335,6 @@ public class ViewPosts extends AppCompatActivity {
                     DatabaseReference vote2Numbers = votereference.child("Votes").child(uid2).child(postKey).child("Votes 2");
 
                     vote1Numbers.addValueEventListener(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
@@ -355,7 +353,6 @@ public class ViewPosts extends AppCompatActivity {
                     });
 
                     vote2Numbers.addValueEventListener(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
@@ -648,7 +645,6 @@ public class ViewPosts extends AppCompatActivity {
                         DatabaseReference vote2Numbers = votereference.child("Votes").child(uid2).child(postKey).child("Votes 2");
 
                         vote1Numbers.addValueEventListener(new ValueEventListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
@@ -667,7 +663,6 @@ public class ViewPosts extends AppCompatActivity {
                         });
 
                         vote2Numbers.addValueEventListener(new ValueEventListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){

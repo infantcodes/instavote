@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -324,7 +323,6 @@ public class MessagingList extends AppCompatActivity {
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.M)
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 String message = editTextMessage.getText().toString();

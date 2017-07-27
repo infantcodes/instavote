@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -78,7 +77,6 @@ public class Profile extends Fragment {
         postsFirebaseListAdapter = null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview =  inflater.inflate(R.layout.activity_profile, container, false);
@@ -531,7 +529,6 @@ public class Profile extends Fragment {
                     final TextView totalVotes = (TextView) v.findViewById(R.id.textViewTotalVotes);
 
                     vote1Numbers.addValueEventListener(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
@@ -550,7 +547,6 @@ public class Profile extends Fragment {
                     });
 
                     vote2Numbers.addValueEventListener(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
@@ -1809,7 +1805,6 @@ public class Profile extends Fragment {
 
 
         listView.setAdapter(postsFirebaseListAdapter);
-        listView.setNestedScrollingEnabled(true);
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         //listView.setEmptyView(noPosts);
         noPosts.setVisibility(View.GONE);

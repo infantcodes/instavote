@@ -149,11 +149,11 @@ public class Home extends Fragment {
                     profileImage3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), UserProfile.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("key", model.getUid());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+                                Intent intent = new Intent(getActivity(), UserProfile.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getUid());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                         }
                     });
                     Glide.with(getContext()).load(model.getProfileImage()).bitmapTransform(new CircleTransform(getActivity()))
@@ -351,11 +351,11 @@ public class Home extends Fragment {
                     username2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), UserProfile.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("key", model.getUid());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+                                Intent intent = new Intent(getActivity(), UserProfile.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("key", model.getUid());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                         }
                     });
 
@@ -1632,7 +1632,6 @@ public class Home extends Fragment {
 
         listView.setAdapter(chatsFirebaseListAdapter);
 
-        //listView.setNestedScrollingEnabled(true);
         RelativeLayout noPosts = (RelativeLayout) rootview.findViewById(R.id.relativeLayout7);
         listView.setEmptyView(noPosts);
         setHasOptionsMenu(true);

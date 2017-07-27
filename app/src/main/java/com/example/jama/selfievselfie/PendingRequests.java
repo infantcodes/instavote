@@ -107,7 +107,7 @@ public class PendingRequests extends AppCompatActivity {
                     }
                 });
                 ImageView image2 = (ImageView) v.findViewById(R.id.imageViewimage2);
-                Glide.with(PendingRequests.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(PendingRequests.this)).centerCrop().into(profileImage);
+                Glide.with(PendingRequests.this).load(model.getProfileImage()).bitmapTransform(new CircleTransform(PendingRequests.this)).into(profileImage);
                 Button post = (Button) v.findViewById(R.id.buttonPost);
                 final Button sendReminder = (Button) v.findViewById(R.id.buttonSendReminder);
 
@@ -178,7 +178,7 @@ public class PendingRequests extends AppCompatActivity {
                     if (model.getStatus().equals("Request has been accepted")){
                         //post.setText("POST");
                         sendReminder.setEnabled(false);
-                        Glide.with(PendingRequests.this).load(model.getImage2()).bitmapTransform(new CircleTransform(PendingRequests.this)).centerCrop().into(image2);
+                        Glide.with(PendingRequests.this).load(model.getImage2()).bitmapTransform(new CircleTransform(PendingRequests.this)).into(image2);
                         image2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
