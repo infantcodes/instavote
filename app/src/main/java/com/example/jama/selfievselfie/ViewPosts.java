@@ -63,9 +63,6 @@ public class ViewPosts extends AppCompatActivity {
 
         votereference = FirebaseDatabase.getInstance().getReference();
 
-        /*DatabaseReference posts = FirebaseDatabase.getInstance().getReference().child("Posts").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child(postKey);*/
-
         final DatabaseReference post = FirebaseDatabase.getInstance().getReference().child("All Posts").child(sharedUid).child(postKey);
 
         final DatabaseReference profileInfo = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())

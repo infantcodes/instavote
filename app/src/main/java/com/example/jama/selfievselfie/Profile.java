@@ -221,7 +221,7 @@ public class Profile extends Fragment {
             @Override
             protected void populateView(final View v, final Getters model, int position) {
 
-                LinearLayout linearLayoutPost = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
+                final LinearLayout linearLayoutPost = (LinearLayout) v.findViewById(R.id.linearLayoutPost);
                 LinearLayout linearLayoutSinglePost = (LinearLayout) v.findViewById(R.id.linearLayoutSinglePost);
                 LinearLayout linearLayoutTextOnly = (LinearLayout) v.findViewById(R.id.linearLayoutTextOnly);
 
@@ -1174,12 +1174,34 @@ public class Profile extends Fragment {
                             public void onClick(View v) {
                                 String [] items = new String[]{"Edit", "Delete"};
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, items);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (which == 0){
-                                            //TODO edit for text only
+                                            Intent intent = new Intent(getActivity(), EditTextOnly.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("choice1", model.getChoice1());
+                                            bundle.putString("image1", model.getChoice1Image());
+                                            bundle.putString("choice2", model.getChoice2());
+                                            bundle.putString("image2", model.getChoice2Image());
+                                            bundle.putString("pushKey", model.getPushKey());
+                                            bundle.putString("caption", model.getCaption());
+                                            if (model.getChoice3() != null){
+                                                bundle.putString("choice3", model.getChoice3());
+                                                bundle.putString("image3", model.getChoice3Image());
+                                                Toast.makeText(getActivity(), "3 not null", Toast.LENGTH_SHORT).show();
+                                            }
+                                            if (model.getChoice4() != null){
+                                                bundle.putString("choice4", model.getChoice4());
+                                                bundle.putString("image4", model.getChoice4Image());
+                                            }
+                                            if (model.getChoice5() != null){
+                                                bundle.putString("choice5", model.getChoice5());
+                                                bundle.putString("image5", model.getChoice5Image());
+                                            }
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
                                         }else {
                                             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                                             alertDialog.setMessage("Delete Post?");

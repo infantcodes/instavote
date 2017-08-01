@@ -70,6 +70,9 @@
             android:name=".Comments"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".EditTextOnly"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Likes"
             android:screenOrientation="portrait" />
         <activity
@@ -112,8 +115,11 @@
         <activity android:name=".SinglePost" />
         <activity android:name=".EditSinglePost" />
         <activity android:name=".TwoPosts" />
-        <activity android:name=".SignIn" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".TextOnly"></activity>
+        <activity
+            android:name=".SignIn"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TextOnly" />
+        <activity android:name=".InstantSearchActivity"></activity>
     </application>
 
 </manifest>

@@ -10,9 +10,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -49,12 +51,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/editTextCaption"
+                android:layout_below="@+id/switch1"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/layoutChoice1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -63,25 +65,29 @@
 
                     <ImageView
                         android:id="@+id/imageViewChoice1"
-                        android:layout_width="50dp"
-                        android:layout_height="70dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="false"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
                         app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/imageViewChoice1"
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="Choice 1"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:layout_toRightOf="@+id/imageViewChoice1" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/layoutChoice2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -90,24 +96,35 @@
 
                     <ImageView
                         android:id="@+id/imageViewChoice2"
-                        android:layout_width="50dp"
-                        android:layout_height="70dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
                         app:srcCompat="@color/colorAccent" />
 
                     <EditText
                         android:id="@+id/editTextOption2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="Choice 2"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:layout_toRightOf="@+id/imageViewChoice2"
+                        android:layout_toEndOf="@+id/imageViewChoice2" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/layoutChoice3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -115,33 +132,49 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/imageViewChoice3"
+                        android:layout_toRightOf="@+id/imageViewChoice3"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editTextOption3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/imageViewAddOption3"
+                            android:layout_toRightOf="@+id/imageViewChoice3"
+                            android:layout_toStartOf="@+id/imageViewAddOption3"
+                            android:layout_weight="0.67"
+                            android:ems="10"
+                            android:hint="Choice 3"
+                            android:inputType="textPersonName" />
+
+                        <ImageView
+                            android:id="@+id/imageViewAddOption3"
+                            android:layout_width="34dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_cancel_black_24dp" />
+                    </LinearLayout>
+
                     <ImageView
                         android:id="@+id/imageViewChoice3"
-                        android:layout_width="50dp"
-                        android:layout_height="70dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="false"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
                         app:srcCompat="@color/colorAccent" />
 
-                    <EditText
-                        android:id="@+id/editTextOption3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="Choice 3"
-                        android:inputType="textPersonName" />
+                </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/imageViewAddOption3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:srcCompat="@drawable/ic_cancel_black_24dp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/layoutChoice4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -149,63 +182,111 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/imageViewChoice4"
+                        android:layout_toRightOf="@+id/imageViewChoice4"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editTextOption4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/imageViewChoice4"
+                            android:layout_toLeftOf="@+id/imageViewAddOption4"
+                            android:layout_toRightOf="@+id/imageViewChoice4"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Choice 4"
+                            android:inputType="textPersonName" />
+
+                        <ImageView
+                            android:id="@+id/imageViewAddOption4"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_cancel_black_24dp" />
+                    </LinearLayout>
+
                     <ImageView
                         android:id="@+id/imageViewChoice4"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:layout_weight="1"
+                        android:scaleType="centerCrop"
                         app:srcCompat="@color/colorAccent" />
 
-                    <EditText
-                        android:id="@+id/editTextOption4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="Choice 4"
-                        android:inputType="textPersonName" />
+                </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/imageViewAddOption4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:srcCompat="@drawable/ic_cancel_black_24dp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/layoutChoice5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/imageViewChoice5"
+                        android:layout_toRightOf="@+id/imageViewChoice5"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editTextOption5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/imageViewAddOption5"
+                            android:layout_toRightOf="@+id/imageViewChoice5"
+                            android:layout_toStartOf="@+id/imageViewAddOption5"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Choice 5"
+                            android:inputType="textPersonName" />
+
+                        <ImageView
+                            android:id="@+id/imageViewAddOption5"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_cancel_black_24dp" />
+                    </LinearLayout>
+
                     <ImageView
                         android:id="@+id/imageViewChoice5"
-                        android:layout_width="50dp"
-                        android:layout_height="70dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_weight="1"
+                        android:scaleType="centerCrop"
                         app:srcCompat="@color/colorAccent" />
 
-                    <EditText
-                        android:id="@+id/editTextOption5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="Choice 5"
-                        android:inputType="textPersonName" />
-
-                    <ImageView
-                        android:id="@+id/imageViewAddOption5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:srcCompat="@drawable/ic_cancel_black_24dp" />
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/editTextCaption"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/editTextCaption"
+                android:layout_below="@+id/editTextCaption"
+                android:layout_margin="9dp"
+                android:text="Add Photo"
+                android:textSize="18sp" />
         </RelativeLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

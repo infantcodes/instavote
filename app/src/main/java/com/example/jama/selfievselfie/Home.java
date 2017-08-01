@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.jama.selfievselfie.model.CircleTransform;
@@ -36,6 +38,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -1669,10 +1674,11 @@ public class Home extends Fragment {
         menu.findItem(R.id.action_pending_request).setVisible(false);
         menu.findItem(R.id.action_new_message).setVisible(false);
         menu.findItem(R.id.action_Mentions).setVisible(false);
+
         menu.findItem(R.id.add_user).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                Intent intent = new Intent(getActivity(), InstantSearchActivity.class);
                 startActivity(intent);
                 return false;
             }
@@ -1680,7 +1686,22 @@ public class Home extends Fragment {
         menu.findItem(R.id.action_notification).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getActivity(), ""+top1, Toast.LENGTH_SHORT).show();
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                Client client = new Client("CXR8DHPHLZ", "4286571d4648813b172ca5bbd0e63d94");
+
+                Index index = client.getIndex("test");
+                try {
+                    index.addObjectAsync(new JSONObject()
+                            .put("objectID", uid)
+                            .put("name", "Jimmie")
+                            .put("username", "Barninger"), null);
+                    Toast.makeText(getActivity(), "sent to algolia", Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), ""+e, Toast.LENGTH_SHORT).show();
+                }
+
+
                 return false;
             }
         });

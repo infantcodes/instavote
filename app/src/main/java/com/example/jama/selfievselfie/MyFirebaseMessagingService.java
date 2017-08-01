@@ -26,20 +26,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        int notificationID = (int) System.currentTimeMillis();
+
         NotificationCompat.Builder notification1 = new NotificationCompat.Builder(this)
-                .setPriority(Notification.PRIORITY_LOW)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setAutoCancel(true)
-                .setTicker(remoteMessage.getNotification().getBody())
                 .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setDefaults(Notification.DEFAULT_SOUND);
 
-        Intent resultIntent = new Intent(this, MainTab.class);
+        Intent resultIntent = new Intent(this, Notifiations.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainTab.class);
+        stackBuilder.addParentStack(MainTab2.class);
 
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         notification1.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNotificationManager.notify(0, notification1.build());
+        mNotificationManager.notify(1, notification1.build());
 
     }
 }
