@@ -33,14 +33,12 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 public class SignUp extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
     EditText editTextName, editTextPassword, editTextCpassword, editTextUsername, editTextEmail;
     Button signUp;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +48,10 @@ public class SignUp extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Sign Up");
 
-        progressDialog = new ProgressDialog(this);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextCpassword = (EditText) findViewById(R.id.editTextCpassword);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         signUp = (Button) findViewById(R.id.buttonSignUp);
 
         //SIGN UP NEW USER
@@ -67,19 +59,27 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String email = editTextEmail.getText().toString();
-                final String username = editTextUsername.getText().toString();
                 String cPassword = editTextCpassword.getText().toString();
                 final String password = editTextPassword.getText().toString();
                 final String name = editTextName.getText().toString();
                 final  String profileImage = "https://firebasestorage.googleapis.com/v0/b/selfie-v-selfie.appspot.com/o/Default%20Image%2Fdownload.png?alt=media&token=31a245c2-50ba-4a73-8f95-30079ecbd7a2";
                 final  String bio = "";
 
-                if (email.equals("") || password.equals("") || username.equals("") || name.equals("")){
+                if (email.equals("") || password.equals("") || name.equals("")){
                     Toast.makeText(SignUp.this, "Please Fill In All Details", Toast.LENGTH_SHORT).show();
                 }else if (!(cPassword.equals(password))){
                     Toast.makeText(SignUp.this, "Please Confirm Password", Toast.LENGTH_SHORT).show();
                 }else {
-                    progressDialog.setMessage("Loading ....");
+
+                    Intent intent = new Intent(SignUp.this, SignUp2.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("names", name);
+                    bundle.putString("email", email);;
+                    bundle.putString("password", password);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                    /*progressDialog.setMessage("Loading ....");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
 
@@ -111,7 +111,7 @@ public class SignUp extends AppCompatActivity {
                                         progressDialog.dismiss();
                                     }
                                 }
-                            });
+                            });*/
                 }
             }
         });
@@ -132,7 +132,7 @@ public class SignUp extends AppCompatActivity {
                                 public void onClick(View view) {
                                     Intent login = new Intent(SignUp.this, SignIn.class);
                                     startActivity(login);
-                                    progressDialog.dismiss();
+                                    //progressDialog.dismiss();
                                     finish();
                                 }
                             });

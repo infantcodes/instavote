@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.algolia.search.saas.Client;
+import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -1689,18 +1690,7 @@ public class Home extends Fragment {
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 Client client = new Client("CXR8DHPHLZ", "4286571d4648813b172ca5bbd0e63d94");
 
-                Index index = client.getIndex("test");
-                try {
-                    index.addObjectAsync(new JSONObject()
-                            .put("objectID", uid)
-                            .put("name", "Jimmie")
-                            .put("username", "Barninger"), null);
-                    Toast.makeText(getActivity(), "sent to algolia", Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), ""+e, Toast.LENGTH_SHORT).show();
-                }
-
+                Index myIndex = client.initIndex("test");
 
                 return false;
             }
