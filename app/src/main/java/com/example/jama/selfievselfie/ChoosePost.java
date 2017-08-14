@@ -11,8 +11,6 @@ import android.widget.LinearLayout;
 
 public class ChoosePost extends Fragment {
 
-    LinearLayout singlePost, withAFriend, textOnly;
-
     public static ChoosePost newInstance() {
         ChoosePost fragment = new ChoosePost();
         return fragment;
