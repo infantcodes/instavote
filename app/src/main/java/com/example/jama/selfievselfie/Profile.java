@@ -183,7 +183,6 @@ public class Profile extends Fragment {
                 ProfileImage = map.get("profileImage");
                 Glide.with(getContext()).load(ProfileImage).bitmapTransform(new CircleTransform(getActivity()))
                         .diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageViewProfile);
-
                 Username = map.get("username");
                 txtUsername.setText(Username.toString());
                 Bio = map.get("bio");
@@ -1832,7 +1831,7 @@ public class Profile extends Fragment {
         noPosts.setVisibility(View.GONE);
         setHasOptionsMenu(true);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Algoli");
 
         return rootview;
     }
@@ -1871,7 +1870,7 @@ public class Profile extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                Intent intent = new Intent(getActivity(), SignIn.class);
+                Intent intent = new Intent(getActivity(), MainLoginActivity.class);
                 startActivity(intent);
                 FirebaseAuth.getInstance().signOut();
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();

@@ -221,7 +221,7 @@ public class MainTab extends AppCompatActivity {
 
             case R.id.action_Logout:
                 FirebaseAuth.getInstance().signOut();
-                Intent logout = new Intent(MainTab.this, SignIn.class);
+                Intent logout = new Intent(MainTab.this, MainLoginActivity.class);
                 startActivity(logout);
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 DatabaseReference send = FirebaseDatabase.getInstance().getReference();

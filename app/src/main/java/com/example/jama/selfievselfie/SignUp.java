@@ -70,48 +70,14 @@ public class SignUp extends AppCompatActivity {
                 }else if (!(cPassword.equals(password))){
                     Toast.makeText(SignUp.this, "Please Confirm Password", Toast.LENGTH_SHORT).show();
                 }else {
-
                     Intent intent = new Intent(SignUp.this, SignUp2.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("names", name);
                     bundle.putString("email", email);;
                     bundle.putString("password", password);
+                    bundle.putBoolean("boolean", false);
                     intent.putExtras(bundle);
                     startActivity(intent);
-
-                    /*progressDialog.setMessage("Loading ....");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
-
-                    mAuth.createUserWithEmailAndPassword(email,password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (!task.isSuccessful()){
-                                        Toast.makeText(SignUp.this, "Unable To Sign Up", Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
-                                    }else {
-
-                                        Map map = new HashMap();
-                                        map.put("profileImage", profileImage);
-                                        map.put("username", username);
-                                        map.put("name", name);
-                                        map.put("email", email);
-                                        map.put("bio", bio);
-                                        mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Profile Info").setValue(map);
-                                        mDatabase.child("Search Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(map);
-
-                                        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-                                        DatabaseReference send = FirebaseDatabase.getInstance().getReference();
-
-                                        send.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                .child("Notification Token").child(refreshedToken).setValue(true);
-
-                                        userVerification();
-                                        progressDialog.dismiss();
-                                    }
-                                }
-                            });*/
                 }
             }
         });
@@ -130,7 +96,7 @@ public class SignUp extends AppCompatActivity {
                             .setAction("OK", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent login = new Intent(SignUp.this, SignIn.class);
+                                    Intent login = new Intent(SignUp.this, MainLoginActivity.class);
                                     startActivity(login);
                                     //progressDialog.dismiss();
                                     finish();

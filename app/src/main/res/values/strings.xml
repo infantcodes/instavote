@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">InstaVote</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">0e1tcNq6tmhUXVNUd2k9R4tlI</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">9B45CiXtKonG9E54jYflnx2E3nNKH7m6Odtm5Fg9iKJQCIRiE1</string>
+    <string name="facebook_app_id">459914474407492</string>
+    <string name="fb_login_protocol_scheme">fb459914474407492</string>
+    <string name="app_name">Algoli</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main_tab">InstaVote</string>
+    <string name="title_activity_main_tab">Algoli</string>
     <string name="adUnitId">ca-app-pub-5398188186238374/4625256444</string>
     <string name="adUnitIdBanner">ca-app-pub-5398188186238374/6726559023</string>
     <string name="title_activity_main">MainActivity</string>

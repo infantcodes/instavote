@@ -85,7 +85,7 @@ public class EditProfile extends AppCompatActivity {
                 editTextBio.setText(Bio);
                 editTextUsername.setText(Username);
                 editTextNames.setText(Names);
-                Glide.with(EditProfile.this).load(ProfileImage).bitmapTransform(new CircleTransform(EditProfile.this)).into(profileImage);
+                Glide.with(getApplicationContext()).load(ProfileImage).bitmapTransform(new CircleTransform(EditProfile.this)).into(profileImage);
                 progressDialog.dismiss();
             }
 

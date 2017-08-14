@@ -19,7 +19,6 @@ public class InstantSearchActivity extends AppCompatActivity {
 
     Searcher searcher;
     InstantSearchHelper helper;
-    String TAG = "InstantSearch Activity";
     private static final String ALGOLIA_APP_ID = "CXR8DHPHLZ";
     private static final String ALGOLIA_SEARCH_API_KEY = "4286571d4648813b172ca5bbd0e63d94";
     private static final String ALGOLIA_INDEX_NAME = "users";

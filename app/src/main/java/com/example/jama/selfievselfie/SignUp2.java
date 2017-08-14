@@ -54,6 +54,8 @@ public class SignUp2 extends AppCompatActivity {
     Button signUp;
     private ProgressDialog progressDialog;
     String Email, Password, Names;
+    String OtherUid, OtherEmail, OtherNames, OtherPhotoUrl;
+    boolean aBoolean;
     String ADMIN_API_KEY;
 
     @Override
@@ -63,9 +65,17 @@ public class SignUp2 extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        Names = bundle.getString("names");
-        Email = bundle.getString("email");
-        Password = bundle.getString("password");
+        aBoolean = bundle.getBoolean("boolean");
+        if (aBoolean == true){
+            OtherEmail = bundle.getString("email");
+            OtherNames = bundle.getString("names");
+            OtherPhotoUrl = bundle.getString("photoUrl");
+            OtherUid = bundle.getString("uid");
+        }else {
+            Names = bundle.getString("names");
+            Email = bundle.getString("email");
+            Password = bundle.getString("password");
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Almost Done");
@@ -75,105 +85,15 @@ public class SignUp2 extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         signUp = (Button) findViewById(R.id.buttonSignUp);
 
         signUp.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-
-                final String Username = editTextUsername.getText().toString();
-
-                if (Username.equals("")){
-                    Toast.makeText(SignUp2.this, "Please Fill In You Username", Toast.LENGTH_SHORT).show();
+                if (aBoolean == true){
+                    otherProviders();
                 }else {
-                    Query query = FirebaseDatabase.getInstance().getReference().child("Search Users")
-                            .orderByChild("username").equalTo(Username);
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getChildrenCount() > 0) {
-                                Toast.makeText(SignUp2.this, "Username already taken, try another", Toast.LENGTH_SHORT).show();
-                            }else {
-                                progressDialog.setMessage("Signing you up...");
-                                progressDialog.setCancelable(false);
-                                progressDialog.show();
-
-                                mAuth.createUserWithEmailAndPassword(Email, Password)
-                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (!task.isSuccessful()){
-                                                    Toast.makeText(SignUp2.this, "Unable To Sign Up", Toast.LENGTH_SHORT).show();
-                                                    progressDialog.dismiss();
-                                                }else {
-
-                                                    final  String profileImage = "https://firebasestorage.googleapis.com/v0/b/selfie-v-selfie.appspot.com/o/Default%20Image%2Fdownload.png?alt=media&token=31a245c2-50ba-4a73-8f95-30079ecbd7a2";
-                                                    final  String bio = "";
-
-                                                    DatabaseReference getSearchApiKey = FirebaseDatabase.getInstance().getReference().child("Algolia Credentials");
-                                                    getSearchApiKey.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                                            Map <String, String> map2 = (Map)dataSnapshot.getValue();
-                                                            ADMIN_API_KEY = map2.get("Admin Api Key");
-                                                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                                                            Client client = new Client("CXR8DHPHLZ", ADMIN_API_KEY);
-
-                                                            Index myIndex = client.initIndex("users");
-
-                                                            JSONObject object = null;
-                                                            try {
-                                                                object = new JSONObject()
-                                                                        .put("username", Username)
-                                                                        .put("name", Names)
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                            myIndex.addObjectAsync(object, uid, null);
-
-                                                            Map map = new HashMap();
-                                                            map.put("profileImage", profileImage);
-                                                            map.put("username", Username);
-                                                            map.put("name", Names);
-                                                            map.put("email", Email);
-                                                            map.put("bio", bio);
-                                                            mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Profile Info").setValue(map);
-
-                                                            Map map1 = new HashMap();
-                                                            map1.put("profileImage", profileImage);
-                                                            map1.put("username", Username);
-                                                            map1.put("name", Names);
-                                                            mDatabase.child("Search Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(map1);
-
-                                                            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-                                                            DatabaseReference send = FirebaseDatabase.getInstance().getReference();
-
-                                                            send.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                    .child("Notification Token").child(refreshedToken).setValue(true);
-
-                                                            userVerification();
-                                                            progressDialog.dismiss();
-
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
-
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                    emailProviders();
                 }
             }
         });
@@ -193,8 +113,8 @@ public class SignUp2 extends AppCompatActivity {
                             .setAction("OK", new android.view.View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent login = new Intent(SignUp2.this, SignIn.class);
-                                    startActivity(login);
+                                    Intent intent = new Intent(SignUp2.this, MainLoginActivity.class);
+                                    startActivity(intent);
                                     progressDialog.dismiss();
                                     finish();
                                 }
@@ -203,6 +123,191 @@ public class SignUp2 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+//    Create User
+    private void otherProviders(){
+
+        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+
+        final String Username = editTextUsername.getText().toString();
+
+        if (Username.equals("")){
+            Toast.makeText(SignUp2.this, "Please Fill In You Username", Toast.LENGTH_SHORT).show();
+        }else {
+            progressDialog.setMessage("Signing you up...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            Query query = FirebaseDatabase.getInstance().getReference().child("Search Users")
+                    .orderByChild("username").equalTo(Username);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getChildrenCount() > 0) {
+                        Toast.makeText(SignUp2.this, "Username already taken, try another", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }else {
+                        DatabaseReference getSearchApiKey = FirebaseDatabase.getInstance().getReference().child("Algolia Credentials");
+                        getSearchApiKey.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Map <String, String> map2 = (Map)dataSnapshot.getValue();
+                                ADMIN_API_KEY = map2.get("Admin Api Key");
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                Client client = new Client("CXR8DHPHLZ", ADMIN_API_KEY);
+
+                                Index myIndex = client.initIndex("users");
+
+                                JSONObject object = null;
+                                try {
+                                    object = new JSONObject()
+                                            .put("username", Username)
+                                            .put("name", OtherNames);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                myIndex.addObjectAsync(object, uid, null);
+
+                                Map map = new HashMap();
+                                map.put("profileImage", OtherPhotoUrl);
+                                map.put("username", Username);
+                                map.put("name", OtherNames);
+                                map.put("email", OtherEmail);
+                                map.put("bio", "");
+                                mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Profile Info").setValue(map);
+
+                                Map map1 = new HashMap();
+                                map1.put("profileImage", OtherPhotoUrl);
+                                map1.put("username", Username);
+                                map1.put("name", OtherNames);
+                                mDatabase.child("Search Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(map1);
+
+                                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                                DatabaseReference send = FirebaseDatabase.getInstance().getReference();
+
+                                send.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child("Notification Token").child(refreshedToken).setValue(true);
+
+                                userVerification();
+                                progressDialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(SignUp2.this, "An error occured,try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(SignUp2.this, "An error occured,try again", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void emailProviders(){
+
+        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+
+        final String Username = editTextUsername.getText().toString();
+
+        if (Username.equals("")){
+            Toast.makeText(SignUp2.this, "Please Fill In You Username", Toast.LENGTH_SHORT).show();
+        }else {
+            progressDialog.setMessage("Signing you up...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            Query query = FirebaseDatabase.getInstance().getReference().child("Search Users")
+                    .orderByChild("username").equalTo(Username);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getChildrenCount() > 0) {
+                        Toast.makeText(SignUp2.this, "Username already taken, try another", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }else {
+
+                        mAuth.createUserWithEmailAndPassword(Email, Password)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (!task.isSuccessful()){
+                                            Toast.makeText(SignUp2.this, "Unable To Sign Up", Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
+                                        }else {
+
+                                            final  String profileImage = "https://firebasestorage.googleapis.com/v0/b/selfie-v-selfie.appspot.com/o/Default%20Image%2Fdownload.png?alt=media&token=31a245c2-50ba-4a73-8f95-30079ecbd7a2";
+                                            final  String bio = "";
+
+                                            DatabaseReference getSearchApiKey = FirebaseDatabase.getInstance().getReference().child("Algolia Credentials");
+                                            getSearchApiKey.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    Map <String, String> map2 = (Map)dataSnapshot.getValue();
+                                                    ADMIN_API_KEY = map2.get("Admin Api Key");
+                                                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                                    Client client = new Client("CXR8DHPHLZ", ADMIN_API_KEY);
+
+                                                    Index myIndex = client.initIndex("users");
+
+                                                    JSONObject object = null;
+                                                    try {
+                                                        object = new JSONObject()
+                                                                .put("username", Username)
+                                                                .put("name", Names);
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    myIndex.addObjectAsync(object, uid, null);
+
+                                                    Map map = new HashMap();
+                                                    map.put("profileImage", profileImage);
+                                                    map.put("username", Username);
+                                                    map.put("name", Names);
+                                                    map.put("email", Email);
+                                                    map.put("bio", bio);
+                                                    mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Profile Info").setValue(map);
+
+                                                    Map map1 = new HashMap();
+                                                    map1.put("profileImage", profileImage);
+                                                    map1.put("username", Username);
+                                                    map1.put("name", Names);
+                                                    mDatabase.child("Search Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(map1);
+
+                                                    String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                                                    DatabaseReference send = FirebaseDatabase.getInstance().getReference();
+
+                                                    send.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                            .child("Notification Token").child(refreshedToken).setValue(true);
+
+                                                    userVerification();
+                                                    progressDialog.dismiss();
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                    Toast.makeText(SignUp2.this, "An error occured,try again", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(SignUp2.this, "An error occured,try again", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override

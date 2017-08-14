@@ -23,35 +23,7 @@ public class ChoosePost extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.activity_choose_post, container, false);
 
-        singlePost = (LinearLayout) rootview.findViewById(R.id.linearLayoutSinglePost);
-        textOnly= (LinearLayout) rootview.findViewById(R.id.linearLayoutTextOnly);
-        withAFriend = (LinearLayout) rootview.findViewById(R.id.linearLayoutWithAFriend);
-
-        withAFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SendRequests.class);
-                startActivity(intent);
-            }
-        });
-
-        singlePost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SinglePost.class);
-                startActivity(intent);
-            }
-        });
-
-        textOnly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TextOnly.class);
-                startActivity(intent);
-            }
-        });
-
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Algoli");
 
         return rootview;
     }

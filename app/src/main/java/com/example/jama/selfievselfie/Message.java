@@ -173,7 +173,7 @@ public class Message extends Fragment {
         listView.setAdapter(chatsFirebaseListAdapter);
         setHasOptionsMenu(true);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Algoli");
 
         return rootview;
     }
@@ -227,7 +227,7 @@ public class Message extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                Intent intent = new Intent(getActivity(), SignIn.class);
+                Intent intent = new Intent(getActivity(), MainLoginActivity.class);
                 startActivity(intent);
                 FirebaseAuth.getInstance().signOut();
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();

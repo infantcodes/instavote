@@ -78,7 +78,7 @@ public class Home extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        final View rootview =  inflater.inflate(R.layout.activity_home, container, false);
+        final View rootview =  inflater.inflate(R.layout.activity_profile, container, false);
 
         listView = (ListView) rootview.findViewById(R.id.listView);
 
@@ -1642,7 +1642,7 @@ public class Home extends Fragment {
         listView.setEmptyView(noPosts);
         setHasOptionsMenu(true);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("InstaVote");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Algoli");
 
         //Toast.makeText(getActivity(), ""+savedInstanceState.getString("name"), Toast.LENGTH_SHORT).show();
 
@@ -1707,7 +1707,7 @@ public class Home extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                Intent intent = new Intent(getActivity(), SignIn.class);
+                Intent intent = new Intent(getActivity(), MainLoginActivity.class);
                 startActivity(intent);
                 FirebaseAuth.getInstance().signOut();
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();

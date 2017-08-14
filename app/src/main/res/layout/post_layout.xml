@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:paddingBottom="5dp"
         android:paddingTop="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -222,7 +222,7 @@
         android:layout_below="@+id/linearLayoutPost"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"

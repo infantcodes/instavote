@@ -14,6 +14,24 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
@@ -36,6 +54,10 @@
         <activity
             android:name=".SearchActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".EditProfile"
             android:screenOrientation="portrait" />
@@ -115,11 +137,8 @@
         <activity android:name=".SinglePost" />
         <activity android:name=".EditSinglePost" />
         <activity android:name=".TwoPosts" />
-        <activity
-            android:name=".SignIn"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TextOnly" />
-        <activity android:name=".InstantSearchActivity"></activity>
+        <activity android:name=".InstantSearchActivity" />
     </application>
 
 </manifest>

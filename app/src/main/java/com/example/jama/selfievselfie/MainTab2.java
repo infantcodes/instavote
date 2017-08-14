@@ -28,6 +28,7 @@ public class MainTab2 extends AppCompatActivity {
     int INT_CONSTANT_FOR_PROFILE_FRAGMENT = 3;
     int INT_CONSTANT_FOR_MESSAGE_FRAGMENT = 4;
     int INT_CONSTANT_FOR_POST_FRAGMENT = 5;
+    String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     private TextView mTextMessage;
     SparseArray<Fragment> fragmentSparseArray;
@@ -105,7 +106,7 @@ public class MainTab2 extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference checkRequests = databaseReference.child("Requests").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        DatabaseReference checkRequests = databaseReference.child("Requests").child(auth);
 
         checkRequests.addChildEventListener(new ChildEventListener() {
             @Override

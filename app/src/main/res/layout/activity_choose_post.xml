@@ -1,110 +1,360 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.example.jama.selfievselfie.ChoosePost">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1">
+        tools:layout_constraintTop_creator="1"
+        android:layout_above="@+id/cardView3">
 
         <LinearLayout
-            android:id="@+id/linearLayoutSinglePost"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="@drawable/border_bottom"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1">
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="Post a single photo"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                app:srcCompat="@drawable/single_post" />
+                <EditText
+                    android:id="@+id/editTextPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:ems="10"
+                    android:hint="What's on your mind?"
+                    android:inputType="textMultiLine"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/editTextPost"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/layoutChoice1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewChoice1"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="false"
+                            android:scaleType="centerCrop"
+                            android:visibility="visible"
+                            app:srcCompat="@color/colorAccent" />
+
+                        <EditText
+                            android:id="@+id/editTextOption1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/imageViewChoice1"
+                            android:layout_toRightOf="@+id/imageViewChoice1"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Choice 1"
+                            android:inputType="textPersonName" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutChoice2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewChoice2"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:visibility="visible"
+                            app:srcCompat="@color/colorAccent" />
+
+                        <EditText
+                            android:id="@+id/editTextOption2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_toEndOf="@+id/imageViewChoice2"
+                            android:layout_toRightOf="@+id/imageViewChoice2"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Choice 2"
+                            android:inputType="textPersonName" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutChoice3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/imageViewChoice3"
+                            android:layout_toRightOf="@+id/imageViewChoice3"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/editTextOption3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/imageViewAddOption3"
+                                android:layout_toRightOf="@+id/imageViewChoice3"
+                                android:layout_toStartOf="@+id/imageViewAddOption3"
+                                android:layout_weight="0.67"
+                                android:ems="10"
+                                android:hint="Choice 3"
+                                android:inputType="textPersonName" />
+
+                            <ImageView
+                                android:id="@+id/imageViewAddOption3"
+                                android:layout_width="34dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                app:srcCompat="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageViewChoice3"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="false"
+                            android:scaleType="centerCrop"
+                            android:visibility="visible"
+                            app:srcCompat="@color/colorAccent" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutChoice4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/imageViewChoice4"
+                            android:layout_toRightOf="@+id/imageViewChoice4"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/editTextOption4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/imageViewChoice4"
+                                android:layout_toLeftOf="@+id/imageViewAddOption4"
+                                android:layout_toRightOf="@+id/imageViewChoice4"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Choice 4"
+                                android:inputType="textPersonName" />
+
+                            <ImageView
+                                android:id="@+id/imageViewAddOption4"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageViewChoice4"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@color/colorAccent" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutChoice5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/imageViewChoice5"
+                            android:layout_toRightOf="@+id/imageViewChoice5"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/editTextOption5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/imageViewAddOption5"
+                                android:layout_toRightOf="@+id/imageViewChoice5"
+                                android:layout_toStartOf="@+id/imageViewAddOption5"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Choice 5"
+                                android:inputType="textPersonName" />
+
+                            <ImageView
+                                android:id="@+id/imageViewAddOption5"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageViewChoice5"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@color/colorAccent" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="4dp"
+        android:id="@+id/cardView3">
 
         <LinearLayout
-            android:id="@+id/linearLayoutTextOnly"
+            android:id="@+id/linearLayout7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="@drawable/border_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:layout_weight="1"
-                android:text="Text Only"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
 
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="69dp"
-                android:layout_height="70dp"
-                app:srcCompat="@drawable/text_only" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_image_black_24dp" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutWithAFriend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/linearLayoutTwoPosts"
-            android:layout_alignStart="@+id/linearLayoutTwoPosts"
-            android:layout_below="@+id/linearLayoutTwoPosts"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="@drawable/border_bottom"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
-            <TextView
-                android:id="@+id/textView11"
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_assessment_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/imageView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_group_black_24dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="Compete with a friend"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_corner_pink"
+                android:text="Post"
+                android:textColor="@android:color/background_light"
+                android:textSize="12sp" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                app:srcCompat="@drawable/post_with_friend" />
         </LinearLayout>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
